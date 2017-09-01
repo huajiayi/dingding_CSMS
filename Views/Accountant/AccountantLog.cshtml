@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>结算日志</title>
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/contractContent.css" />
+</head>
+
+<body style="padding: 0; margin: 0;">
+    <div class="container" style="margin: 0; width: auto;">
+        <div class="row">
+            <div>
+                <div style="padding: 1em;">
+                    <h3 id="lbl_logName">日志1</h3>
+                    <hr style="border: 1px solid gray;" />
+                    <div class="up-to-date">
+                        <label class="brlabel-lg" id="lbl_contractName">合同名称：</label>
+                        <label class="brlabel-lg" id="lbl_service">服务：</label>
+                        <label class="brlabel-lg" id="lbl_AffirmIncomeAmount">确认收入金额（不含税）：</label>
+                        <label class="brlabel-lg" id="lbl_affirmIncomeGist">确认收入依据：</label>
+                        <label class="brlabel-lg" id="lbl_subInvoiceCount">已开票数量：</label>
+                        <label class="brlabel-lg" id="lbl_subInvoiceAmount">已开票金额（含税）：</label>
+                        <label class="brlabel-lg" id="lbl_subCost">已结转成本数量：</label>
+                        <label class="brlabel-lg" id="lbl_subworker">直接人工：</label>
+                        <label class="brlabel-lg" id="lbl_subMaterial">直接材料：</label>
+                        <label class="brlabel-lg" id="lbl_subtotal">小计：</label>
+                        <label class="brlabel-lg" id="lbl_avgGrossrofitMargin">2017年1-12月毛利率：</label>
+                    </div>
+                    <hr style="border: 1px solid gray;" />
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-full-width" type="button" onclick="location.href = 'Accountant'">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/js/accountantLog.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/jquery-3.2.1.slim.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        @model ContractStatementManagementSystem.AccountantLog
+        var ContractName = "@ViewBag.ContractName";
+        var Contract_Amount = @ViewBag.Contract_Amount;
+        var SubAffirmIncomeAmount= @ViewBag.SubAffirmIncomeAmount ;
+        var NoAmountCollection= @ViewBag.NoAmountCollection;
+        var LogName="@Model.LogName";
+        var AffirmIncomeGist="@Model.AffirmIncomeGist";
+        var AffirmIncomeAmount= @Model.AffirmIncomeAmount;
+        var InvoiceCount=@Model.InvoiceCount;
+        var InvoiceAmount= @Model.InvoiceAmount;
+        var Cost= @Model.Cost;
+        var Material= @Model.Material;
+        var worker= @Model.worker;
+        var Subtotal= @Model.Subtotal;
+        var GrossrofitMargin= @Model.GrossrofitMargin;
+        var Service="@Model.Service";
+    </script>
+</body>
+
+</html>
