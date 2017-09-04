@@ -18,15 +18,23 @@ function insertAfter(newElement, targetElement) {
 		parent.insertBefore(newElement, targetElement.nextSibling);
 	}
 }
+<<<<<<< HEAD
 var N = 0;
+=======
+
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
 addLoadEvent(function () { fullData(ContractName, Count, TotalProduct, NoTotalProduct) });
 addLoadEvent(function () { fullLog(ProductionerLogJson) });
 
 //填充数据
+<<<<<<< HEAD
 function fullData(contractName, demand, totalProduc, noTotalProduc) {
     if (noTotalProduc == 0) {
         document.getElementById("btn_production").disabled = "disabled";
     }
+=======
+function fullData(contractName, demand, totalProduc, noTotalProduc){
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
 	document.getElementById("lbl_contractName").innerHTML = "合同名称：" + contractName;
 	document.getElementById("lbl_demand").innerHTML = "需求量：" + demand;
 	document.getElementById("lbl_totalProduc").innerHTML = "已生产量：" + totalProduc;
@@ -52,6 +60,7 @@ function fullLog(ProductionerLogJson) {
 }
 
 //添加日志
+<<<<<<< HEAD
 function addLog(logName, log, date, logDate, name) {
     var logList = document.getElementById("cd-timeline");
     var div_block = document.createElement("div");
@@ -126,4 +135,33 @@ window.onscroll = function () {
             });
         });
     }
+=======
+function addLog(logName, log, date, logDate, name){
+	var logList = document.getElementById("cd-timeline");
+	var div_block = document.createElement("div");
+	div_block.className = "cd-timeline-block";
+	var div_img = document.createElement("div");
+	div_img.className = "cd-timeline-img cd-picture";
+	var img = document.createElement("img");
+	img.src = "../../Content/img/cd-icon-picture.svg";
+	div_img.appendChild(img);
+	div_block.appendChild(div_img);
+	var div_content = document.createElement("div");
+	div_content.className = "cd-timeline-content";
+	var h2 = document.createElement("h2");
+	h2.innerHTML = logName;
+	var h3 = document.createElement("h3");
+	h3.innerHTML = "生产 " + log + " 套";
+	var h3_date = document.createElement("h3");
+	h3_date.innerHTML = "生产日期：<br/>"  + date;
+	var span = document.createElement("span");
+	span.className = "cd-date";
+	span.innerHTML = logDate + " by " + name;
+	div_content.appendChild(h2);
+	div_content.appendChild(h3);
+	div_content.appendChild(h3_date);
+	div_content.appendChild(span);
+	div_block.appendChild(div_content);
+	logList.appendChild(div_block);
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
 }

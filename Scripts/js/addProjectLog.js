@@ -30,6 +30,7 @@ function typeChange(value){
     var lbl_dateType = document.getElementById("lbl_dateType");
     var datetimepicker = document.getElementById("datetimepicker");
     if (value == "ProjectStart") {
+<<<<<<< HEAD
         lbl_dateType.innerHTML = "<span style='color: red;'>*</span>施工日期：";
 	    datetimepicker.name = "ProjectStart"
     } else if (value == "DompletedDate") {
@@ -37,6 +38,15 @@ function typeChange(value){
 	    datetimepicker.name = "DompletedDate"
     } else if (value == "DompletedAcceptanceDate") {
 	    lbl_dateType.innerHTML = "<span style='color: red;'>*</span>取得竣工验收单日期：";
+=======
+	    lbl_dateType.innerHTML = "施工日期：";
+	    datetimepicker.name = "ProjectStart"
+    } else if (value == "DompletedDate") {
+	    lbl_dateType.innerHTML = "竣工日期：";
+	    datetimepicker.name = "DompletedDate"
+    } else if (value == "DompletedAcceptanceDate") {
+	    lbl_dateType.innerHTML = "取得竣工验收单日期：";
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
 	    datetimepicker.name = "DompletedAcceptanceDate"
 	}
 }

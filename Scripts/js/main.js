@@ -12,7 +12,11 @@ window.onload = function () {
         listItem.innerHTML = data[i];
         contractListItems.appendChild(listItem);
 
+<<<<<<< HEAD
         listItem.href = "/ContractandSales/ContractContent?ID=" + data2[i];
+=======
+        listItem.href = "/MM/ContractContent?ID="+data2[i];
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
     }
   
 
@@ -49,7 +53,11 @@ function addClickEvent(){
 	var contractList = document.getElementById("contractList");
 	var btn_addContract = document.getElementsByTagName("span")[0];
 	btn_addContract.onclick = function(){
+<<<<<<< HEAD
 	    location.href = "/ContractandSales/Index";
+=======
+	    location.href = "/MM/Index";
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
 	};
 	var btn_refresh = contractList.getElementsByTagName("span")[1];
 	btn_refresh.onclick = test;
@@ -57,7 +65,11 @@ function addClickEvent(){
 
 //添加假数据
 function test(){
+<<<<<<< HEAD
     location.href = "/ContractandSales/Login";
+=======
+    location.href = "/MM/Login";
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
 }
 
 

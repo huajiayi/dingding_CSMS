@@ -21,6 +21,7 @@
         <div class="row">
             <form role="form" action="saveWarehouseLog" method="post">
                 <div class="form-group">
+<<<<<<< HEAD
                     <label class="control-label" for="txt_logName" ><span style="color: red;">*</span>产品：</label>
                     <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
                 </div>
@@ -31,6 +32,18 @@
                 <div class="form-group">
                     <div class="input-append date form_datetime">
                         <label class="control-label" for="txt_shippedDate"><span style="color: red;">*</span>发货日期：</label>
+=======
+                    <label class="control-label" for="txt_logName" >日志名：</label>
+                    <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="txt_shipments" id="lbl_received">发货数量：</label>
+                    <input type="number" min="0" max="100000" class="form-control" id="xt_received" name="Shipments" placeholder="请输入发货数量" required />
+                </div>
+                <div class="form-group">
+                    <div class="input-append date form_datetime">
+                        <label class="control-label" for="txt_shippedDate">发货日期：</label>
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
                         <input class="form-control datepicker" type="text" id="datetimepicker" name="ShippedDate" required>
                     </div>
                 </div>
@@ -51,11 +64,19 @@
     <script src="~/Scripts/js/datepicker/zh_CN.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/webshim/polyfiller.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
+<<<<<<< HEAD
         var s1= @ViewBag.Reserves;
         $('.datepicker').pickadate({
             format: 'yyyy-mm-dd'
         });
         document.getElementById("datetimepicker").value = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+=======
+       var s1= @ViewBag.s1;
+			$('.datepicker').pickadate({
+				format: 'yyyy-mm-dd'
+			});
+			document.getElementById("datetimepicker").value = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
     </script>
     <script type="text/javascript">
 			webshim.activeLang('zh-CN');
@@ -66,7 +87,11 @@
     <script type="text/javascript">
       $(function(){
         var reserves = s1;
+<<<<<<< HEAD
         $('#lbl_shipments').html("<span style='color: red;'>*</span>发货数量：（库存量为 " + reserves + " 套/个）")
+=======
+        $('#lbl_shipments').html("发货数量：（库存量为 " + reserves + " 套/个）")
+>>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
         $('#txt_shipments').attr("max", reserves);
       });
     </script>
