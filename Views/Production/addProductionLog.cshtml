@@ -1,0 +1,75 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>生产</title>
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/datepicker/default.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/datepicker/default.date.css" />
+</head>
+
+<body style="padding: 1em;">
+    <div class="container" style="max-width: 400px;">
+        <div class="row">
+            <form role="form" action="saveProductionLog" method="post">
+                <div class="form-group">
+                    <label class="control-label" for="txt_logName"><span style="color: red;">*</span>产品：</label>
+                    <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="txt_productionQuantity" id="lbl_productionQuantity"><span style="color: red;">*</span>生产数量：</label>
+                    <input type="number" min="1" max="100000" class="form-control" id="txt_productionQuantity" name="ProductionCount" placeholder="请输入生产数量" required />
+                </div>
+                <div class="form-group">
+                    <div class="input-append date form_datetime">
+                        <label class="control-label" for="txt_productionDate"><span style="color: red;">*</span>生产日期：</label>
+                        <input class="form-control datepicker" type="text" id="datetimepicker" name="ProductionDate" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <button class="btn btn-primary" id="btn_save" type="submit">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/Scripts/js/addContract.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap//jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/datepicker/picker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/datepicker/picker.date.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/datepicker/zh_CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/webshim/polyfiller.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        var s1= @ViewBag.s1;
+
+			$('.datepicker').pickadate({
+				format: 'yyyy-mm-dd'
+			});
+			document.getElementById("datetimepicker").value = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+    </script>
+    <script type="text/javascript">
+			webshim.activeLang('zh-CN');
+			webshims.polyfill('forms');
+			webshims.cfg.no$Switch = true;
+    </script>
+    <script type="text/javascript">
+      $(function(){
+        var noTotalProduc = s1;
+        $('#lbl_productionQuantity').html("<span style='color: red;'>*</span>生产数量：（未生产量为 " + noTotalProduc + " 套/个）")
+        $('#txt_productionQuantity').attr("max", noTotalProduc);
+      });
+    </script>
+</body>
+
+</html>
