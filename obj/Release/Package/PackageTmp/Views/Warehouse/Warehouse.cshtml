@@ -36,30 +36,29 @@
                     </div>
                     <hr style="border: 1px solid gray;" />
                     <div class="text-center">
-                        <button class="btn btn-primary btn-full-width" type="button" onclick="location.href = 'addWarehouseLog'">发货</button>
+                        <button class="btn btn-primary btn-full-width" type="button" onclick="location.href = 'addWarehouseLog'" id="btn_shipped">发货</button>
                     </div>
-                     <h3 id="log">收款日志</h3>
-                    <!-- cd-timeline -->
+                     <h3 id="log">发货日志</h3>
+                    <button class="btn btn-default btn-full-width" type="button" id="more" onclick="lazyLoad()">加载更多</button>
                 </div>
             </div>
             <nav id="menu">
                 <ul>
-                    <li><a href="~/MM/contractContent">合同内容</a></li>
-                    <li><a href="~/MM/Sales">销售</a></li>
+                    <li><a href="~/ContractandSales/contractContent">合同内容</a></li>
+                    <li><a href="~/ContractandSales/Sales">销售</a></li>
                     <li><a href="~/Production/Production">生产</a></li>
                     <li><a href="#" onclick="return false;">仓库</a></li>
                     <li><a href="~/Project/Project">工程</a></li>
                     <li><a href="~/Accountant/Accountant">会计</a></li>
                     <div class="text-center">
-                        <button class="btn btn-primary btn-back" type="button" onclick="location.href = '/MM/Login'">返回</button>
+                        <button class="btn btn-primary btn-back" type="button" onclick="location.href = '/ContractandSales/Login'">返回</button>
                     </div>
                 </ul>
             </nav>
         </div>
     </div>
-
+    <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/warehouse.js" type="text/javascript" charset="utf-8"></script>
-    <script src="~/Scripts/js/bootstrap/jquery-3.2.1.slim.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/mmenu/jquery.mmenu.all.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/timeline/modernizr.js" type="text/javascript" charset="utf-8"></script>
@@ -71,6 +70,7 @@
         var ShippedCount= @Model.ShippedCount;
         var NoShippedCount=@Model.NoShippedCount;
         var WarehouseLogJson ="@ViewBag.WarehouseLogJson";
+        
 			jQuery(document).ready(function($) {
 				$("#menu").mmenu({
 					"navbar": {

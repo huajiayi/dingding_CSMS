@@ -21,14 +21,14 @@
         <div class="row">
             <form role="form" action="saveProjectLog" method="post">
                 <div class="form-group">
-                    <label class="control-label" for="txt_logName">日志名：</label>
+                    <label class="control-label" for="txt_logName"><span style="color: red;">*</span>施工原因：</label>
                     <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="txt_services">服务款项：</label>
+                    <label class="control-label" for="txt_services"><span style="color: red;">*</span>服务款项：</label>
                     <select class="form-control" id="txt_services" name="ServiceID"></select>
                 </div><div class="form-group">
-                    <label class="control-label" for="txt_Type">类型：</label>
+                    <label class="control-label" for="txt_Type"><span style="color: red;">*</span>类型：</label>
                     <select class="form-control" id="txt_Type" name="txt_Type" onchange="typeChange(this.value);">
                         <option value="ProjectStart">施工日期</option>
                         <option value="DompletedDate">竣工日期</option>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <div class="input-append date form_datetime">
-                        <label class="control-label" id="lbl_dateType" for="txt_Date">施工日期：</label>
+                        <label class="control-label" id="lbl_dateType" for="txt_Date"><span style="color: red;">*</span>施工日期：</label>
                         <input class="form-control datepicker" type="text" id="datetimepicker" name="ProjectStart">
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
     <script src="~/Scripts/js/addProjectLog.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/addContract.js" type="text/javascript" charset="utf-8"></script>
-    <script src="~/Scripts/js/bootstrap/jquery-3.2.1.slim.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/datepicker/picker.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/datepicker/picker.date.js" type="text/javascript" charset="utf-8"></script>
@@ -63,7 +63,7 @@
 			$('.datepicker').pickadate({
 				format: 'yyyy-mm-dd'
 			});
-			document.getElementById("datetimepicker").value = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+			document.getElementById("datetimepicker").value = new Date().Format("yyyy-MM-dd");
     </script>
     <script type="text/javascript">
 			webshim.activeLang('zh-CN');

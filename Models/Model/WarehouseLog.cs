@@ -18,13 +18,6 @@ namespace ContractStatementManagementSystem
        public string LogName { get; set; } //日志名
        
         public WarehouseLog() { }
-        public WarehouseLog(Guid ID, Guid DepartmentID, double Shipments, string ShippedDate, string LogDate ,string Name ) {
-            this.ID = ID;
-            this.DepartmentID = DepartmentID;
-            this.Shipments = Shipments;
-            this.ShippedDate = ShippedDate;
-            this.LogDate = LogDate;
-            this.Name=Name;
-        }
+      
     }
 }

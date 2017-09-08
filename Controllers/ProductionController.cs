@@ -15,11 +15,12 @@ namespace WebApplication4.Controllers
         // GET: production
         public ActionResult Production()
         {
-
-            if (Session["cc"] != null)
-            {
-                ViewBag.Message = Session["cc"];
-            }
+            try {
+                ViewBag.p = "";
+                if (Session["cc"] != null)
+                {
+                    ViewBag.Message = Session["cc"];
+                }
             string s = ViewBag.Message;
             Guid ID = new Guid(s);
             ObservableCollection<ContractNameT> ct = SqlQuery.ContractVQuery(ID);
@@ -28,16 +29,29 @@ namespace WebApplication4.Controllers
             ptl = Orderby.ProductionerLogPaiXu(ptl);
             ViewBag.ContractName = ct[0].ContractName;
             ViewBag.Count = ct[0].Count;
+            string[] LogDates = new string[ptl.Count];
+            for (int i = 0; i < ptl.Count; i++)
+            {
+                LogDates[i] = ptl[i].LogDate.ToString();
+            }
+            ViewBag.LogDatesJson = JsonTools.ObjectToJson(LogDates);
             ViewBag.ProductionerLogJson = JsonTools.ObjectToJson(ptl);
             return View(pt[0]);
+            }
+            catch (Exception)
+            {
+               
+                return RedirectToAction("Login", "ContractandSales",new {ex = "操作异常已退回首页请刷新重试" });
+            }
         }
         public ActionResult addProductionLog()
         {
-
-            if (Session["cc"] != null)
-            {
-                ViewBag.Message = Session["cc"];
-            }
+            try {
+                ViewBag.p = "";
+                if (Session["cc"] != null)
+                {
+                    ViewBag.Message = Session["cc"];
+                }
             string s = ViewBag.Message;
             Guid ID = new Guid(s);
             ObservableCollection<ContractNameT> ct = SqlQuery.ContractVQuery(ID);
@@ -49,14 +63,20 @@ namespace WebApplication4.Controllers
             ViewBag.s1 = pt[0].NoTotalProduct;
             ViewBag.ProductionerLogJson = JsonTools.ObjectToJson(ptl);
             return View(pt[0]);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login", "ContractandSales", new { ex = "操作异常已退回首页请刷新重试" });
+            }
         }
         public ActionResult saveProductionLog(ProductionerLog ptl)
         {
-
-            if (Session["cc"] != null)
-            {
-                ViewBag.Message = Session["cc"];
-            }
+            try {
+                ViewBag.p = "";
+                if (Session["cc"] != null)
+                {
+                    ViewBag.Message = Session["cc"];
+                }
             string s = ViewBag.Message;
             Guid ID = new Guid(s);
             ObservableCollection<Productioner> pt = SqlQuery.ProductionerQuery(ID);
@@ -67,6 +87,34 @@ namespace WebApplication4.Controllers
             ptl.LogDate= DateTime.Now.ToString();
             GetData.ProductionerGet(ptl, pt, ow);
             return RedirectToAction("Production");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login", "ContractandSales", new { ex = "操作异常已退回首页请刷新重试" });
+            }
+        }
+        public ActionResult ProductionAjaxTT()
+        {
+            try {
+                ViewBag.p = "";
+                if (Session["cc"] != null)
+                {
+                    ViewBag.Message = Session["cc"];
+                }
+                string s = ViewBag.Message;
+                Guid ID = new Guid(s);
+                string ss = Request["ID"];
+                int a = Convert.ToInt16(ss);
+
+                ObservableCollection<ProductionerLog> osl = SqlQuery.ProductionerLogQueryLz(a, ID);
+                string result = JsonTools.ObjectToJson(osl);
+                return Content(result);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login", "ContractandSales", new { ex = "操作异常已退回首页请刷新重试" });
+            }
         }
     }
+
 }

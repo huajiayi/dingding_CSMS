@@ -30,13 +30,13 @@ function typeChange(value){
     var lbl_dateType = document.getElementById("lbl_dateType");
     var datetimepicker = document.getElementById("datetimepicker");
     if (value == "ProjectStart") {
-	    lbl_dateType.innerHTML = "施工日期：";
+        lbl_dateType.innerHTML = "<span style='color: red;'>*</span>施工日期：";
 	    datetimepicker.name = "ProjectStart"
     } else if (value == "DompletedDate") {
-	    lbl_dateType.innerHTML = "竣工日期：";
+        lbl_dateType.innerHTML = "<span style='color: red;'>*</span>竣工日期：";
 	    datetimepicker.name = "DompletedDate"
     } else if (value == "DompletedAcceptanceDate") {
-	    lbl_dateType.innerHTML = "取得竣工验收单日期：";
+	    lbl_dateType.innerHTML = "<span style='color: red;'>*</span>取得竣工验收单日期：";
 	    datetimepicker.name = "DompletedAcceptanceDate"
 	}
 }

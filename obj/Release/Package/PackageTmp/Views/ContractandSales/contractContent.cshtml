@@ -59,27 +59,27 @@
     </div>
 
     <script src="~/Scripts/js/contractContent.js" type="text/javascript" charset="utf-8"></script>
-    <script src="~/Scripts/js/bootstrap/jquery-3.2.1.slim.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/mmenu/jquery.mmenu.all.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
   @model ContractStatementManagementSystem.ContractNameT
 
         var ContractName = "@Model.ContractName";
-        var Customer="@Model.Customer";
-        var Contract_Amount="@Model.Contract_Amount";
-        var Count= "@Model.Count";
-        var Contract_Type= "@Model.Contract_Type";
-        var Contract_Number= "@Model.Contract_Number";
-        var Contract_Date= "@Model.Contract_Date";
+        var Customer = "@Model.Customer";
+        var Contract_Amount = "@Model.Contract_Amount";
+        var Count = "@Model.Count";
+        var Contract_Type = "@Model.Contract_Type";
+        var Contract_Number = "@Model.Contract_Number";
+        var Contract_Date = "@Model.Contract_Date.ToShortDateString()";
         var ss = "@ViewBag.ServicesJson";
         var ID = "@Model.ID";
         document.getElementById("sales").href = "/ContractandSales/Sales?ID=" + ID;
-       
-        jQuery(document).ready(function( $ ) {
+
+        jQuery(document).ready(function ($) {
             $("#menu").mmenu({
-                "navbar":{
-                    "title":"菜单"
+                "navbar": {
+                    "title": "菜单"
                 },
                 "extensions": [
                 	"pagedim-black"

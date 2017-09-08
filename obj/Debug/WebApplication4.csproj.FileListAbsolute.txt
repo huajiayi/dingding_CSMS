@@ -81,3 +81,4 @@ D:\workspace1\WebApplication1\WebApplication4\obj\Debug\WebApplication4.dll
 D:\workspace1\WebApplication1\WebApplication4\obj\Debug\WebApplication4.pdb
 D:\workspace1\WebApplication1\WebApplication4\bin\Dapper.dll
 D:\workspace1\WebApplication1\WebApplication4\bin\Dapper.xml
+D:\workspace1\WebApplication1\WebApplication4\obj\Debug\WebApplication4.csprojResolveAssemblyReference.cache

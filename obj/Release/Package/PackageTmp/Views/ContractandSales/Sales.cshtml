@@ -35,10 +35,10 @@
                     </div>
                     <hr style="border: 1px solid gray;" />
                     <div class="text-center">
-                        <button class="btn btn-primary btn-full-width" type="button" onclick="location.href = 'addSalesLog?'+ID" id="btn_amountCollection">收款</button>
+                        <button class="btn btn-primary btn-full-width" type="button" onclick="location.href = 'addSalesLog'" id="btn_amountCollection">收款</button>
                     </div>
                     <h3 id="log">收款日志</h3>
-                   
+                    <button class="btn btn-default btn-full-width" type="button" id="more" onclick="lazyLoad()">加载更多</button>
                 </div>
             </div>
             <nav id="menu">
@@ -82,7 +82,7 @@
         var AmountCollection=@Model.SubAffirmIncomeAmount;
         var NoAmountCollection=@Model.NoAmountCollection;
         var SalesLogJson="@ViewBag.SalesLogJson"
-        
+     
         var ID="@ViewBag.ID";
         document.getElementById("contractContent").href = "/ContractandSales/contractContent";
         jQuery(document).ready(function($) {

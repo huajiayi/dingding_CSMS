@@ -154,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/17/2017 09:32:40</publishTime>
     </File>
     <File Include="bin/WebApplication4.dll">
-      <publishTime>08/31/2017 17:08:00</publishTime>
+      <publishTime>09/08/2017 13:25:26</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>08/17/2017 09:32:40</publishTime>
@@ -400,7 +400,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/21/2017 09:59:29</publishTime>
     </File>
     <File Include="Scripts/js/accountant.js">
-      <publishTime>08/31/2017 17:00:18</publishTime>
+      <publishTime>09/08/2017 13:22:05</publishTime>
     </File>
     <File Include="Scripts/js/accountantLog.js">
       <publishTime>08/31/2017 16:42:50</publishTime>
@@ -409,13 +409,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/28/2017 15:54:13</publishTime>
     </File>
     <File Include="Scripts/js/addProjectLog.js">
-      <publishTime>08/30/2017 16:00:31</publishTime>
+      <publishTime>09/04/2017 16:56:45</publishTime>
     </File>
     <File Include="Scripts/js/addSalesLog.js">
       <publishTime>08/29/2017 13:09:07</publishTime>
     </File>
     <File Include="Scripts/js/bootstrap/bootstrap.js">
-      <publishTime>08/25/2017 16:08:25</publishTime>
+      <publishTime>09/08/2017 13:30:06</publishTime>
     </File>
     <File Include="Scripts/js/bootstrap/jquery-3.2.1.slim.min.js">
       <publishTime>08/25/2017 16:08:25</publishTime>
@@ -427,7 +427,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/25/2017 16:08:25</publishTime>
     </File>
     <File Include="Scripts/js/contractContent.js">
-      <publishTime>08/30/2017 10:37:20</publishTime>
+      <publishTime>09/08/2017 13:20:47</publishTime>
     </File>
     <File Include="Scripts/js/datepicker/picker.date.js">
       <publishTime>08/25/2017 16:08:25</publishTime>
@@ -439,28 +439,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/25/2017 16:08:25</publishTime>
     </File>
     <File Include="Scripts/js/main.js">
-      <publishTime>08/30/2017 10:40:42</publishTime>
+      <publishTime>09/08/2017 13:24:37</publishTime>
     </File>
     <File Include="Scripts/js/mmenu/jquery.mmenu.all.js">
       <publishTime>08/25/2017 16:08:25</publishTime>
     </File>
     <File Include="Scripts/js/production.js">
-      <publishTime>08/29/2017 15:50:03</publishTime>
+      <publishTime>09/08/2017 13:24:40</publishTime>
     </File>
     <File Include="Scripts/js/project.js">
-      <publishTime>08/30/2017 11:42:00</publishTime>
+      <publishTime>09/08/2017 13:21:41</publishTime>
     </File>
     <File Include="Scripts/js/projectLog.js">
       <publishTime>08/30/2017 17:31:34</publishTime>
     </File>
     <File Include="Scripts/js/sales.js">
-      <publishTime>08/29/2017 10:38:33</publishTime>
+      <publishTime>09/08/2017 13:22:08</publishTime>
     </File>
     <File Include="Scripts/js/timeline/modernizr.js">
       <publishTime>08/25/2017 16:08:25</publishTime>
     </File>
     <File Include="Scripts/js/warehouse.js">
-      <publishTime>08/29/2017 15:50:15</publishTime>
+      <publishTime>09/08/2017 13:24:40</publishTime>
     </File>
     <File Include="Scripts/js/webshim/polyfiller.js">
       <publishTime>08/30/2017 09:20:50</publishTime>
@@ -934,19 +934,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2017 11:43:23</publishTime>
     </File>
     <File Include="Views/Accountant/Accountant.cshtml">
-      <publishTime>08/31/2017 15:49:00</publishTime>
+      <publishTime>09/08/2017 13:18:07</publishTime>
     </File>
     <File Include="Views/Accountant/AccountantLog.cshtml">
       <publishTime>08/31/2017 17:01:02</publishTime>
     </File>
     <File Include="Views/Accountant/addAccountantLog.cshtml">
-      <publishTime>08/31/2017 17:11:35</publishTime>
+      <publishTime>09/06/2017 15:51:27</publishTime>
     </File>
     <File Include="Views/Accountant/addProductionLog.cshtml">
       <publishTime>08/31/2017 08:54:53</publishTime>
     </File>
+    <File Include="Views/ContractandSales/addSalesLog.cshtml">
+      <publishTime>09/06/2017 15:51:29</publishTime>
+    </File>
+    <File Include="Views/ContractandSales/contractContent.cshtml">
+      <publishTime>09/06/2017 14:24:44</publishTime>
+    </File>
+    <File Include="Views/ContractandSales/Index.cshtml">
+      <publishTime>09/06/2017 15:49:50</publishTime>
+    </File>
+    <File Include="Views/ContractandSales/Login.cshtml">
+      <publishTime>09/08/2017 12:53:21</publishTime>
+    </File>
+    <File Include="Views/ContractandSales/Sales.cshtml">
+      <publishTime>09/08/2017 13:16:14</publishTime>
+    </File>
     <File Include="Views/MM/addSalesLog.cshtml">
-      <publishTime>08/31/2017 17:12:43</publishTime>
+      <publishTime>09/01/2017 10:29:39</publishTime>
     </File>
     <File Include="Views/MM/contractContent.cshtml">
       <publishTime>08/31/2017 12:32:50</publishTime>
@@ -958,19 +973,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/28/2017 11:17:37</publishTime>
     </File>
     <File Include="Views/MM/Sales.cshtml">
-      <publishTime>08/31/2017 15:01:07</publishTime>
+      <publishTime>09/01/2017 10:20:24</publishTime>
     </File>
     <File Include="Views/Production/addProductionLog.cshtml">
-      <publishTime>08/31/2017 17:11:59</publishTime>
+      <publishTime>09/06/2017 15:51:29</publishTime>
     </File>
     <File Include="Views/Production/Production.cshtml">
-      <publishTime>08/31/2017 15:01:07</publishTime>
+      <publishTime>09/08/2017 13:14:11</publishTime>
     </File>
     <File Include="Views/project/addProjectLog.cshtml">
-      <publishTime>08/31/2017 17:12:17</publishTime>
+      <publishTime>09/06/2017 15:51:29</publishTime>
     </File>
     <File Include="Views/project/Project.cshtml">
-      <publishTime>08/31/2017 15:01:07</publishTime>
+      <publishTime>09/08/2017 13:08:40</publishTime>
     </File>
     <File Include="Views/project/ProjectLog.cshtml">
       <publishTime>08/30/2017 16:39:35</publishTime>
@@ -988,10 +1003,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/21/2017 09:59:29</publishTime>
     </File>
     <File Include="Views/Warehouse/addWarehouseLog.cshtml">
-      <publishTime>08/31/2017 17:12:59</publishTime>
+      <publishTime>09/06/2017 15:51:29</publishTime>
     </File>
     <File Include="Views/Warehouse/Warehouse.cshtml">
-      <publishTime>08/31/2017 15:01:07</publishTime>
+      <publishTime>09/08/2017 13:11:09</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>08/21/2017 09:59:24</publishTime>
@@ -1000,7 +1015,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/21/2017 09:59:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/23/2017 16:55:27</publishTime>
+      <publishTime>09/07/2017 15:56:20</publishTime>
     </File>
   </ItemGroup>
 </Project>

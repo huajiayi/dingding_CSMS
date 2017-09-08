@@ -10,8 +10,8 @@ namespace ContractStatementManagementSystem
     {
        public Guid ID { get; set; }
        public Guid ContractID { set; get; } //合同日期
-       public  string DompletedDate { get; set; } //竣工日期
-       public  string DompletedAcceptanceDate { get; set; } //竣工验收日期
-        public string ProjectStart { get; set; }//施工日期
+       public DateTime DompletedDate { get; set; } //竣工日期
+       public DateTime DompletedAcceptanceDate { get; set; } //竣工验收日期
+       public DateTime ProjectStart { get; set; }//施工日期
     }
 }

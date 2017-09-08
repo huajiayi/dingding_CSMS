@@ -222,7 +222,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\MMController.cs" />
+    <Compile Include="Controllers\ContractandSalesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -480,8 +480,10 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\MM\contractContent.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Views\ContractandSales\contractContent.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -496,10 +498,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\MM\Index.cshtml" />
-    <Content Include="Views\MM\Login.cshtml" />
-    <Content Include="Views\MM\Sales.cshtml" />
-    <Content Include="Views\MM\addSalesLog.cshtml" />
+    <Content Include="Views\ContractandSales\Index.cshtml" />
+    <Content Include="Views\ContractandSales\Login.cshtml" />
+    <Content Include="Views\ContractandSales\Sales.cshtml" />
+    <Content Include="Views\ContractandSales\addSalesLog.cshtml" />
     <Content Include="Views\Warehouse\Warehouse.cshtml" />
     <Content Include="Views\Warehouse\addWarehouseLog.cshtml" />
     <Content Include="Views\Production\Production.cshtml" />

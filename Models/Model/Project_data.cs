@@ -10,7 +10,7 @@ namespace ContractStatementManagementSystem
    public class Project_data : INotifyPropertyChanged
     {
       public Guid ID { get; set; }
-         string dompletedDate { get; set; }
+       string dompletedDate { get; set; }
         public string DompletedDate //库存量
         {
             get { return dompletedDate; }
@@ -26,7 +26,7 @@ namespace ContractStatementManagementSystem
                 }
             }
         }
-         string dompletedAcceptanceDate { get; set; }
+        string dompletedAcceptanceDate { get; set; }
         public string DompletedAcceptanceDate //库存量
         {
             get { return dompletedAcceptanceDate; }

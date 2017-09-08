@@ -21,7 +21,6 @@
         <div class="row">
             <form role="form" action="saveAccountantLog" method="post">
                 <div class="form-group">
-<<<<<<< HEAD
                     <label class="control-label" for="txt_logName"><span style="color: red;">*</span>结算原因：</label>
                     <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
                 </div>
@@ -33,19 +32,6 @@
                     <label class="control-label" for="txt_contract_Type"><span style="color: red;">*</span>确认收入依据：</label>
                     <select class="form-control" id="txt_contract_Type" name="AffirmIncomeGist">
                         <option value="未确认收入">未确认收入</option>
-=======
-                    <label class="control-label" for="txt_logName">日志名：</label>
-                    <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="txt_services">服务款项：</label>
-                    <select class="form-control" id="txt_services" name="ServiceID"></select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="txt_contract_Type">确认收入依据：</label>
-                    <select class="form-control" id="txt_contract_Type" name="AffirmIncomeGist">
-                        <option value="">未确认收入</option>
->>>>>>> a37e0aa940cb2c06b1c21f1ea51099fc603735c9
                         <option value="现场改造工程竣工验收单">现场改造工程竣工验收单</option>
                         <option value="OEM配套收货验收单">OEM配套收货验收单</option>
                         <option value="其他收货验收单">其他收货验收单</option>
@@ -108,6 +94,7 @@
     <script src="~/Scripts/js/webshim/polyfiller.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
         var Contract_DataJson = "@ViewBag.Contract_DataJson";
+        var LogDatesJson= "@ViewBag.LogDatesJson"
     </script>
     <script type="text/javascript">
 			webshim.activeLang('zh-CN');

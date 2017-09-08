@@ -14,7 +14,7 @@ namespace ContractStatementManagementSystem
         public decimal Contract_Amount { get; set; }
         public double Count { get; set; }
         public string Contract_Number { get; set; }
-        public string Contract_Date { get; set; }
+        public DateTime Contract_Date { get; set; }
         public string ContractName { get; set; }
     }
 }
