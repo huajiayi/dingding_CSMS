@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>统计</title>
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/stats.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/mmenu/jquery.mmenu.all.css" />
+</head>
+
+<body>
+    <div class="menu visible-xs">
+        <a href="#menu"><span class="glyphicon glyphicon-align-justify menu-icon"></span></a>
+    </div>
+    <div class="menu hidden-xs">
+        <a href="~/Contract/Index"><span class="glyphicon glyphicon-chevron-left menu-icon"></span></a>
+    </div>
+    <div class="content">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="chart" id="salesChart">
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
+            <div class="chart" id="salesBarChart">
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="chart" id="producitonChart">
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
+            <div class="chart" id="producitonBarChart">
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="chart" id="warehouseChart">
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
+            <div class="chart" id="warehouseBarChart">
+
+            </div>
+        </div>
+
+    </div>
+    <nav id="menu" class="nav-hidden">
+        <ul>
+            <li>
+                <a id="sales" href="#">收款情况</a>
+            </li>
+            <li>
+                <a id="salesBar" href="#">各合同收款情况</a>
+            </li>
+            <li>
+                <a id="produciton" href="#">生产情况</a>
+            </li>
+            <li>
+                <a id="producitonBar" href="#">各合同生产情况</a>
+            </li>
+            <li>
+                <a id="warehouse" href="#">发货情况</a>
+            </li>
+            <li>
+                <a id="warehouseBar" href="#">各合同发货情况</a>
+            </li>
+            <div class="text-center">
+                <button class="btn btn-primary btn-back" type="button" onclick="location.href = '/Contract/Index'">返回</button>
+            </div>
+        </ul>
+    </nav>
+
+    <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/echart/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/mmenu/jquery.mmenu.all.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/stats.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        var NoTotalRevenue = @ViewBag.NoTotalRevenue;
+        var TotalRevenue =@ViewBag.TotalRevenue;
+        var SumTotalProduct= @ViewBag.SumTotalProduct;
+        var SumNoTotalProduct= @ViewBag.SumNoTotalProduct;
+        var SumNoShippedCount =@ViewBag.SumNoShippedCount;
+        var SumReserves= @ViewBag.SumReserves ;
+        var SumShippedCount=@ViewBag.SumShippedCount;
+        var ContractName="@ViewBag.ContractName";
+        var NoAmountCollection="@ViewBag.NoAmountCollection";
+        var SubAffirmIncomeAmount="@ViewBag.SubAffirmIncomeAmount";
+        var TotalProduct="@ViewBag.TotalProduct";
+        var NoTotalProduct="@ViewBag.NoTotalProduct" ;
+        var ShippedCount="@ViewBag.ShippedCount";
+        var NoShippedCount="@ViewBag.NoShippedCount";
+    </script>
+</body>
+
+</html>

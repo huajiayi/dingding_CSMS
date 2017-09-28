@@ -1,0 +1,70 @@
+body{
+	background-color: #e9f0f5;
+}
+
+.brlabel{
+	display: block;
+	line-height: 2em;
+}
+
+.brlabel-lg{
+	display: block;
+	font-size: 1.5em;
+	line-height: 2em;
+}
+
+.menu{
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	background-color: #4bb5ef;
+	height: 50px;
+}
+
+nav-hidden{
+    display: none;
+}
+
+.menu-icon{
+	font-size: 28px;
+	color: white;
+	margin-top: 10px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.content{
+	padding: 1em;
+	padding-top: 4.5em;
+}
+
+.up-to-date{
+	margin-left: 1em;
+}
+
+.margin-left{
+	margin-left: 1em;
+}
+
+.btn-back{
+	width: 90%;
+	margin-top: 1em;
+}
+
+.btn-full-width{
+	width: 100%;
+}
+
+/*工程页服务样式*/
+.service{
+	display: inline-block;
+	width: 100%;
+	max-width: 300px;
+	margin-left: 1em;
+	margin-top: 1em;
+	border: 1px solid #333333; 
+	border-radius: 10px; 
+	padding: 1em; 
+	background-color: #C4E3F3;
+}

@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>合同内容</title>
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/contractContent.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/mmenu/jquery.mmenu.all.css" />
+</head>
+
+<body style="padding: 0; margin: 0;">
+    <div class="container" style="margin: 0; width: auto;">
+        <div class="row" >
+            <div>
+                <div class="menu">
+                    <a href="#menu"><span class="glyphicon glyphicon-align-justify menu-icon"></span></a>
+                </div>
+                <div class="content">
+                    <label class="brlabel" id="lbl_contractName">合同名称：</label>
+                    <label class="brlabel" id="lbl_costumerName">合同方客户名称：</label>
+                    <label class="brlabel" id="lbl_contractType">合同类别：</label>
+                    <label class="brlabel" id="lbl_contractAmount">合同金额（人民币元）：</label>
+                    <label class="brlabel" id="lbl_count">数量（套/个）：</label>
+                    <label class="brlabel" id="lbl_contractNumber">合同编号：</label>
+                    <label class="brlabel" id="lbl_signatureDate">合同签署日期：</label>
+                    <hr style="border: 1px solid gray;" />
+                    <h3>服务款项</h3>
+                    <table class="table">
+                        <tbody id="serviceList"></tbody>
+                    </table>
+                    <div class="text-center">
+                        @*<button class="btn btn-warning" type="button">编辑合同</button>*@
+                        <button class="btn btn-danger margin-left" type="button" id="deleteContract" onclick="deleteContract()">删除合同</button>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav-hidden" id="menu">
+                <ul>
+                    <li><a href="#" onclick="return false;">合同内容</a></li>
+                    <li><a href="~/Production/Production">生产</a></li>
+                    <li><a href="~/Warehouse/Warehouse">发货</a></li>
+                    <li><a href="~/Project/Project">施工</a></li>
+                    <li><a href="~/Sales/sales">收款</a></li>
+                    <li>
+                        <a href="~/Invoicing/Invoicing">开票</a>
+                    </li>
+                    <li><a href="~/Accountant/Accountant">结算</a></li>
+                    <li><a href="~/Summation/Summation">合同汇总</a></li>
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-back" type="button" onclick="location.href = '/Contract/Index'">返回</button>
+                    </div>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/contractContent.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/mmenu/jquery.mmenu.all.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/premissions.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+       @model ContractStatementManagementSystem.ContractNameT
+        var ContractName = "@Model.ContractName";
+        var Customer = "@Model.Customer";
+        var Contract_Amount = "@Model.Contract_Amount";
+        var Count = "@Model.Count";
+        var Contract_Type = "@Model.Contract_Type";
+        var Contract_Number = "@Model.Contract_Number";
+        var Contract_Date = "@Model.Contract_Date.ToShortDateString()";
+        var ss = "@ViewBag.ServicesJson";
+        var ID = "@Model.ID";
+        var UserJson = "@ViewBag.UserJson";
+        sessionStorage.setItem("User", UserJson);
+        jQuery(document).ready(function ($) {
+            $("#menu").mmenu({
+                "navbar": {
+                    "title": "菜单"
+                },
+                "extensions": [
+                	"pagedim-black"
+                ]
+            });
+        });
+        $("#menu").removeClass("nav-hidden");
+
+    </script>
+   
+</body>
+
+</html>
