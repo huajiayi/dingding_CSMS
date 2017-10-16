@@ -175,6 +175,66 @@ namespace ContractStatementManagementSystem
             
 
          }
-               
+        public static decimal[] GetYOYincrease()
+        {
+            decimal c;
+            int Year = DateTime.Now.Year;
+            decimal[] YOYincrease = new decimal[12];
+            ObservableCollection<decimal> Tyear = GetAmount(Year);
+            ObservableCollection<decimal> Lyear = GetAmount(Year - 1);
+            for (int i = 0; i < Tyear.Count; i++)
+            {
+                
+                 c = Math.Round(((Tyear[i] - Lyear[i]) / Lyear[i]),2);
+                YOYincrease[i] = c;
+
+            }
+            return YOYincrease;
+
+
+        }
+     
+      
+
+   
+        public static decimal[] SIncreaseRate()
+        {
+            decimal c;
+            int Year = DateTime.Now.Year;
+            decimal[] YOYincrease = new decimal[12];
+            ObservableCollection<decimal> Tyear = GetAmount(Year);
+            ObservableCollection<decimal> Lyear = GetAmount(Year - 1);
+            for (int i = 0; i < Tyear.Count; i++)
+            {
+                if (i==0) { 
+                c = Math.Round((Lyear[11]/ Tyear[i]), 2);
+                YOYincrease[i] = c;
+               }
+                c = Math.Round((Lyear[i-1] / Tyear[i]), 2);
+                YOYincrease[i] = c;
+            }
+            return YOYincrease;
+        }
+        public static ObservableCollection<decimal> GetAmount(int Year){
+            ObservableCollection<decimal> TAmount = new ObservableCollection<decimal>();
+            string[] start = { Year + "-01" + "-01", Year + "-02" + "-01", Year + "-03" + "-01", Year + "-04" + "-01", Year + "-05" + "-01", Year + "-06" + "-01", Year + "-07" + "-01", Year + "-08" + "-01", Year + "-09" + "-01", Year + "-10" + "-01", Year + "-11" + "-01", Year + "-12" + "-01" };
+            string[] End = { Year + "-01" + "-30", Year + "-02" + "-29", Year + "-03" + "-31", Year + "-04" + "-30", Year + "-05" + "-31", Year + "-06" + "-30", Year + "-07" + "-31", Year + "-08" + "-31", Year + "-09" + "-30", Year + "-10" + "-31", Year + "-11" + "-30", Year + "-12" + "-31" };
+
+            if (Year % 4 == 0 && Year % 100 != 0 || Year % 400 == 0)
+            {
+                End[1] = Year + "-02" + "-29";
+            }
+            else
+            {
+                End[1] = Year + "-02" + " -28";
+            }
+
+            for (int i = 0; i < 12; i++)
+            {
+                decimal Am =SqlQuery.ContractGetAmount(start[i], End[i]);
+                TAmount.Add(Am);
+            }
+            return TAmount;
+        }
     }
 }

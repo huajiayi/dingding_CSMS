@@ -17,21 +17,124 @@ window.onload = function () {
 
         listItem.href = "/Contract/ContractContent?ID=" + data2[i];
     }
-  
+   
 
     $("#txt").val = "222";
 
 }
+var corpId = sessionStorage.getItem("corpId");
 var N = 0;
 var $txt_keyword="";
 var $txt_startDate="";
-var $txt_endDate="";
+var $txt_endDate = "";
+
 addLoadEvent(addClickEvent);
 addLoadEvent(ex);
+addLoadEvent(cha);
+
+function cha() {
+    if (ch != "") {
+    if (DingTalkPC) {
+        DingTalkPC.biz.ding.post({
+            users: ['1147026423-1173046067'],//用户列表，userid
+            corpId: corpId, //加密的企业id
+            type: 1, //钉类型 1：image  2：link
+            alertType: 2,
+            alertDate: { },
+            attachment: {
+                images: [''], //只取第一个image
+            }, //附件信息
+            text: "合同“"+ch+"”已建立，请跟据实际工作情况及时填写", //消息体
+            onSuccess: function () {
+                alert("已发送")
+            },
+            onFail: function () {
+                alert("发送失败")
+            }
+        })
+    }
+    
+    if (dd) {
+        var url = window.location.href;
+        $.post("/DingDing/GetSignPackage?url=" + url, function (data, status) {
+            var ddjson = data;
+            var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
+            var _config = JSON.parse(ddjson.replace(reg, '"'));
+            dd.config(
+                 {
+                     agentId: _config.agentId,
+                     corpId: _config.corpId,
+                     timeStamp: _config.timeStamp,
+                     nonceStr: _config.nonceStr,
+                     signature: _config.signature,
+                     jsApiList: [
+                          'runtime.info',
+                          'biz.contact.choose',
+                          'device.notification.confirm',
+                          'device.notification.alert',
+                          'device.notification.prompt',
+                          'biz.ding.post',
+                          'biz.util.openLink']
+                 });
+
+            dd.ready(function () {
+                dd.biz.ding.post({
+                    users: ['1147026423-1173046067'],//用户列表，userid
+                    corpId: corpId, //加密的企业id
+                    type: 0, //附件类型 1：image  2：link
+                    alertType: 2,
+                    text: '合同“' + ch + '”已建立，请跟据实际工作情况及时填写', //消息体
+                    onSuccess: function () {
+                        dd.ready(function () {
+                            dd.device.notification.alert({
+                                message: "发送成功",
+                                title: "提示",//可传空
+                                buttonName: "确定",
+                                onSuccess: function () {
+
+                                },
+                                onFail: function (err) {
+
+                                }
+                            });
+                        });
+                    },
+                    onFail: function (err) {
+                        var aa = JSON.stringify(err);
+                        dd.ready(function () {
+                            dd.device.notification.alert({
+                                message: "发送失败" ,
+                                title: "提示",//可传空
+                                buttonName: "确定",
+                                onSuccess: function () {
+
+                                },
+                                onFail: function (err) { }
+                            });
+                        });
+                    }
+                });
+            });
+            dd.error(function (err) {                                             //验证失败  
+                dd.device.notification.alert({
+                    message: "尝试退出或刷新" + err,
+                    title: "验证失败",//可传空
+                    buttonName: "确定",
+                    onSuccess: function () {
+
+                    },
+                    onFail: function (err) { }
+                });
+            });
+        });
+
+    }
+
+}
+}
 function ex() {
     if (p != "") {
             if (DingTalkPC) {
-
                 DingTalkPC.device.notification.alert({
                     message: p,
                     title: "提示",//可传空
@@ -84,8 +187,41 @@ function insertafter(newelement, targetelement) {
 function addClickEvent(){
 	var contractList = document.getElementById("contractList");
 	var btn_addContract = document.getElementsByTagName("span")[0];
-	btn_addContract.onclick = function(){
-	    location.href = "/Contract/AddContract";
+	btn_addContract.onclick = function () {
+	    var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
+	    var premission = JSON.parse(UserJson.replace(reg, '"'));
+	    if (premission.Summation_p == 0) {
+	        if (DingTalkPC) {
+
+	            DingTalkPC.device.notification.alert({
+	                message: "抱歉您暂时没有相关权限",
+	                title: "提示",//可传空
+	                buttonName: "确定",
+	                onSuccess: function () {
+	                    /*回调*/
+
+	                },
+	                onFail: function (err) { }
+	            });
+
+	        }
+	        if (dd) {
+	            dd.ready(function () {
+	                dd.device.notification.alert({
+	                    message: "抱歉您暂时没有相关权限",
+	                    title: "提示",//可传空
+	                    buttonName: "确定",
+	                    onSuccess: function () {
+
+	                    },
+	                    onFail: function (err) { }
+	                });
+	            });
+	        }
+	    } else {
+	        location.href = "/Contract/AddContract";
+	    }
+	   
 	};
 	var btn_refresh = contractList.getElementsByTagName("span")[1];
 	btn_refresh.onclick = function () {
@@ -127,7 +263,7 @@ function lazyLoad() {
     if (sessionStorage.getItem("txt_keyword") == null) {
         var $txt_keyword = "";
     } else {
-        kd=sessionStorage.getItem("txt_keyword");
+        var $txt_keyword = sessionStorage.getItem("txt_keyword");
     } if (sessionStorage.getItem("txt_startDate") == null && sessionStorage.getItem("txt_endDate") == null) {
         var $txt_startDate = "";
         var $txt_endDate = "";
@@ -188,6 +324,9 @@ function lazyLoad() {
 }
 
 function filterContract() {
+    sessionStorage.removeItem("txt_keyword");
+    sessionStorage.removeItem("txt_startDate");
+    sessionStorage.removeItem("txt_endDate");
     $txt_keyword = $("#txt_keyword").val();
     $txt_startDate = $("#txt_startDate").val();
     $txt_endDate = $("#txt_endDate").val();
@@ -228,3 +367,4 @@ function filterContract() {
         location.href = "/Contract/filtration?txt_keyword=" + $txt_keyword + "&txt_startDate=" + $txt_startDate + "&txt_endDate=" + $txt_endDate;
     }
 }
+

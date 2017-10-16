@@ -92,93 +92,36 @@ namespace WebApplication4.Controllers
                     SqlQuery.insert(pd2);
                     SqlQuery.insert(att);
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new { ch = ct.ContractName });
             }
             catch (Exception)
             {
-
                 return RedirectToAction("Index", new { ex = "操作异常已退回首页请刷新重试" });
             }
         }
         public ActionResult Index()
         {
+            ViewBag.Message = Session["userid"];
+            string userid = ViewBag.Message;
+            ObservableCollection<Permissions> ops = SqlQuery.PermissionsQueryByID(userid);
+
+            if (ops.Count == 0)
+            {
+                ViewBag.UserJson = "";
+            }
+            else { ViewBag.UserJson = JsonTools.ObjectToJson(ops[0]); }
             ViewBag.p = "";
+            ViewBag.ch = "";
             if (Request["ex"] != null) {
                 ViewBag.p = Request["ex"];
             }
+            if (Request["ch"]!=null) { ViewBag.ch = Request["ch"]; }
+            
             ViewBag.ss = GetContractName();
             ViewBag.s1 = GetContractID();
             return View();
         }
-        public ActionResult GetSignPackage()
-        {
-            
-            AccessTokenGet.UpdateAccessToken();
-            Session["Token"] = AccessTokenGet.AccessToken.Value;
-           
-            var signPackage = SignGet.FetchSignPackage(Request["url"], AccessTokenGet.AccessToken);
-           
-            return Content(JsonTools.ObjectToJson(signPackage));
-
-        }
-        public ActionResult GetuserId()
-        {
-            string CODE = Request["code"];
-            ViewBag.Message = Session["Token"];
-            string s = ViewBag.Message;
-            string TokenUrl = "https://oapi.dingtalk.com/user/getuserinfo";
-            string apiurl = $"{TokenUrl}?access_token={s}&code={CODE}";
-          
-            WebRequest request = WebRequest.Create(@apiurl);
-            request.Method = "GET";
-            WebResponse response = request.GetResponse();
-            Stream stream = response.GetResponseStream();
-            Encoding encode = Encoding.UTF8;
-            StreamReader reader = new StreamReader(stream, encode);
-            string resultJson = reader.ReadToEnd();
-            return Content(resultJson);
-
-        }
-        public ActionResult Getuser()
-        {
-            try
-            {
-                string userid = Request["userid"];
-                ViewBag.Message = Session["Token"];
-                Session["userid"] = userid;
-                string s = ViewBag.Message;
-                string TokenUrl = "https://oapi.dingtalk.com/user/get";
-                string apiurl = $"{TokenUrl}?access_token={s}&userid={userid}";
-                WebRequest request = WebRequest.Create(@apiurl);
-                request.Method = "GET";
-                WebResponse response = request.GetResponse();
-                Stream stream = response.GetResponseStream();
-                Encoding encode = Encoding.UTF8;
-                StreamReader reader = new StreamReader(stream, encode);
-                string resultJson = reader.ReadToEnd();
-                ObservableCollection<string> obc = new ObservableCollection<string>();
-                ObservableCollection<Permissions> ops = SqlQuery.PermissionsQueryByID(userid);
-                
-                if (ops.Count == 0)
-                {
-                    obc.Add(resultJson);
-                    obc.Add("0");
-                   
-                }
-                else
-                {
-                   
-                    obc.Add(resultJson);
-                    obc.Add("1");
-                }
-
-                return Content(JsonTools.ObjectToJson(obc));
-            }
-            catch {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
-            }
-
-        }
+      
         public static string GetContractName() {
             ObservableCollection<ContractNameT> ctt = SqlQuery.ContractQuery();
 
@@ -273,8 +216,6 @@ namespace WebApplication4.Controllers
                 //c.ViewData = new ViewDataDictionary();
                 //c.ViewData.Add("cc", s);
                 //ViewBag.h = ID.ToString();
-
-
                 return View(cc);
             }
             catch
@@ -282,16 +223,16 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
             }
         }
-       
         public ActionResult filtration()
         {
 
             ObservableCollection<ContractNameT> ct = null;
             if (Request["txt_keyword"] != "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "") {
                 string txt_keyword = Request["txt_keyword"];
-                string txt_startDat = Request["txt_startDate"];
+               string txt_startDat = (DateTime.Parse(Request["txt_startDate"]).ToString());
+                
                 string txt_endDate = Request["txt_endDate"];
-                System.IO.File.WriteAllText(@"D:\testDir\test1.txt", txt_keyword, Encoding.UTF8);
+                
                 ct =SqlQuery.ContractVQueryByDateandName(txt_keyword, txt_startDat, txt_endDate,0);
             }
             if (Request["txt_keyword"] != "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "") {
@@ -307,7 +248,6 @@ namespace WebApplication4.Controllers
             }
             if (Request["txt_keyword"] == "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "")
             {
-
                 return RedirectToAction("Index");
             }
             ViewBag.ss = GetContractName(ct);
@@ -350,6 +290,7 @@ namespace WebApplication4.Controllers
           
         }
         public ActionResult Stats() {
+
             ObservableCollection <SalesChart> osc= SqlQuery.DoSalesChart();
             ViewBag.NoTotalRevenue = osc[0].NoTotalRevenue;
             ViewBag.TotalRevenue = osc[0].TotalRevenue;
@@ -359,9 +300,9 @@ namespace WebApplication4.Controllers
             ObservableCollection<WarehouseChart> owc= SqlQuery.DoWarehouseChart();
             ViewBag.SumNoShippedCount = owc[0].SumNoShippedCount;
             ViewBag.SumReserves = owc[0].SumReserves;
-            ViewBag.SumShippedCount=owc[0].SumShippedCount;
-            
+            ViewBag.SumShippedCount=owc[0].SumShippedCount;   
             ObservableCollection<Stats> oss = SqlQuery.StatsQuery();
+
             string[] cn = new string[oss.Count];
             decimal[] ona=new decimal[oss.Count];
             decimal[] oa= new decimal[oss.Count];
@@ -385,7 +326,25 @@ namespace WebApplication4.Controllers
             ViewBag.NoTotalProduct = JsonTools.ObjectToJson(ontp);
             ViewBag.ShippedCount = JsonTools.ObjectToJson(os);
             ViewBag.NoShippedCount = JsonTools.ObjectToJson(ons);
+            //ViewBag.YOYincrease = JsonTools.ObjectToJson(GetData.GetYOYincrease());
+            //ViewBag.SIncreaseRate = JsonTools.ObjectToJson(GetData.SIncreaseRate());
             return View();
+        }
+        public ActionResult DoStats()
+        {
+            string Start = Request["Start"];
+            string End = Request["End"];
+            string Typ = Request["Typ"];
+            ObservableCollection<SalesChart> osct = null;
+            if (Typ == "")
+            {
+                osct = SqlQuery.DoSalesChartByDate(Start, End);
+            }
+            else {
+                osct = SqlQuery.DoSalesChartByDate(Start, End, Typ);
+            }
+          
+            return Content(JsonTools.ObjectToJson(osct[0]));
         }
     }
 }

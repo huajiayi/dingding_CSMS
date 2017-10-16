@@ -77,7 +77,7 @@
             </div>
             <!-- /.modal -->
         </div>
-        <button class="btn btn-danger margin-left" type="button" id="deleteContract" >hh</button>
+        <div id="div1"></div>
     </div>
   
     <script src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js" type="text/javascript" charset="utf-8"></script>
@@ -90,7 +90,7 @@
     <script src="~/Scripts/js/webshim/polyfiller.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/main.js" type="text/javascript" charset="utf-8"></script>
 
-    @*<script src="~/Scripts/js/PCdemo.js" type="text/javascript" charset="utf-8"></script>*@
+   
     
     <script type="text/javascript">
 			$('.datepicker').pickadate({
@@ -99,7 +99,9 @@
 			});
 
 			var p = "@ViewBag.p";
-        var signPackage
+        var ch = "@ViewBag.ch";
+        var UserJson = "@ViewBag.UserJson";
+        sessionStorage.setItem("User", UserJson);
         
     </script>
     <script type="text/javascript">

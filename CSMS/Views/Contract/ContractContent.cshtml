@@ -79,8 +79,7 @@
         var Contract_Date = "@Model.Contract_Date.ToShortDateString()";
         var ss = "@ViewBag.ServicesJson";
         var ID = "@Model.ID";
-        var UserJson = "@ViewBag.UserJson";
-        sessionStorage.setItem("User", UserJson);
+        var UserJson = sessionStorage.getItem("User");
         jQuery(document).ready(function ($) {
             $("#menu").mmenu({
                 "navbar": {

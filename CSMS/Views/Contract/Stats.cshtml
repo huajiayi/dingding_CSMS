@@ -13,45 +13,47 @@
                                      user-scalable=no">
     <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/css/stats.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/css/mmenu/jquery.mmenu.all.css" />
 </head>
 
 <body>
-    <div class="menu visible-xs">
-        <a href="#menu"><span class="glyphicon glyphicon-align-justify menu-icon"></span></a>
-    </div>
-    <div class="menu hidden-xs">
-        <a href="~/Contract/Index"><span class="glyphicon glyphicon-chevron-left menu-icon"></span></a>
+    <div class="menu">
+        <a href="index.html"><span class="glyphicon glyphicon-chevron-left menu-icon"></span></a>
+        <span id="filterIcon" class="glyphicon glyphicon-filter pull-right right-icon" title="过滤"></span>
     </div>
     <div class="content">
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="chart" id="accumulatedValueChart">
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="chart" id="salesChart">
 
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
             <div class="chart" id="salesBarChart">
 
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="chart" id="producitonChart">
 
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
             <div class="chart" id="producitonBarChart">
 
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="chart" id="warehouseChart">
 
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
             <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
             <div class="chart" id="warehouseBarChart">
 
@@ -59,35 +61,105 @@
         </div>
 
     </div>
-    <nav id="menu" class="nav-hidden">
-        <ul>
-            <li>
-                <a id="sales" href="#">收款情况</a>
-            </li>
-            <li>
-                <a id="salesBar" href="#">各合同收款情况</a>
-            </li>
-            <li>
-                <a id="produciton" href="#">生产情况</a>
-            </li>
-            <li>
-                <a id="producitonBar" href="#">各合同生产情况</a>
-            </li>
-            <li>
-                <a id="warehouse" href="#">发货情况</a>
-            </li>
-            <li>
-                <a id="warehouseBar" href="#">各合同发货情况</a>
-            </li>
-            <div class="text-center">
-                <button class="btn btn-primary btn-back" type="button" onclick="location.href = '/Contract/Index'">返回</button>
+
+    <div class="modal fade" style="z-index: 100000000;" id="filter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        统计
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="control-label">统计方式：</label>
+                            <select class="form-control" style="display: inline;width: 73%;" id="select_statsMode" name="select_statsMode">
+                                <option value="所有合同">所有合同</option>
+                                <option value="按合同类型">按合同类型</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="div_statsType" class="form-group" style="display: none;">
+                        <div class="form-group">
+                            <label class="control-label">合同类型：</label>
+                            <select class="form-control" style="display: inline;width: 73%;" id="select_contractType" name="select_contractType">
+                                <option value="风电监测系统">风电监测系统</option>
+                                <option value="水泵监测系统">水泵监测系统</option>
+                                <option value="格莱茵CMS">格莱茵CMS</option>
+                                <option value="监测服务收入">监测服务收入</option>
+                                <option value="培训收入">培训收入</option>
+                                <option value="软件收入">软件收入</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="control-label">统计内容：</label>
+                            <select class="form-control" class="form-control" style="display: inline;width: 73%;" id="select_statsType" name="select_statsType">
+                                <option value="累计值">累计值</option>
+                                <option value="增长率">增长率</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="div_accumulatedValue">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label class="control-label">从：</label>
+                                <input type="date" class="form-control" style="display: inline;width: 73%;" id="txt_startDate" name="select_startDate">
+
+                                </input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label class="control-label">到：</label>
+                                <input type="date" class="form-control" style="display: inline;width: 73%;" id="txt_finishDate" name="select_finishDate">
+
+                                </input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="button" id="btn_all">自统计以来</button>
+                                <div class="select-year">
+                                    <label class="control-label">年度累计：</label>
+                                    <select class="form-control" class="form-control" style="display: inline; width: 60%;" id="select_year" name="select_year">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="button" id="btn_thisYear">当年累计</button>
+                                <button class="btn btn-primary" type="button" id="btn_thisQuarter">当季累计</button>
+                                <button class="btn btn-primary" type="button" id="btn_thisMonth">当月累计</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="filterStats()">
+                        确定
+                    </button>
+                </div>
             </div>
-        </ul>
-    </nav>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    </div>
 
     <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/echart/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="~/Scripts/js/mmenu/jquery.mmenu.all.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/stats.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
         var NoTotalRevenue = @ViewBag.NoTotalRevenue;
@@ -104,6 +176,8 @@
         var NoTotalProduct="@ViewBag.NoTotalProduct" ;
         var ShippedCount="@ViewBag.ShippedCount";
         var NoShippedCount="@ViewBag.NoShippedCount";
+        var aYear_on_yearGrowthRate1    ="@ViewBag.YOYincrease"
+        var aLinkGrowthRate1     ="@ViewBag.SIncreaseRate"
     </script>
 </body>
 

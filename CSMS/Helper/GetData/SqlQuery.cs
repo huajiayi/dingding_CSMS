@@ -53,6 +53,11 @@ namespace ContractStatementManagementSystem
             ObservableCollection<string> ww = new ObservableCollection<string>(Query<string>(sql));
             return ww;
         }
+        public static decimal ContractGetAmount(string start,string end)
+        {
+            string sql = String.Format(@"SELECT SUM(Contract_Amount)as Contract_Amount   FROM [ContractNameT] where Contract_Date between '{0}' and '{1}'", start,end);
+            return SqlGet(sql);
+        }
         public static ObservableCollection<ContractNameT> ContractVQueryByName(string name,int N)
         {
             string sql = String.Format(@"select * from(select row_number() over(order by G.[Contract_Date] desc) as rownum, * FROM (SELECT * FROM [ContractNameT] where ContractName  LIKE  N'%{0}%')as G) as r where r.rownum >{1} and rownum <={2}", name,N,N+20);
@@ -71,15 +76,15 @@ namespace ContractStatementManagementSystem
         //    ObservableCollection<ContractNameT> ww = new ObservableCollection<ContractNameT>(Query<ContractNameT>(sql));
         //    return ww;
         //}
-        public static ObservableCollection<ContractNameT> ContractVQueryByDate(string strat, string end,int N) 
+        public static ObservableCollection<ContractNameT> ContractVQueryByDate(string start, string end,int N) 
         {
-            string sql = String.Format(@"select * from(select row_number() over(order by G.[Contract_Date] desc) as rownum, * FROM (SELECT * FROM [ContractNameT] where Contract_Date>='{0}' and Contract_Date<='{1}')as G) as r where r.rownum >{2} and rownum <={3}", strat, end,N,N+20);
+            string sql = String.Format(@"select * from(select row_number() over(order by G.[Contract_Date] desc) as rownum, * FROM (SELECT * FROM [ContractNameT] where Contract_Date>='{0}' and Contract_Date<='{1}')as G) as r where r.rownum >{2} and rownum <={3}", start, end,N,N+20);
             ObservableCollection<ContractNameT> ww = new ObservableCollection<ContractNameT>(Query<ContractNameT>(sql));
             return ww;
         }
         public static ObservableCollection<ContractNameT> ContractVQueryByDateandName(string name,string start, string end,int N) 
         {
-            string sql = String.Format(@"select * from(select row_number() over(order by G.[Contract_Date] desc) as rownum, * FROM (select * from(SELECT * FROM [ContractNameT] where Contract_Date>='{2}' and Contract_Date<='{1}')as D where D.ContractName LIKE N'%{0}%')as G) as r where r.rownum >{3} and rownum <={4}", name, start, end,N,N+20);
+            string sql = String.Format(@"select * from(select row_number() over(order by G.[Contract_Date] desc) as rownum, * FROM (select * from(SELECT * FROM [ContractNameT] where Contract_Date>='{1}' and Contract_Date<='{2}')as D where D.ContractName LIKE '%{0}%')as G) as r where r.rownum >{3} and rownum <={4}", name, start, end,N,N+20);
             ObservableCollection<ContractNameT> ww = new ObservableCollection<ContractNameT>(Query<ContractNameT>(sql));
             return ww;
         }
@@ -719,37 +724,97 @@ namespace ContractStatementManagementSystem
             }
         }
         public static ObservableCollection<SalesChart> DoSalesChart() {
-            string sql = "select SUM(NoAmountCollection)as'NoTotalRevenue',SUM(SubAffirmIncomeAmount)as'TotalRevenue' from Sales ";
+            string sql = @"select SUM(NoAmountCollection)as'NoTotalRevenue',SUM(SubAffirmIncomeAmount)as'TotalRevenue' from Sales ";
+            ObservableCollection<SalesChart> ww = new ObservableCollection<SalesChart>(Query<SalesChart>(sql));
+            return ww;
+        }
+      
+        public static ObservableCollection<SalesChart> DoSalesChartByDate(string start, string end)
+        {
+            string sql = String.Format(@"select SUM(s.NoAmountCollection)as'NoTotalRevenue',SUM(s.SubAffirmIncomeAmount)as'TotalRevenue'from Sales as s join ContractNameT as ct on ct.ID=s.ContractID where ct. Contract_Date between '{0}' and '{1}'", start, end); ;
+            ObservableCollection<SalesChart> ww = new ObservableCollection<SalesChart>(Query<SalesChart>(sql));
+            return ww;
+        }
+        public static ObservableCollection<SalesChart> DoSalesChartByDate(string start, string end, string typ)
+        {
+            string sql = String.Format(@"select SUM(s.NoAmountCollection)as'NoTotalRevenue',SUM(s.SubAffirmIncomeAmount)as'TotalRevenue'from Sales as s join ContractNameT as ct on ct.ID=s.ContractID where ct.Contract_Date between '{0}' and '{1}' and Contract_Type='{2}'", start, end,typ); ;
             ObservableCollection<SalesChart> ww = new ObservableCollection<SalesChart>(Query<SalesChart>(sql));
             return ww;
         }
         public static ObservableCollection<ProductionerChart> DoProductionerChart()
         {
-            string sql = "select SUM(TotalProduct)as'SumTotalProduct',SUM(NoTotalProduct)as'SumNoTotalProduct' from Productioner ";
+            string sql = @"select SUM(TotalProduct)as'SumTotalProduct',SUM(NoTotalProduct)as'SumNoTotalProduct' from Productioner ";
+            ObservableCollection<ProductionerChart> ww = new ObservableCollection<ProductionerChart>(Query<ProductionerChart>(sql));
+            return ww;
+        }
+        public static ObservableCollection<ProductionerChart> DoProductionerChart(string start, string end)
+        {
+            string sql = String.Format(@"select SUM(s.TotalProduct)as'SumTotalProduct',SUM(s.NoTotalProduct)as'SumNoTotalProduct' from Productioner as s join ContractNameT as ct on ct.ID=s.ContractID where ct.Contract_Date between '{0}' and '{1}'", start, end); ;
+            ObservableCollection<ProductionerChart> ww = new ObservableCollection<ProductionerChart>(Query<ProductionerChart>(sql));
+            return ww;
+        }
+        public static ObservableCollection<ProductionerChart> DoProductionerChart(string start, string end,string typ)
+        {
+            string sql = String.Format(@"select SUM(s.TotalProduct)as'SumTotalProduct',SUM(s.NoTotalProduct)as'SumNoTotalProduct' from Productioner as s join ContractNameT as ct on ct.ID=s.ContractID where ct.Contract_Date between '{0}' and '{1}' and Contract_Type='{2}'", start, end,typ) ;
             ObservableCollection<ProductionerChart> ww = new ObservableCollection<ProductionerChart>(Query<ProductionerChart>(sql));
             return ww;
         }
         public static ObservableCollection<WarehouseChart> DoWarehouseChart()
         {
-            string sql = "select SUM(ShippedCount) as'SumShippedCount',SUM(NoShippedCount) as'SumNoShippedCount',SUM(Reserves) as'SumReserves' from Warehouse";
+            string sql = @"select SUM(ShippedCount) as'SumShippedCount',SUM(NoShippedCount) as'SumNoShippedCount',SUM(Reserves) as'SumReserves' from Warehouse";
+            ObservableCollection<WarehouseChart> ww = new ObservableCollection<WarehouseChart>(Query<WarehouseChart>(sql));
+            return ww;
+        }
+        public static ObservableCollection<WarehouseChart> DoWarehouseChart(string start, string end)
+        {
+            string sql = String.Format(@"select SUM(s.ShippedCount) as'SumShippedCount',SUM(s.NoShippedCount) as'SumNoShippedCount',SUM(Reserves) as'SumReserves' from Warehouse as s join ContractNameT as ct on ct.ID=s.ContractID where ct.Contract_Date between '{0}' and '{1}'", start,end);
+            ObservableCollection<WarehouseChart> ww = new ObservableCollection<WarehouseChart>(Query<WarehouseChart>(sql));
+            return ww;
+        }
+        public static ObservableCollection<ContractNameT> ContractQueryAboutDate(string start,string end)
+        {
+            string sql = String.Format(@"select CT.ContractName,S.NoAmountCollection,S.SubAffirmIncomeAmount,P.TotalProduct,P.NoTotalProduct,W.ShippedCount,W.NoShippedCount from ContractNameT as CT left join Sales as S on S.ContractID=CT.ID left join Productioner as P on P.ContractID=CT.ID left join Warehouse as W on W.ContractID=CT.ID  where Contract_Date between '{0}' and '{1}' order by CT.Contract_Date desc ", start, end);
+            ObservableCollection<ContractNameT> ww = new ObservableCollection<ContractNameT>(Query<ContractNameT>(sql));
+            return ww;
+        }
+        public static ObservableCollection<WarehouseChart> DoWarehouseChart(string start, string end,string typ)
+        {
+            string sql = String.Format(@"select SUM(s.ShippedCount) as'SumShippedCount',SUM(s.NoShippedCount) as'SumNoShippedCount',SUM(s.Reserves) as'SumReserves' from Warehouse as s join ContractNameT as ct on ct.ID=s.ContractID where ct.Contract_Date between '{0}' and '{1}' and Contract_Type='{2}'", start,end, typ);
             ObservableCollection<WarehouseChart> ww = new ObservableCollection<WarehouseChart>(Query<WarehouseChart>(sql));
             return ww;
         }
         public static IEnumerable<T> Query<T>(string sql, object parameter = null) 
         {
-            try
-            {
+            
                 using (var conn = new SqlConnection(@string))
                 {
                     conn.Open();
 
                     return conn.Query<T>(sql, parameter);
                 }
-            }
-              catch(Exception e) {
-                throw e;
-            }
+           
 
+        }
+        public static decimal SqlGet(string sql, object parameter = null)
+        {
+            decimal a;
+            using (var conn = new SqlConnection(@string))
+            {
+
+                conn.Open();
+                SqlCommand comm = conn.CreateCommand();
+                comm.CommandText = sql;
+                SqlDataReader reader = comm.ExecuteReader();
+                var ee = reader.GetOrdinal("Contract_Amount");
+                if(ee == 0)
+                {
+                    a = 0;
+                }
+                else {
+                    a = reader.GetDecimal(reader.GetOrdinal("Contract_Amount"));
+                }
+            }
+            return a;
         }
         public static void gongong(SqlConnection conn, string s)
         {

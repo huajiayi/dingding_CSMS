@@ -40,6 +40,11 @@ function fullServices(ss) {
 		td.innerHTML = serviceArr[i - 1];
 		tr.appendChild(td);
 		serviceList.appendChild(tr);
+		var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
+		var premission = JSON.parse(UserJson.replace(reg, '"'));
+		if (premission.Summation_p == 0) {
+		    $("#deleteContract").css("display", "none");
+		}
 	}
 }
 
@@ -69,10 +74,8 @@ function deleteContract() {
                     message: "确定要删除合同吗",
                     title: "提示",//可传空
                     buttonLabels: ['是', '否'],
-                    onSuccess: function (resultjson) {
-                        var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
-                        var result = JSON.parse(resultjson.replace(reg, '"'));
-                       
+                    onSuccess: function (result) {
+
                         if (result.buttonIndex == 0) {
                             location.href = "deleteContract";
                         }

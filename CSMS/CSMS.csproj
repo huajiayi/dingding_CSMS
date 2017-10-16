@@ -195,6 +195,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DingDingController.cs" />
     <Compile Include="Controllers\FirstPageController.cs" />
     <Compile Include="Controllers\InvoicingController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
@@ -353,12 +354,12 @@
     <Content Include="Scripts\js\datepicker\picker.js" />
     <Content Include="Scripts\js\datepicker\zh_CN.js" />
     <Content Include="Scripts\js\Demo.js" />
+    <Content Include="Scripts\js\echart\echarts.common.min.js" />
     <Content Include="Scripts\js\premissions.js" />
     <Content Include="Scripts\js\Invoicing.js" />
     <Content Include="Scripts\js\mmenu\echart\echarts.common.min.js" />
     <Content Include="Scripts\js\main.js" />
     <Content Include="Scripts\js\mmenu\jquery.mmenu.all.js" />
-    <Content Include="Scripts\js\PCdemo.js" />
     <Content Include="Scripts\js\production.js" />
     <Content Include="Scripts\js\project.js" />
     <Content Include="Scripts\js\projectLog.js" />
@@ -563,6 +564,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\DingDing\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
