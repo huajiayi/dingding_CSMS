@@ -29,14 +29,15 @@ var $txt_startDate="";
 var $txt_endDate = "";
 
 addLoadEvent(addClickEvent);
-addLoadEvent(ex);
 addLoadEvent(cha);
+addLoadEvent(ex);
+
 
 function cha() {
     if (ch != "") {
     if (DingTalkPC) {
         DingTalkPC.biz.ding.post({
-            users: ['1147026423-1173046067'],//用户列表，userid
+            users: [sessionStorage.getItem("Project")],//用户列表，userid
             corpId: corpId, //加密的企业id
             type: 1, //钉类型 1：image  2：link
             alertType: 2,
@@ -46,7 +47,7 @@ function cha() {
             }, //附件信息
             text: "合同“"+ch+"”已建立，请跟据实际工作情况及时填写", //消息体
             onSuccess: function () {
-                alert("已发送")
+                alert("OK")
             },
             onFail: function () {
                 alert("发送失败")
@@ -79,7 +80,7 @@ function cha() {
 
             dd.ready(function () {
                 dd.biz.ding.post({
-                    users: ['1147026423-1173046067'],//用户列表，userid
+                    users: [sessionStorage.getItem("Project")],//用户列表，userid
                     corpId: corpId, //加密的企业id
                     type: 0, //附件类型 1：image  2：link
                     alertType: 2,
@@ -87,7 +88,7 @@ function cha() {
                     onSuccess: function () {
                         dd.ready(function () {
                             dd.device.notification.alert({
-                                message: "发送成功",
+                                message: "OK",
                                 title: "提示",//可传空
                                 buttonName: "确定",
                                 onSuccess: function () {
@@ -129,7 +130,7 @@ function cha() {
         });
 
     }
-
+   
 }
 }
 function ex() {
@@ -363,7 +364,6 @@ function filterContract() {
         sessionStorage.setItem("txt_keyword", $txt_keyword);
         sessionStorage.setItem("txt_startDate", $txt_startDate);
         sessionStorage.setItem("txt_endDate", $txt_endDate);
-      
         location.href = "/Contract/filtration?txt_keyword=" + $txt_keyword + "&txt_startDate=" + $txt_startDate + "&txt_endDate=" + $txt_endDate;
     }
 }

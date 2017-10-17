@@ -671,6 +671,18 @@ namespace ContractStatementManagementSystem
                     conn.Execute(s, dic);
 
                 }
+                if (ob is ContractNameT)
+                {
+                    ContractNameT a = (ContractNameT)ob;
+                    string sql0 = @"update [ContractNameT] set Contract_Amount=@Contract_Amount where ID=@ID";
+                    var dic = new Dictionary<string, object>();
+                    dic.Add("@Contract_Amount", a.Contract_Amount);
+                    dic.Add("@ID", a.ID);
+                    string s = string.Concat(sql0);
+                    conn.Open();
+                    conn.Execute(s, dic);
+
+                }
 
             }
             }

@@ -172,8 +172,6 @@ namespace ContractStatementManagementSystem
             wh.Reserves = 0;
             wh.ShippedCount = 0;
             SqlQuery.Contractinsert(ct,pr,sl,wh);
-            
-
          }
         public static decimal[] GetYOYincrease()
         {

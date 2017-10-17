@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Configuration;
 
 namespace WebApplication4.Controllers
 {
@@ -35,6 +36,30 @@ namespace WebApplication4.Controllers
             SqlQuery.DeleteContract(ID);
             
             return RedirectToAction("Index");
+        }
+        public ActionResult editContract()
+        {
+            try
+            {
+                string s;
+                Guid ID;
+                ViewBag.Message = Session["cc"];
+                s = ViewBag.Message;
+                ID = new Guid(s);
+                ObservableCollection<ContractNameT> cts = SqlQuery.ContractVQuery(ID);
+                decimal flag = cts[0].Contract_Amount;
+                cts[0].Contract_Amount = Convert.ToDecimal(Request["Amount"]);
+                ObservableCollection<Sales> osl = SqlQuery.SalesQuery(ID);
+                decimal b = cts[0].Contract_Amount - flag;
+                osl[0].NoAmountCollection += b;
+                SqlQuery.updata(osl[0]);
+                SqlQuery.updata(cts[0]);
+                return Content("修改成功");
+            }
+            catch {
+                return Content("修改失败");
+            }
+
         }
         public ActionResult SaveContract(ContractNameT ct)
         {
@@ -101,6 +126,9 @@ namespace WebApplication4.Controllers
         }
         public ActionResult Index()
         {
+
+            ViewBag.Project = FetchValue("Project");
+            ViewBag.Production = FetchValue("Production");
             ViewBag.Message = Session["userid"];
             string userid = ViewBag.Message;
             ObservableCollection<Permissions> ops = SqlQuery.PermissionsQueryByID(userid);
@@ -115,13 +143,12 @@ namespace WebApplication4.Controllers
             if (Request["ex"] != null) {
                 ViewBag.p = Request["ex"];
             }
-            if (Request["ch"]!=null) { ViewBag.ch = Request["ch"]; }
+            if (Request["ch"] != null) { ViewBag.ch = Request["ch"]; } 
             
             ViewBag.ss = GetContractName();
             ViewBag.s1 = GetContractID();
             return View();
         }
-      
         public static string GetContractName() {
             ObservableCollection<ContractNameT> ctt = SqlQuery.ContractQuery();
 
@@ -290,7 +317,6 @@ namespace WebApplication4.Controllers
           
         }
         public ActionResult Stats() {
-
             ObservableCollection <SalesChart> osc= SqlQuery.DoSalesChart();
             ViewBag.NoTotalRevenue = osc[0].NoTotalRevenue;
             ViewBag.TotalRevenue = osc[0].TotalRevenue;
@@ -302,7 +328,6 @@ namespace WebApplication4.Controllers
             ViewBag.SumReserves = owc[0].SumReserves;
             ViewBag.SumShippedCount=owc[0].SumShippedCount;   
             ObservableCollection<Stats> oss = SqlQuery.StatsQuery();
-
             string[] cn = new string[oss.Count];
             decimal[] ona=new decimal[oss.Count];
             decimal[] oa= new decimal[oss.Count];
@@ -345,6 +370,15 @@ namespace WebApplication4.Controllers
             }
           
             return Content(JsonTools.ObjectToJson(osct[0]));
+        }
+        private static String FetchValue(String key)
+        {
+            String value = ConfigurationManager.AppSettings[key];
+            if (value == null)
+            {
+                throw new Exception($"{key} is null.请确认配置文件中是否已配置.");
+            }
+            return value;
         }
     }
 }

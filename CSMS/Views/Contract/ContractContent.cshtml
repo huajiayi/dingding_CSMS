@@ -27,7 +27,7 @@
                     <label class="brlabel" id="lbl_contractName">合同名称：</label>
                     <label class="brlabel" id="lbl_costumerName">合同方客户名称：</label>
                     <label class="brlabel" id="lbl_contractType">合同类别：</label>
-                    <label class="brlabel" id="lbl_contractAmount">合同金额（人民币元）：</label>
+                    <label class="brlabel" id="lbl_contractAmount">合同金额（人民币元）：</label >
                     <label class="brlabel" id="lbl_count">数量（套/个）：</label>
                     <label class="brlabel" id="lbl_contractNumber">合同编号：</label>
                     <label class="brlabel" id="lbl_signatureDate">合同签署日期：</label>
@@ -37,7 +37,7 @@
                         <tbody id="serviceList"></tbody>
                     </table>
                     <div class="text-center">
-                        @*<button class="btn btn-warning" type="button">编辑合同</button>*@
+                        <button class="btn btn-warning" type="button" id="editContract" onclick="editContract()" >修改合同金额</button>
                         <button class="btn btn-danger margin-left" type="button" id="deleteContract" onclick="deleteContract()">删除合同</button>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
             });
         });
         $("#menu").removeClass("nav-hidden");
-
+        
     </script>
    
 </body>

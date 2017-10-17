@@ -44,6 +44,7 @@ function fullServices(ss) {
 		var premission = JSON.parse(UserJson.replace(reg, '"'));
 		if (premission.Summation_p == 0) {
 		    $("#deleteContract").css("display", "none");
+		    $("#editContract").css("display", "none");
 		}
 	}
 }
@@ -78,6 +79,7 @@ function deleteContract() {
 
                         if (result.buttonIndex == 0) {
                             location.href = "deleteContract";
+
                         }
                     
                     },
@@ -86,4 +88,42 @@ function deleteContract() {
             });
         }
     }
+function editContract() {
+    if (DingTalkPC) {
+        DingTalkPC.device.notification.prompt({
+            message: "请输入合同金额",
+            title: "合同金额修改",
+            buttonLabels: ['确定', '取消'],
+            onSuccess: function (result) {
+                if (result.buttonIndex == 0) {
+                    
+                    $.post("editContract?Amount=" + result.value, function (data, status) {
+                        document.getElementById("lbl_contractAmount").innerHTML = "合同金额（人民币元）：" + result.value;
+                        show(data)
+                    });
+                }
+            },
+            onFail: function (err) { }
+        });
+    }
+    if (dd) {
+        dd.ready(function () {
+            dd.device.notification.prompt({
+                message: "请输入合同金额",
+                title: "合同金额修改",
+                buttonLabels: ['确定', '取消'],
+                onSuccess: function (result) {
+                    if (result.buttonIndex == 0) {
+                        $.post("editContract?Amount=" + result.value, function (data, status) {
+                            document.getElementById("lbl_contractAmount").innerHTML = "合同金额（人民币元）：" + result.value;
+                            show(data)
+                        });
+                    }
+                },
+                onFail: function (err) { }
+            });
+        });
+    }
+}
+
 
