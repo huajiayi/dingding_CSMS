@@ -57,25 +57,46 @@ function filterStats() {
     var start = $("#txt_startDate").val();
     var end = $("#txt_finishDate").val();
     var typ = $("#select_contractType").val();
-    alert(start + "," + end);
+    
     if ($("#select_statsType").val() == "累计值" && $("#div_statsType").is(":hidden")) {
         $.post("/Contract/DoStats?Start=" + start + "&End=" + end + "&Typ=", function (result, status) {
           
            
             salesChart.setOption({
                 title: {
-                    text: "所有合同收款情况",
-                    subtext: "总金额：" + (result.NoTotalRevenue + result.TotalRevenue)
+                    text: "合同收款情况",
+                    subtext: "总金额：" + (result[0] + result[3])
                 },
                 series: [{
                     data: [{
-                        value: result.NoTotalRevenue,
+                        value: result[3],
                         name: "未收金额"
                     },
                     {
-                        value: result.TotalRevenue,
+                        value: result[0],
                         name: "已收金额"
                     }
+                    ]
+                }],
+            });
+            Arr.setOption({
+                title: {
+                    text: "所有合同收款情况",
+                },
+                series: [{
+                    data: [{
+                        value: result[1],
+                        name: "未收金额"
+                    },
+                    {
+                        value: result[3],
+                        name: "签署金额"
+                    },
+                    {
+                        value: result[2],
+                        name: "已收金额"
+                    }
+
                     ]
                 }],
             });
@@ -85,21 +106,42 @@ function filterStats() {
             
             salesChart.setOption({
                 title: {
-                    text: $("#select_contractType").val() + "收款情况",
-                    subtext: "总金额：" + (result.NoTotalRevenue + result.TotalRevenue)
+                    text: "所有合同收款情况",
+                    subtext: "总金额：" + (result[0] + result[3])
                 },
                 series: [{
                     data: [{
-                        value: result.NoTotalRevenue,
+                        value: result[3],
                         name: "未收金额"
                     },
                     {
-                        value: result.TotalRevenue,
+                        value: result[0],
                         name: "已收金额"
                     }
                     ]
                 }],
-            } );
+            });
+            Arr.setOption({
+                title: {
+                    text: "合同收款情况",
+                },
+                series: [{
+                    data: [{
+                        value: result[1],
+                        name: "未收金额"
+                    },
+                     {
+                         value: result[3],
+                         name: "签署金额"
+                     },
+                    {
+                        value: result[2],
+                        name: "已收金额"
+                    }
+
+                    ]
+                }],
+            });
         },"json");
     } else if ($("#select_statsType").val() == "增长率" && $("#div_statsType").is(":hidden")) {
         accumulatedValueChart.setOption({
@@ -107,27 +149,78 @@ function filterStats() {
                 text: "所有合同",
             },
             series: [{
-                data: aYear_on_yearGrowthRate
+                data: ToArray(aYear_on_yearGrowthRate1)
             },
 				{
-				    data: aLinkGrowthRate
+				    data: ToArray(aLinkGrowthRate1)
+				}
+            ]
+        });
+        AffirmIncomeAmountChart.setOption({
+            title: {
+                text:"已收金额",
+            },
+            series: [{
+                data: ToArray(aYear_on_yearGrowthRate3)
+            },
+				{
+				    data: ToArray(aLinkGrowthRate3)
+				}
+            ]
+        });
+        InvoiceAmountChart.setOption({
+            title: {
+                text: "确认收入",
+            },
+            series: [{
+                data: ToArray(aYear_on_yearGrowthRate2)
+            },
+				{
+				    data: ToArray(aLinkGrowthRate2)
 				}
             ]
         });
         console.log(1);
     } else {
-        accumulatedValueChart.setOption({
-            title: {
-                text: $("#select_contractType").val(),
-            },
-            series: [{
-                data: aYear_on_yearGrowthRate
-            },
-				{
-				    data: aLinkGrowthRate
-				}
-            ]
-        });
+        $.post("/Contract/ChangeStats?Type=" + typ, function (result, status) {
+
+            accumulatedValueChart.setOption({
+                title: {
+                    text: $("#select_contractType").val()+"总金额",
+                },
+                series: [{
+                    data: result[0]
+                },
+                    {
+                        data: result[1]
+                    }
+                ]
+            });
+            AffirmIncomeAmountChart.setOption({
+                title: {
+                    text: $("#select_contractType").val()+"已收金额",
+                },
+                series: [{
+                    data: result[4]
+                },
+                    {
+                        data: result[5]
+                    }
+                ]
+            });
+            InvoiceAmountChart.setOption({
+                title: {
+                    text: $("#select_contractType").val()+"确认收入",
+                },
+                series: [{
+                    data: result[2]
+                },
+                    {
+                        data: result[3]
+                    }
+                ]
+            });
+        },"json");
     }
     $("#filter").modal("hide");
 }
@@ -142,22 +235,32 @@ function ToArray(Json) {
 }
 
 var accumulatedValueChart;
+var InvoiceAmountChart;
+var Arr
+var AffirmIncomeAmountChart;
 var salesChart;
 var salesBarChart;
 var producitonChart;
 var producitonBarChart;
 var warehouseChart;
 var warehouseBarChart;
+var arr=["确认收入金额","签署金额","已收金额"]
 $(function () {
-    accumulatedValueChart = initLineChart($("#accumulatedValueChart")[0], "所有合同", aYear_on_yearGrowthRate1, aLinkGrowthRate1);
+    accumulatedValueChart = initLineChart($("#accumulatedValueChart")[0], "所有合同", ToArray(aYear_on_yearGrowthRate1), ToArray(aLinkGrowthRate1));
+    InvoiceAmountChart = initLineChart($("#InvoiceAmountChart")[0], "确认收入", ToArray(aYear_on_yearGrowthRate2), ToArray(aLinkGrowthRate2));
+    AffirmIncomeAmountChart = initLineChart($("#AffirmIncomeAmountChart")[0], "已收金额", ToArray(aYear_on_yearGrowthRate3), ToArray(aLinkGrowthRate3));
     salesChart = initChart($("#salesChart")[0], "收款情况", "总金额：￥", "未收金额", "已收金额", NoTotalRevenue, TotalRevenue);
     salesBarChart = initBarChart($("#salesBarChart")[0], "各合同收款情况", "未收金额", "已收金额", ToArray(ContractName), ToArray(NoAmountCollection), ToArray(SubAffirmIncomeAmount));
+    Arr = initBarChart2($("#Arr")[0], "各合同收款情况", "已收金额", arr, ToArray(Ar));
     producitonChart = initChart($("#producitonChart")[0], "生产情况", "需求量：", "未生产量", "已生产量", SumNoTotalProduct, SumTotalProduct);
     producitonBarChart = initBarChart($("#producitonBarChart")[0], "各合同生产情况", "未生产量", "已生产量", ToArray(ContractName), ToArray(NoTotalProduct), ToArray(TotalProduct));
     warehouseChart = initChart($("#warehouseChart")[0], "发货情况", "库存量：" + SumReserves, "未发货数量", "已发货数量", SumNoShippedCount, SumShippedCount);
     warehouseBarChart = initBarChart($("#warehouseBarChart")[0], "各合同发货情况", "未发货数量", "已发货数量", ToArray(ContractName), ToArray(NoShippedCount), ToArray(ShippedCount));
     window.addEventListener("resize", function () {
         accumulatedValueChart.resize();
+        Arr.resize();
+        InvoiceAmountChart.resize();
+        AffirmIncomeAmountChart.resize();
         salesChart.resize();
         salesBarChart.resize();
         producitonChart.resize();
@@ -258,7 +361,7 @@ function initBarChart(element, titleText, legendData1, legendData2, aContractNam
             name: legendData2,
             type: 'bar',
             stack: 'barChart',
-            data: dataValue1,
+            data: dataValue2,
             itemStyle: {
                 normal: {
                     color: '#333'
@@ -269,8 +372,63 @@ function initBarChart(element, titleText, legendData1, legendData2, aContractNam
 			    name: legendData1,
 			    type: 'bar',
 			    stack: 'barChart',
-			    data: dataValue2
+			    data: dataValue1
 			}
+        ]
+    };
+    myBarChart.setOption(option, false, true);
+    return myBarChart;
+}
+
+function initBarChart2(element, titleText, legendData1, aContractName, dataValue1) {
+    var myBarChart = echarts.init(element);
+    var option = {
+        title: {
+            text: titleText,
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} : ￥{c}"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: [legendData1],
+        },
+        grid: {
+            bottom: '30%'
+        },
+        xAxis: {
+            data: aContractName,
+            axisLabel: {
+                interval: 0, //横轴信息全部显示  
+                rotate: -30, //-30度角倾斜显示  
+            }
+        },
+        yAxis: {},
+        dataZoom: [{ // 这个dataZoom组件，默认控制x轴。
+            type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+            start: 0, // 左边在 10% 的位置。
+            end: 10, // 右边在 60% 的位置。
+            //				filterMode: 'empty'
+        },
+			{ // 这个dataZoom组件，也控制x轴。
+			    type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
+			    start: 0, // 左边在 10% 的位置。
+			    end: 10 // 右边在 60% 的位置。
+			}
+        ],
+        series: [{
+            name: legendData1,
+            type: 'bar',
+            data: dataValue1,
+            itemStyle: {
+                normal: {
+                    color: '#333'
+                }
+            }
+        }
         ]
     };
     myBarChart.setOption(option, false, true);
@@ -322,13 +480,11 @@ function initLineChart(element, titleText, dataValue1, dataValue2) {
         series: [{
             name: '同比增长率',
             type: 'line',
-            stack: '总量',
             data: dataValue1
         },
 			{
 			    name: '环比增长率',
 			    type: 'line',
-			    stack: '总量',
 			    data: dataValue2
 			}
         ]

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ContractStatementManagementSystem
 {
     public class GetData
@@ -69,7 +68,6 @@ namespace ContractStatementManagementSystem
             //int a = opj.IndexOf(mw.ppt.FirstOrDefault<Project_data>(x => x.ID == item.ID));
             //pds = SqlQuery.Project_dataQueryByService(mw.ct.ID, item.ID);
             //opj.Add(pd);
-
             //Project_data a =opj.FirstOrDefault<Project_data>(x => x.ServiceID == pd.ServiceID);
             //opj[opj.IndexOf(a)] = pd;
             //int i = opj.IndexOf(a);
@@ -82,10 +80,10 @@ namespace ContractStatementManagementSystem
             //    //p
             //}
             SqlQuery.insert(pd);
-         
         }
         public static void AccountantGet(AccountantLog al, Accountant a ) {
             Accountant ab = (Accountant)a.Clone();
+            al.Amount = Convert.ToDecimal(al.AffirmIncomeAmount)-a.SubAffirmIncomeAmount;
             a.SubAffirmIncomeAmount = Convert.ToDecimal(al.AffirmIncomeAmount);
             a.AffirmIncomeGist = al.AffirmIncomeGist;
             a.SubInvoiceAmount = Convert.ToDecimal(al.InvoiceAmount);
@@ -173,51 +171,86 @@ namespace ContractStatementManagementSystem
             wh.ShippedCount = 0;
             SqlQuery.Contractinsert(ct,pr,sl,wh);
          }
-        public static decimal[] GetYOYincrease()
+        public static double[] GetYOYincrease(int fun)
         {
             decimal c;
             int Year = DateTime.Now.Year;
-            decimal[] YOYincrease = new decimal[12];
-            ObservableCollection<decimal> Tyear = GetAmount(Year);
-            ObservableCollection<decimal> Lyear = GetAmount(Year - 1);
+            double[] YOYincrease = new double[12];
+            ObservableCollection<decimal> Tyear = GetAmount(Year,fun);
+            ObservableCollection<decimal> Lyear = GetAmount(Year - 1,fun);
             for (int i = 0; i < Tyear.Count; i++)
             {
+                if (Lyear[i] == 0)
+                {
+                    if (Tyear[i] == 0)
+                    {
+                        c = 0;
+                    }
+                    else {
+                        c = 1.00M;
+                    }
+                }
+                else {
+                    c = Math.Round(((Tyear[i] - Lyear[i]) / Lyear[i]), 2);
+                }
                 
-                 c = Math.Round(((Tyear[i] - Lyear[i]) / Lyear[i]),2);
-                YOYincrease[i] = c;
-
+                YOYincrease[i] = Convert.ToDouble(c);
             }
             return YOYincrease;
-
-
         }
-     
-      
-
-   
-        public static decimal[] SIncreaseRate()
+        public static double[] SIncreaseRate(int fun)
         {
             decimal c;
             int Year = DateTime.Now.Year;
-            decimal[] YOYincrease = new decimal[12];
-            ObservableCollection<decimal> Tyear = GetAmount(Year);
-            ObservableCollection<decimal> Lyear = GetAmount(Year - 1);
+            double[] YOYincrease = new double[12];
+            ObservableCollection<decimal> Tyear = GetAmount(Year,fun);
+            ObservableCollection<decimal> Lyear = GetAmount(Year - 1,fun);
             for (int i = 0; i < Tyear.Count; i++)
             {
-                if (i==0) { 
-                c = Math.Round((Lyear[11]/ Tyear[i]), 2);
-                YOYincrease[i] = c;
-               }
-                c = Math.Round((Lyear[i-1] / Tyear[i]), 2);
-                YOYincrease[i] = c;
+                if (i == 0)
+                {
+                    if (Tyear[i] == 0)
+                    {
+                        if (Lyear[11] == 0)
+                        {
+                            c = 0M;
+                        }
+                        else {
+                            c = 1.00M;
+                        }
+
+                    }
+                    else
+                    {
+                        c = Math.Round(((Tyear[i]-Lyear[11])/ Lyear[11]), 2);
+
+                    }
+                    YOYincrease[i] = Convert.ToDouble(c);
+                }
+                else {
+                    if (Tyear[i-1] == 0)
+                    {
+                        if (Tyear[i] == 0)
+                        {
+                            c = 0M;
+                        }
+                        else {
+                            c = 1.00M;
+                        }
+                    }
+                    else
+                    {
+                        c = Math.Round(((Tyear[i]-Tyear[i-1])/ Tyear[i - 1]), 2);
+                    }
+                YOYincrease[i] = Convert.ToDouble(c);
+                }
             }
             return YOYincrease;
         }
-        public static ObservableCollection<decimal> GetAmount(int Year){
+        public static ObservableCollection<decimal> GetAmount(int Year,int fun){
             ObservableCollection<decimal> TAmount = new ObservableCollection<decimal>();
             string[] start = { Year + "-01" + "-01", Year + "-02" + "-01", Year + "-03" + "-01", Year + "-04" + "-01", Year + "-05" + "-01", Year + "-06" + "-01", Year + "-07" + "-01", Year + "-08" + "-01", Year + "-09" + "-01", Year + "-10" + "-01", Year + "-11" + "-01", Year + "-12" + "-01" };
             string[] End = { Year + "-01" + "-30", Year + "-02" + "-29", Year + "-03" + "-31", Year + "-04" + "-30", Year + "-05" + "-31", Year + "-06" + "-30", Year + "-07" + "-31", Year + "-08" + "-31", Year + "-09" + "-30", Year + "-10" + "-31", Year + "-11" + "-30", Year + "-12" + "-31" };
-
             if (Year % 4 == 0 && Year % 100 != 0 || Year % 400 == 0)
             {
                 End[1] = Year + "-02" + "-29";
@@ -226,11 +259,132 @@ namespace ContractStatementManagementSystem
             {
                 End[1] = Year + "-02" + " -28";
             }
-
             for (int i = 0; i < 12; i++)
             {
-                decimal Am =SqlQuery.ContractGetAmount(start[i], End[i]);
+                decimal Am = 0;
+                  switch (fun)
+                {
+                    case 1:
+                        Am = SqlQuery.ContractGetAmount(start[i], End[i]);
+                        break;
+                    case 2:
+                        Am = SqlQuery.InvoiceAmountChart(start[i], End[i]);
+                        break;
+                    case 3:
+                        Am = SqlQuery.AffirmIncomeAmountChart(start[i], End[i]);
+                        break;
+                }
                 TAmount.Add(Am);
+            }
+            return TAmount;
+        }
+        public static double[] GetYOYincrease(string type,int fun)
+        {
+            decimal c;
+            int Year = DateTime.Now.Year;
+            double[] YOYincrease = new double[12];
+            ObservableCollection<decimal> Tyear = GetAmount(Year, type,fun);
+            ObservableCollection<decimal> Lyear = GetAmount(Year - 1, type,fun);
+            for (int i = 0; i < Tyear.Count; i++)
+            {
+                if (Lyear[i] == 0)
+                {
+                    if (Tyear[i] == 0)
+                    {
+                        c = 0;
+                    }
+                    else {
+                        c = 1.00M;
+                    }
+                }
+                else {
+                    c = Math.Round(((Tyear[i] - Lyear[i]) / Lyear[i]), 2);
+                }
+
+                YOYincrease[i] = Convert.ToDouble(c);
+            }
+            return YOYincrease;
+        }
+        public static double[] SIncreaseRate(string type,int fun)
+        {
+            decimal c;
+            int Year = DateTime.Now.Year;
+            double[] YOYincrease = new double[12];
+            ObservableCollection<decimal> Tyear = GetAmount(Year, type,fun);
+            ObservableCollection<decimal> Lyear = GetAmount(Year - 1, type,fun);
+            for (int i = 0; i < Tyear.Count; i++)
+            {
+                if (i == 0)
+                {
+                    if (Tyear[i] == 0)
+                    {
+                        if (Lyear[11] == 0)
+                        {
+                            c = 0M;
+                        }
+                        else {
+                            c = 1.00M;
+                        }
+                        
+                    }
+                    else
+                    {
+                        c = Math.Round(((Tyear[i] - Lyear[11]) / Lyear[11]), 2);
+
+                    }
+                    YOYincrease[i] = Convert.ToDouble(c);
+                }
+                else {
+                    if (Tyear[i - 1] == 0)
+
+                    {
+                        if (Tyear[i] == 0)
+                        {
+                            c = 0M;
+                        }
+                        else {
+                            c = 1.00M;
+                        }
+                    }
+                    else
+                    {
+                        c = Math.Round(((Tyear[i] - Tyear[i - 1]) / Tyear[i - 1]), 2);
+                    }
+                    YOYincrease[i] = Convert.ToDouble(c);
+                }
+            }
+            return YOYincrease;
+        }
+        public static ObservableCollection<decimal> GetAmount(int Year, string type,int fun)
+        {
+            
+            ObservableCollection<decimal> TAmount = new ObservableCollection<decimal>();
+            string[] start = { Year + "-01" + "-01", Year + "-02" + "-01", Year + "-03" + "-01", Year + "-04" + "-01", Year + "-05" + "-01", Year + "-06" + "-01", Year + "-07" + "-01", Year + "-08" + "-01", Year + "-09" + "-01", Year + "-10" + "-01", Year + "-11" + "-01", Year + "-12" + "-01" };
+            string[] End = { Year + "-01" + "-30", Year + "-02" + "-29", Year + "-03" + "-31", Year + "-04" + "-30", Year + "-05" + "-31", Year + "-06" + "-30", Year + "-07" + "-31", Year + "-08" + "-31", Year + "-09" + "-30", Year + "-10" + "-31", Year + "-11" + "-30", Year + "-12" + "-31" };
+            if (Year % 4 == 0 && Year % 100 != 0 || Year % 400 == 0)
+            {
+                End[1] = Year + "-02" + "-29";
+            }
+            else
+            {
+                End[1] = Year + "-02" + " -28";
+            }
+            for (int i = 0; i < 12; i++)
+            {
+                decimal Am=0;
+                switch (fun)
+                {
+                    case 1:
+                        Am = SqlQuery.ContractGetAmountByType(start[i], End[i], type);
+                        break;
+                    case 2:
+                        Am = SqlQuery.InvoiceAmountChart(start[i], End[i], type);
+                        break;
+                    case 3:
+                        Am = SqlQuery.AffirmIncomeAmountChart(start[i], End[i], type);
+                        break;
+                }
+                   TAmount.Add(Am);
             }
             return TAmount;
         }

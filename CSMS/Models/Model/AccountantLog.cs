@@ -43,6 +43,6 @@ namespace ContractStatementManagementSystem
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
-
+        public decimal Amount { get; set; }
     }
 }

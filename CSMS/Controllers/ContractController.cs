@@ -316,10 +316,24 @@ namespace WebApplication4.Controllers
             return Content(result);
           
         }
+        public ActionResult ChangeStats() {
+
+            List<double[]> ld = new List<double[]>();
+            ld.Add(GetData.GetYOYincrease(Request["type"],1));
+            ld.Add(GetData.SIncreaseRate(Request["type"],1));
+            ld.Add(GetData.GetYOYincrease(Request["type"], 2));
+            ld.Add(GetData.SIncreaseRate(Request["type"], 2));
+            ld.Add(GetData.GetYOYincrease(Request["type"], 3));
+            ld.Add(GetData.SIncreaseRate(Request["type"], 3));
+            return Content(JsonTools.ObjectToJson(ld));
+
+        }
         public ActionResult Stats() {
             ObservableCollection <SalesChart> osc= SqlQuery.DoSalesChart();
             ViewBag.NoTotalRevenue = osc[0].NoTotalRevenue;
             ViewBag.TotalRevenue = osc[0].TotalRevenue;
+            decimal[] Ar = { SqlQuery.InvoiceAmountChartInit(), SqlQuery.AmountChartInit(), osc[0].TotalRevenue };
+            ViewBag.Ar = JsonTools.ObjectToJson(Ar);
             ObservableCollection<ProductionerChart> opc= SqlQuery.DoProductionerChart();
             ViewBag.SumNoTotalProduct = opc[0].SumNoTotalProduct;
             ViewBag.SumTotalProduct = opc[0].SumTotalProduct;
@@ -351,8 +365,12 @@ namespace WebApplication4.Controllers
             ViewBag.NoTotalProduct = JsonTools.ObjectToJson(ontp);
             ViewBag.ShippedCount = JsonTools.ObjectToJson(os);
             ViewBag.NoShippedCount = JsonTools.ObjectToJson(ons);
-            //ViewBag.YOYincrease = JsonTools.ObjectToJson(GetData.GetYOYincrease());
-            //ViewBag.SIncreaseRate = JsonTools.ObjectToJson(GetData.SIncreaseRate());
+            ViewBag.YOYincrease = JsonTools.ObjectToJson(GetData.GetYOYincrease(1));
+            ViewBag.SIncreaseRate = JsonTools.ObjectToJson(GetData.SIncreaseRate(1));
+            ViewBag.YOYincrease2 = JsonTools.ObjectToJson(GetData.GetYOYincrease(2));
+            ViewBag.SIncreaseRate2 = JsonTools.ObjectToJson(GetData.SIncreaseRate(2));
+            ViewBag.YOYincrease3 = JsonTools.ObjectToJson(GetData.GetYOYincrease(3));
+            ViewBag.SIncreaseRate3 = JsonTools.ObjectToJson(GetData.SIncreaseRate(3));
             return View();
         }
         public ActionResult DoStats()
@@ -361,15 +379,24 @@ namespace WebApplication4.Controllers
             string End = Request["End"];
             string Typ = Request["Typ"];
             ObservableCollection<SalesChart> osct = null;
+            decimal[] aa =new decimal[4];
             if (Typ == "")
             {
                 osct = SqlQuery.DoSalesChartByDate(Start, End);
+                aa[0] = osct[0].TotalRevenue;
+                aa[1] = SqlQuery.InvoiceAmountChart(Start, End);
+                aa[2] = SqlQuery.AffirmIncomeAmountChart(Start, End);
+                aa[3] = osct[0].NoTotalRevenue + osct[0].TotalRevenue;
             }
             else {
                 osct = SqlQuery.DoSalesChartByDate(Start, End, Typ);
+                aa[0] = osct[0].TotalRevenue;
+                aa[1]= SqlQuery.InvoiceAmountChart(Start, End, Typ);
+                aa[2] = SqlQuery.AffirmIncomeAmountChart(Start, End, Typ);
+                aa[3] = osct[0].NoTotalRevenue+ osct[0].TotalRevenue;
             }
-          
-            return Content(JsonTools.ObjectToJson(osct[0]));
+            
+            return Content(JsonTools.ObjectToJson(aa));
         }
         private static String FetchValue(String key)
         {

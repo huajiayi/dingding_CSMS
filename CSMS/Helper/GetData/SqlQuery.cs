@@ -53,9 +53,44 @@ namespace ContractStatementManagementSystem
             ObservableCollection<string> ww = new ObservableCollection<string>(Query<string>(sql));
             return ww;
         }
-        public static decimal ContractGetAmount(string start,string end)
+        public static decimal ContractGetAmount(string start, string end)
         {
-            string sql = String.Format(@"SELECT SUM(Contract_Amount)as Contract_Amount   FROM [ContractNameT] where Contract_Date between '{0}' and '{1}'", start,end);
+            string sql = String.Format(@"SELECT SUM(Contract_Amount)as Contract_Amount   FROM [ContractNameT] where Contract_Date between '{0}' and '{1}'", start, end);
+            return SqlGet(sql);
+        }
+        public static decimal ContractGetAmountByType(string start, string end,string type)
+        {
+            string sql = String.Format(@"SELECT SUM(Contract_Amount)as Contract_Amount   FROM [ContractNameT] where Contract_Date between '{0}' and '{1}' and Contract_Type='{2}'", start, end,type);
+            return SqlGet(sql);
+        }
+        public static decimal InvoiceAmountChart(string start, string end)
+        {
+            string sql = String.Format(@"SELECT SUM(Amount)as Contract_Amount   FROM [AccountantLog] where LogDate between '{0}' and '{1}'", start, end);
+            return SqlGet(sql);
+        }
+        public static decimal InvoiceAmountChart(string start, string end, string type)
+        {
+            string sql = String.Format(@"SELECT SUM(Amount)as Contract_Amount   FROM [AccountantLog]  as a join [ContractNameT] as c on a.ContractID=c.ID where a.LogDate between '{0}' and '{1}' and c.Contract_Type='{2}'", start, end, type);
+            return SqlGet(sql);
+        }
+        public static decimal AffirmIncomeAmountChart(string start, string end)
+        {
+            string sql = String.Format(@"SELECT SUM(AffirmIncomeAmount)as Contract_Amount   FROM [SalesLog] where LogDate between '{0}' and '{1}'", start, end);
+            return SqlGet(sql);
+        }
+        public static decimal AffirmIncomeAmountChart(string start, string end, string type)
+        {
+            string sql = String.Format(@"SELECT SUM(AffirmIncomeAmount)as Contract_Amount   FROM [SalesLog] as a join [ContractNameT] as c on a.ContractID=c.ID where a.LogDate between '{0}' and '{1}' and c.Contract_Type='{2}'", start, end, type);
+            return SqlGet(sql);
+        }
+        public static decimal InvoiceAmountChartInit()
+        {
+            string sql = String.Format(@"SELECT SUM(Amount)as Contract_Amount  FROM [AccountantLog] where 1=1");
+            return SqlGet(sql);
+        }
+        public static decimal AmountChartInit()
+        {
+            string sql = String.Format(@"SELECT SUM(Contract_Amount)as Contract_Amount  FROM [ContractNameT] where 1=1");
             return SqlGet(sql);
         }
         public static ObservableCollection<ContractNameT> ContractVQueryByName(string name,int N)
@@ -809,21 +844,21 @@ namespace ContractStatementManagementSystem
         }
         public static decimal SqlGet(string sql, object parameter = null)
         {
-            decimal a;
+            decimal a=0;
             using (var conn = new SqlConnection(@string))
             {
-
                 conn.Open();
-                SqlCommand comm = conn.CreateCommand();
-                comm.CommandText = sql;
-                SqlDataReader reader = comm.ExecuteReader();
-                var ee = reader.GetOrdinal("Contract_Amount");
-                if(ee == 0)
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var obj = cmd.ExecuteScalar();
+                if (obj != null)
                 {
-                    a = 0;
-                }
-                else {
-                    a = reader.GetDecimal(reader.GetOrdinal("Contract_Amount"));
+                    try
+                    {
+                        a = Convert.ToDecimal(obj);
+                    }
+                    catch {
+                        a = 0;
+                    }
                 }
             }
             return a;
