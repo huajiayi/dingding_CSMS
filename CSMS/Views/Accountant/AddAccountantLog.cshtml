@@ -22,7 +22,7 @@
             <form role="form" action="saveAccountantLog" method="post">
                 <div class="form-group">
                     <label class="control-label" for="txt_logName"><span style="color: red;">*</span>结算说明：</label>
-                    <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
+                    <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入结算说明" required />
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="txt_services"><span style="color: red;">*</span>服务款项：</label>
@@ -38,30 +38,30 @@
                         <option value="培训或服务完成客户签收单">培训或服务完成客户签收单</option>
                     </select>
                 </div>
-               
+
                 <div class="form-group">
-                    <label class="control-label" for="txt_affirmIncomeAmount"id="hhh">确认收入金额（不含税）：</label>
+                    <label class="control-label" for="txt_affirmIncomeAmount" id="hhh">确认收入金额（不含税）：</label>
                     <div class="input-group">
                         <label class="input-group-addon">￥</label>
-                        <input type="number" min="0" max="10000000000" step="0.01" class="form-control" id="txt_affirmIncomeAmount" name="AffirmIncomeAmount" placeholder="请输入确认收入金额" />
+                        <input type="number" min="0" max="10000000000" step="0.01" class="form-control" id="txt_affirmIncomeAmount" name="AffirmIncomeAmount" placeholder="请输入确认收入金额" oninput="computations()" onpropertychange="computations()" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="txt_cost" >已结转成本数量：</label>
+                    <label class="control-label" for="txt_cost">已结转成本数量：</label>
                     <input type="number" min="0" max="100000" class="form-control" id="txt_cost" name="Cost" placeholder="请输入已结转成本数量" />
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="txt_worker">直接人工：</label>
                     <div class="input-group">
                         <label class="input-group-addon">￥</label>
-                        <input type="number" min="0" max="10000000000" step="0.01" class="form-control" id="txt_worker" name="worker" placeholder="请输入直接人工" />
+                        <input type="number" min="0" max="10000000000" step="0.01" class="form-control" id="txt_worker" name="worker" placeholder="请输入直接人工" oninput="computations()" onpropertychange="computations()" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="txt_material">直接材料：</label>
                     <div class="input-group">
                         <label class="input-group-addon">￥</label>
-                        <input type="number" min="0" max="10000000000" step="0.01" class="form-control" id="txt_material" name="Material" placeholder="请输入直接材料" />
+                        <input type="number" min="0" max="10000000000" step="0.01" class="form-control" id="txt_material" name="Material" placeholder="请输入直接材料"oninput="computations()" onpropertychange="computations()"  />
                     </div>
                 </div>
                 <div class="form-group">
@@ -71,14 +71,14 @@
                 <div class="form-group">
                     <div class="text-center">
                         <button class="btn btn-primary" id="btn_save" type="submit">保存</button>
-                        <button class="btn btn-primary" id="btn_save" type="submit" onclick="location.href = '/Contract/Index'">返回</button>
+                        <button class="btn btn-primary" id="btn_save" type="submit" onclick="location.href = '/Accountant/Accountant'">返回</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
-   
+
     <script src="~/Scripts/js/addContract.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
@@ -104,7 +104,7 @@
     }
 });
     </script>
-   
+
     <script type="text/javascript">
       $(function(){
           var amountNotReceived = ss;

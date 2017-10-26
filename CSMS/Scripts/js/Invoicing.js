@@ -37,7 +37,7 @@ function fillServiceZZ(AccountantJson) {
 function fullData(name, count, Amount) {
     document.getElementById("lbl_contractName").innerHTML = "合同名称：" + name;
     document.getElementById("lbl_count").innerHTML = "已开票数量：" + count;
-    document.getElementById("lbl_amount").innerHTML = "开票金额：" + Amount;
+    document.getElementById("lbl_amount").innerHTML = "开票金额：" + Changemoney(Amount);
 
 }
 
@@ -84,7 +84,7 @@ function addLog(logName, date, service, Count, name, InDate, Amount) {
     var vCount = document.createElement("p");
     vCount.innerHTML = "开票数量：" + Count+"张";
     var vAmount = document.createElement("p");
-    vAmount.innerHTML = "开票金额：" + Amount+"元";
+    vAmount.innerHTML = "开票金额：" + Changemoney(Amount)+"元";
     var vInDate = document.createElement("p");
     vInDate.innerHTML = "开票日期：" + InDate;
     var span = document.createElement("span");

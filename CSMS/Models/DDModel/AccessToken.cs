@@ -13,5 +13,7 @@ namespace ContractStatementManagementSystem
         /// 票据的开始时间  
         /// </summary>  
         public DateTime Begin { get; set; } = DateTime.Parse("1970-01-01");
+
+        public Boolean flag = true;
     }
 }

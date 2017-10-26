@@ -79,6 +79,8 @@ namespace WebApplication4.Controllers
             inc.Contract_ID = ID;
             ObservableCollection<Contract_Data> odd= SqlQuery.Contract_DataByIDQuery(ID2);
             inc.Service = odd[0].Service;
+            ViewBag.Message = Session["username"];
+            inc.Name = ViewBag.Message;
             SqlQuery.insert(inc);
             ObservableCollection<Accountant> oc = SqlQuery.AccountantByServiceQuery(ID2);
             oc[0].SubInvoiceCount += inc.Count;

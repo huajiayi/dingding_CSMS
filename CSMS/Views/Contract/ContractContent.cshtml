@@ -33,6 +33,8 @@
                     <label class="brlabel" id="lbl_count">数量（套/个）：</label>
                     <label class="brlabel" id="lbl_contractNumber">合同编号：</label>
                     <label class="brlabel" id="lbl_signatureDate">合同签署日期：</label>
+                    <input type="checkbox" id="Process" onchange="changeProcess()" class="brlabel"><label class="brlabel">合同是否完成</label> 
+                    </div>
                     <hr style="border: 1px solid gray;" />
                     <h3>服务款项</h3>
                     <table class="table">
@@ -70,6 +72,7 @@
     <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/mmenu/jquery.mmenu.all.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/premissions.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/global.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
        @model ContractStatementManagementSystem.ContractNameT
         var ContractName = "@Model.ContractName";
@@ -79,9 +82,11 @@
         var Contract_Type = "@Model.Contract_Type";
         var Contract_Number = "@Model.Contract_Number";
         var Contract_Date = "@Model.Contract_Date.ToShortDateString()";
+        var Process=@Model.Process
         var ss = "@ViewBag.ServicesJson";
         var ID = "@Model.ID";
         var UserJson = sessionStorage.getItem("User");
+        
         jQuery(document).ready(function ($) {
             $("#menu").mmenu({
                 "navbar": {

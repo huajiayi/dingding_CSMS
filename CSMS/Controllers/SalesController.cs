@@ -89,10 +89,13 @@ namespace WebApplication4.Controllers
                 sl.ContractID = ID;
                 sl.ID = Guid.NewGuid();
                 sl.LogDate = DateTime.Now.ToString();
+                ViewBag.Message = Session["username"];
+                sl.Name = ViewBag.Message;
                 ObservableCollection<Contract_Data> cd = SqlQuery.Contract_DataByIDQuery(sl.ServiceID);
                 sl.Service = cd[0].Service;
                 GetData.SalesGet(sl, SqlQuery.SalesQuery(ID));
                 return RedirectToAction("Sales");
+
             }
             catch
             {

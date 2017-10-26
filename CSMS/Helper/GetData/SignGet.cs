@@ -57,7 +57,8 @@ namespace ContractStatementManagementSystem
             string nonceStr = SignPackageHelper.CreateNonceStr();
             TicketGet.ticketGet(a);
             JSTicket jsticket = TicketGet.Ticket;
-          
+           
+
 
             var signPackage = FetchSignPackage(url, jsticket);
             return signPackage;

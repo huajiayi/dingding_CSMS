@@ -27,6 +27,11 @@
             </div>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="chart" id="NoAmountCollection">
+
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="chart" id="AffirmIncomeAmountChart">
 
             </div>
@@ -42,33 +47,23 @@
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="chart" id="salesChart">
+            <div class="chart" id="Arr2">
 
             </div>
         </div>
-       
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        @*<div class="col-lg-6 col-md-6 col-sm-12">
             <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
             <div class="chart" id="salesBarChart">
 
             </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="chart" id="producitonChart">
-
-            </div>
-        </div>
+        </div> 
         <div class="col-lg-6 col-md-6 col-sm-12">
             <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
             <div class="chart" id="producitonBarChart">
 
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="chart" id="warehouseChart">
-
-            </div>
-        </div>
+ 
         <div class="col-lg-6 col-md-6 col-sm-12">
             <!--<span class="glyphicon glyphicon-fullscreen"></span>-->
             <div class="chart" id="warehouseBarChart">
@@ -76,7 +71,7 @@
             </div>
         </div>
 
-    </div>
+    </div>*@
 
     <div class="modal fade" style="z-index: 100000000;" id="filter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -109,6 +104,7 @@
                                 <option value="监测服务收入">监测服务收入</option>
                                 <option value="培训收入">培训收入</option>
                                 <option value="软件收入">软件收入</option>
+                                <option value="FB设备">FB设备</option>
                             </select>
                         </div>
                     </div>
@@ -177,28 +173,33 @@
     <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/echart/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/stats.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/global.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
-        var NoTotalRevenue = @ViewBag.NoTotalRevenue;
-        var TotalRevenue =@ViewBag.TotalRevenue;
-        var SumTotalProduct= @ViewBag.SumTotalProduct;
+
+        @*var SumTotalProduct= @ViewBag.SumTotalProduct;
         var SumNoTotalProduct= @ViewBag.SumNoTotalProduct;
         var SumNoShippedCount =@ViewBag.SumNoShippedCount;
         var SumReserves= @ViewBag.SumReserves ;
         var SumShippedCount=@ViewBag.SumShippedCount;
-        var ContractName="@ViewBag.ContractName";
+        var NoTotalRevenue = @ViewBag.NoTotalRevenue;
+        var TotalRevenue =@ViewBag.TotalRevenue;*@
+        @*var ContractName="@ViewBag.ContractName";
         var NoAmountCollection="@ViewBag.NoAmountCollection";
         var SubAffirmIncomeAmount="@ViewBag.SubAffirmIncomeAmount";
         var TotalProduct="@ViewBag.TotalProduct";
         var NoTotalProduct="@ViewBag.NoTotalProduct" ;
         var ShippedCount="@ViewBag.ShippedCount";
-        var NoShippedCount="@ViewBag.NoShippedCount";
-        var Ar="@ViewBag.Ar";
-        var aYear_on_yearGrowthRate1 ="@ViewBag.YOYincrease"
-        var aYear_on_yearGrowthRate2 ="@ViewBag.YOYincrease2"
-        var aYear_on_yearGrowthRate3 ="@ViewBag.YOYincrease3"
-        var aLinkGrowthRate1="@ViewBag.SIncreaseRate"
-        var aLinkGrowthRate2="@ViewBag.SIncreaseRate2"
-        var aLinkGrowthRate3="@ViewBag.SIncreaseRate3"
+        var NoShippedCount="@ViewBag.NoShippedCount";*@
+        var Ar = "@ViewBag.Ar";
+        var Ar2 = "@ViewBag.Ar2";
+        var aYear_on_yearGrowthRate1 = "@ViewBag.YOYincrease"
+        var aYear_on_yearGrowthRate2 = "@ViewBag.YOYincrease2"
+        var aYear_on_yearGrowthRate3 = "@ViewBag.YOYincrease3"
+        var aYear_on_yearGrowthRate4 = "@ViewBag.YOYincrease4"
+        var aLinkGrowthRate1 = "@ViewBag.SIncreaseRate"
+        var aLinkGrowthRate2 = "@ViewBag.SIncreaseRate2"
+        var aLinkGrowthRate3 = "@ViewBag.SIncreaseRate3"
+        var aLinkGrowthRate4 = "@ViewBag.SIncreaseRate4"
     </script>
 </body>
 

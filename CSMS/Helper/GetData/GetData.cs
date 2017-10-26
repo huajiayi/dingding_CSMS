@@ -190,8 +190,11 @@ namespace ContractStatementManagementSystem
                         c = 1.00M;
                     }
                 }
-                else {
-                    c = Math.Round(((Tyear[i] - Lyear[i]) / Lyear[i]), 2);
+                else
+                {
+                   
+                        c = Math.Round(((Tyear[i] - Lyear[i]) / Lyear[i]), 2);
+                   
                 }
                 
                 YOYincrease[i] = Convert.ToDouble(c);
@@ -213,16 +216,22 @@ namespace ContractStatementManagementSystem
                     {
                         if (Lyear[11] == 0)
                         {
-                            c = 0M;
+                            c = 0;
                         }
                         else {
-                            c = 1.00M;
+                            c = Math.Round(((Tyear[i] - Lyear[11]) / Lyear[11]), 2);
                         }
 
                     }
                     else
                     {
-                        c = Math.Round(((Tyear[i]-Lyear[11])/ Lyear[11]), 2);
+                        if (Lyear[11] == 0)
+                        {
+                            c = 1.00M;
+                        }
+                        else {
+                            c = Math.Round(((Tyear[i] - Lyear[11]) / Lyear[11]), 2);
+                        }
 
                     }
                     YOYincrease[i] = Convert.ToDouble(c);
@@ -240,7 +249,13 @@ namespace ContractStatementManagementSystem
                     }
                     else
                     {
-                        c = Math.Round(((Tyear[i]-Tyear[i-1])/ Tyear[i - 1]), 2);
+                        if (Tyear[i] == 0)
+                        {
+                            c = -1.00M;
+                        }
+                        else {
+                            c = Math.Round(((Tyear[i] - Tyear[i - 1]) / Tyear[i - 1]), 2);
+                        }
                     }
                 YOYincrease[i] = Convert.ToDouble(c);
                 }
@@ -272,6 +287,9 @@ namespace ContractStatementManagementSystem
                         break;
                     case 3:
                         Am = SqlQuery.AffirmIncomeAmountChart(start[i], End[i]);
+                        break;
+                    case 4:
+                        Am = SqlQuery.ContractGetNoAmountCollection(start[i], End[i]);
                         break;
                 }
                 TAmount.Add(Am);
@@ -316,21 +334,19 @@ namespace ContractStatementManagementSystem
             {
                 if (i == 0)
                 {
-                    if (Tyear[i] == 0)
+                    if (Lyear[11] == 0)
                     {
-                        if (Lyear[11] == 0)
+                        if (Tyear[0] == 0)
                         {
                             c = 0M;
                         }
                         else {
                             c = 1.00M;
-                        }
-                        
+                        } 
                     }
                     else
                     {
-                        c = Math.Round(((Tyear[i] - Lyear[11]) / Lyear[11]), 2);
-
+                            c = Math.Round(((Tyear[i] - Lyear[11]) / Lyear[11]), 2);
                     }
                     YOYincrease[i] = Convert.ToDouble(c);
                 }
@@ -348,7 +364,13 @@ namespace ContractStatementManagementSystem
                     }
                     else
                     {
-                        c = Math.Round(((Tyear[i] - Tyear[i - 1]) / Tyear[i - 1]), 2);
+                        if (Tyear[i] == 0)
+                        {
+                            c = 0M;
+                        }
+                        else {
+                            c = Math.Round(((Tyear[i] - Tyear[i - 1]) / Tyear[i - 1]), 2);
+                        }
                     }
                     YOYincrease[i] = Convert.ToDouble(c);
                 }
@@ -382,6 +404,9 @@ namespace ContractStatementManagementSystem
                         break;
                     case 3:
                         Am = SqlQuery.AffirmIncomeAmountChart(start[i], End[i], type);
+                        break;
+                    case 4:
+                        Am = SqlQuery.ContractGetNoAmountCollectionByType(start[i], End[i],type);
                         break;
                 }
                    TAmount.Add(Am);

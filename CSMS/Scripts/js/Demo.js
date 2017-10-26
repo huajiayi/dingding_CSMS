@@ -55,6 +55,7 @@ if (dd) {
                                     onFail: function (err) {
                                     }
                                 });
+                                location.href = "/Contract/Index";
                             } if (flag == "0") {
                                 dd.device.notification.alert({
                                     message: "你好" + User.name + ",您的ID为：" + User.userid,
@@ -67,7 +68,8 @@ if (dd) {
                                     onFail: function (err) {
                                     }
                                 });
-
+                                $(".loader").toggle();
+                                $(".vertical-center").toggle();
                             }
                         });
                     });
@@ -104,7 +106,6 @@ if (dd) {
 }
 if (DingTalkPC) {
     $.post("/DingDing/GetSignPackage?url=" + url, function (data, status) {
-
         var ddjson = data;
         var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
         var _config = JSON.parse(ddjson.replace(reg, '"'));

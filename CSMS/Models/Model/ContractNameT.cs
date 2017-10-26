@@ -16,5 +16,6 @@ namespace ContractStatementManagementSystem
         public string Contract_Number { get; set; }
         public DateTime Contract_Date { get; set; }
         public string ContractName { get; set; }
+        public int Process { get; set; }
     }
 }

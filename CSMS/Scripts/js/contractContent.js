@@ -23,12 +23,27 @@ function fullData(contractName, costumerName, contractType, contractAmount, coun
 	document.getElementById("lbl_contractName").innerHTML = "合同名称：" + contractName;
 	document.getElementById("lbl_costumerName").innerHTML = "合同方客户名称：" + costumerName;
 	document.getElementById("lbl_contractType").innerHTML = "合同类别：" + contractType;
-	document.getElementById("lbl_contractAmount").innerHTML = "合同金额（人民币元）：" + contractAmount;
+	document.getElementById("lbl_contractAmount").innerHTML = "合同金额（人民币元）：" + Changemoney(contractAmount);
 	document.getElementById("lbl_count").innerHTML = "数量（套/个）：" + count;
 	document.getElementById("lbl_contractNumber").innerHTML = "合同编号：" + contractNumber;
 	document.getElementById("lbl_signatureDate").innerHTML = "合同签署日期：" + signatureDate;
+	if (Process == 1) {
+	    $("#Process").attr("checked", "checked");
+	}
 }
-
+function changeProcess() {
+    var Process;
+    var kkk= document.getElementById("Process");
+    if(kkk.checked) {
+        Process = 1
+    } else {
+        Process = 0
+    }
+    $.post("changeProcess?Process=" + Process, function (data, status) {
+    
+     
+    });
+}
 //填充服务款项
 function fullServices(ss) {
     var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    

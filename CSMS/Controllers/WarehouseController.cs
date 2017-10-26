@@ -79,6 +79,8 @@ namespace WebApplication4.Controllers
                 wl.ContractID = ID;
                 wl.ID = Guid.NewGuid();
                 wl.LogDate = DateTime.Now.ToString();
+                ViewBag.Message = Session["username"];
+                wl.Name = ViewBag.Message;
                 GetData.WarehouseGet(wl, ow);
                 return RedirectToAction("Warehouse"); }
             catch (Exception)

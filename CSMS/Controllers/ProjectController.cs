@@ -112,6 +112,8 @@ namespace WebApplication4.Controllers
                 pl.ID = Guid.NewGuid();
                 pl.LogDate = DateTime.Now.ToString();
                 pl.ContractID = ID;
+                ViewBag.Message = Session["username"];
+                pl.Name = ViewBag.Message;
                 if (s2 == "ProjectStart")
                 {
                     jc = pd.ProjectStart;

@@ -355,6 +355,7 @@
     <Content Include="Scripts\js\datepicker\zh_CN.js" />
     <Content Include="Scripts\js\Demo.js" />
     <Content Include="Scripts\js\echart\echarts.common.min.js" />
+    <Content Include="Scripts\js\global.js" />
     <Content Include="Scripts\js\premissions.js" />
     <Content Include="Scripts\js\Invoicing.js" />
     <Content Include="Scripts\js\mmenu\echart\echarts.common.min.js" />

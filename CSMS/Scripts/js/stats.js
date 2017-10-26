@@ -57,96 +57,168 @@ function filterStats() {
     var start = $("#txt_startDate").val();
     var end = $("#txt_finishDate").val();
     var typ = $("#select_contractType").val();
-    
+
     if ($("#select_statsType").val() == "累计值" && $("#div_statsType").is(":hidden")) {
         $.post("/Contract/DoStats?Start=" + start + "&End=" + end + "&Typ=", function (result, status) {
-          
-           
-            salesChart.setOption({
-                title: {
-                    text: "合同收款情况",
-                    subtext: "总金额：" + (result[0] + result[3])
-                },
-                series: [{
-                    data: [{
-                        value: result[3],
-                        name: "未收金额"
-                    },
-                    {
-                        value: result[0],
-                        name: "已收金额"
-                    }
-                    ]
-                }],
-            });
+
+
+            //salesChart.setOption({
+            //    title: {
+            //        text: "合同收款情况",
+            //        subtext: "总金额：" + (result[0] + result[3])
+            //    },
+            //    series: [{
+            //        data: [{
+            //            value: result[3],
+            //            name: "未收金额"
+            //        },
+            //        {
+            //            value: result[0],
+            //            name: "已收金额"
+            //        }
+            //        ]
+            //    }],
+            //});
             Arr.setOption({
                 title: {
-                    text: "所有合同收款情况",
+                    text: "合同收款情况",
                 },
                 series: [{
                     data: [{
-                        value: result[1],
-                        name: "未收金额"
+                        value: result[0],
+                        name: "确认收入金额"
                     },
                     {
-                        value: result[3],
+                        value: result[1],
                         name: "签署金额"
                     },
                     {
                         value: result[2],
+                        name: "未收金额"
+                    },
+                    {
+                        value: result[3],
                         name: "已收金额"
                     }
 
+                    ]
+                }],
+            });
+            Arr2.setOption({
+                title: {
+                    text: "生产发货情况",
+                },
+                series: [{
+                    data: [{
+                        value: result[4],
+                        name: arr2[0],
+                    },
+                    {
+                        value: result[5],
+                        name: arr2[1],
+                    },
+                    {
+                        value: result[6],
+                        name: arr2[2],
+                    },
+                    {
+                        value: result[7],
+                        name: arr2[3],
+                    },
+                     {
+                         value: result[8],
+                         name: arr2[4],
+                     },
+                     {
+                         value: result[9],
+                         name: arr2[5],
+                     }
                     ]
                 }],
             });
         }, "json");
     } else if ($("#select_statsType").val() == "累计值" && $("#div_statsType").is(":visible")) {
         $.post("/Contract/DoStats?Start=" + start + "&End=" + end + "&Typ=" + typ, function (result, status) {
-            
-            salesChart.setOption({
-                title: {
-                    text: "所有合同收款情况",
-                    subtext: "总金额：" + (result[0] + result[3])
-                },
-                series: [{
-                    data: [{
-                        value: result[3],
-                        name: "未收金额"
-                    },
-                    {
-                        value: result[0],
-                        name: "已收金额"
-                    }
-                    ]
-                }],
-            });
+
+            //salesChart.setOption({
+            //    title: {
+            //        text: "所有合同收款情况",
+            //        subtext: "总金额：" + (result[0] + result[3])
+            //    },
+            //    series: [{
+            //        data: [{
+            //            value: result[3],
+            //            name: "未收金额"
+            //        },
+            //        {
+            //            value: result[0],
+            //            name: "已收金额"
+            //        }
+            //        ]
+            //    }],
+            //});
             Arr.setOption({
                 title: {
                     text: "合同收款情况",
                 },
                 series: [{
                     data: [{
-                        value: result[1],
-                        name: "未收金额"
+                        value: result[0],
+                        name: "确认收入金额"
                     },
-                     {
-                         value: result[3],
-                         name: "签署金额"
-                     },
+                    {
+                        value: result[1],
+                        name: "签署金额"
+                    },
                     {
                         value: result[2],
+                        name: "未收金额"
+                    },
+                    {
+                        value: result[3],
                         name: "已收金额"
                     }
 
                     ]
                 }],
             });
-        },"json");
+            Arr2.setOption({
+                title: {
+                    text: "生产发货情况",
+                },
+                series: [{
+                    data: [{
+                        value: result[4],
+                        name: arr2[0],
+                    },
+                    {
+                        value: result[5],
+                        name: arr2[1],
+                    },
+                    {
+                        value: result[6],
+                        name: arr2[2],
+                    },
+                    {
+                        value: result[7],
+                        name: arr2[3],
+                    },
+                     {
+                         value: result[8],
+                         name: arr2[4],
+                     },
+                     {
+                         value: result[9],
+                         name: arr2[5],
+                     }
+                    ]
+                }],
+            });
+        }, "json");
     } else if ($("#select_statsType").val() == "增长率" && $("#div_statsType").is(":hidden")) {
         accumulatedValueChart.setOption({
             title: {
-                text: "所有合同",
+                text: "签署金额",
             },
             series: [{
                 data: ToArray(aYear_on_yearGrowthRate1)
@@ -158,7 +230,7 @@ function filterStats() {
         });
         AffirmIncomeAmountChart.setOption({
             title: {
-                text:"已收金额",
+                text: "已收金额",
             },
             series: [{
                 data: ToArray(aYear_on_yearGrowthRate3)
@@ -170,7 +242,7 @@ function filterStats() {
         });
         InvoiceAmountChart.setOption({
             title: {
-                text: "确认收入",
+                text: "确认收入金额",
             },
             series: [{
                 data: ToArray(aYear_on_yearGrowthRate2)
@@ -180,13 +252,45 @@ function filterStats() {
 				}
             ]
         });
+        NoAmountCollections.setOption({
+            title: {
+                text: "确认收入金额",
+            },
+            series: [{
+                data: ToArray(aYear_on_yearGrowthRate4)
+            },
+				{
+				    data: ToArray(aLinkGrowthRate4)
+				}
+            ]
+        });
         console.log(1);
     } else {
+        accumulatedValueChart.setOption({
+            title: {
+                text:"数据加载请稍后...",
+            }
+        });
+        AffirmIncomeAmountChart.setOption({
+            title: {
+                text: "数据加载请稍后...",
+            }
+        });
+        InvoiceAmountChart.setOption({
+            title: {
+                text: "数据加载请稍后...",
+            }
+        });
+        NoAmountCollections.setOption({
+            title: {
+                text: "数据加载请稍后...",
+            }
+        });
         $.post("/Contract/ChangeStats?Type=" + typ, function (result, status) {
 
             accumulatedValueChart.setOption({
                 title: {
-                    text: $("#select_contractType").val()+"总金额",
+                    text: $("#select_contractType").val() + "签署金额",
                 },
                 series: [{
                     data: result[0]
@@ -198,7 +302,7 @@ function filterStats() {
             });
             AffirmIncomeAmountChart.setOption({
                 title: {
-                    text: $("#select_contractType").val()+"已收金额",
+                    text: $("#select_contractType").val() + "已收金额",
                 },
                 series: [{
                     data: result[4]
@@ -210,7 +314,7 @@ function filterStats() {
             });
             InvoiceAmountChart.setOption({
                 title: {
-                    text: $("#select_contractType").val()+"确认收入",
+                    text: $("#select_contractType").val() + "确认收入金额",
                 },
                 series: [{
                     data: result[2]
@@ -220,7 +324,19 @@ function filterStats() {
                     }
                 ]
             });
-        },"json");
+            NoAmountCollections.setOption({
+                title: {
+                    text: $("#select_contractType").val() + "未收入金额",
+                },
+                series: [{
+                    data: result[6]
+                },
+                    {
+                        data: result[7]
+                    }
+                ]
+            });
+        }, "json");
     }
     $("#filter").modal("hide");
 }
@@ -236,7 +352,9 @@ function ToArray(Json) {
 
 var accumulatedValueChart;
 var InvoiceAmountChart;
+var NoAmountCollections
 var Arr
+var Arr2
 var AffirmIncomeAmountChart;
 var salesChart;
 var salesBarChart;
@@ -244,29 +362,33 @@ var producitonChart;
 var producitonBarChart;
 var warehouseChart;
 var warehouseBarChart;
-var arr=["确认收入金额","签署金额","已收金额"]
+var arr = ["确认收入金额", "签署金额", "未收入金额", "已收入金额"];
+var arr2 = ["未生产量", "已生产量", "未发货量", "库存量", "已发货量","需求量"];
 $(function () {
-    accumulatedValueChart = initLineChart($("#accumulatedValueChart")[0], "所有合同", ToArray(aYear_on_yearGrowthRate1), ToArray(aLinkGrowthRate1));
-    InvoiceAmountChart = initLineChart($("#InvoiceAmountChart")[0], "确认收入", ToArray(aYear_on_yearGrowthRate2), ToArray(aLinkGrowthRate2));
+    accumulatedValueChart = initLineChart($("#accumulatedValueChart")[0], "签署金额", ToArray(aYear_on_yearGrowthRate1), ToArray(aLinkGrowthRate1));
+    InvoiceAmountChart = initLineChart($("#InvoiceAmountChart")[0], "确认收入金额", ToArray(aYear_on_yearGrowthRate2), ToArray(aLinkGrowthRate2));
     AffirmIncomeAmountChart = initLineChart($("#AffirmIncomeAmountChart")[0], "已收金额", ToArray(aYear_on_yearGrowthRate3), ToArray(aLinkGrowthRate3));
-    salesChart = initChart($("#salesChart")[0], "收款情况", "总金额：￥", "未收金额", "已收金额", NoTotalRevenue, TotalRevenue);
-    salesBarChart = initBarChart($("#salesBarChart")[0], "各合同收款情况", "未收金额", "已收金额", ToArray(ContractName), ToArray(NoAmountCollection), ToArray(SubAffirmIncomeAmount));
-    Arr = initBarChart2($("#Arr")[0], "各合同收款情况", "已收金额", arr, ToArray(Ar));
-    producitonChart = initChart($("#producitonChart")[0], "生产情况", "需求量：", "未生产量", "已生产量", SumNoTotalProduct, SumTotalProduct);
-    producitonBarChart = initBarChart($("#producitonBarChart")[0], "各合同生产情况", "未生产量", "已生产量", ToArray(ContractName), ToArray(NoTotalProduct), ToArray(TotalProduct));
-    warehouseChart = initChart($("#warehouseChart")[0], "发货情况", "库存量：" + SumReserves, "未发货数量", "已发货数量", SumNoShippedCount, SumShippedCount);
-    warehouseBarChart = initBarChart($("#warehouseBarChart")[0], "各合同发货情况", "未发货数量", "已发货数量", ToArray(ContractName), ToArray(NoShippedCount), ToArray(ShippedCount));
+    NoAmountCollections = initLineChart($("#NoAmountCollection")[0], "未收金额", ToArray(aYear_on_yearGrowthRate4), ToArray(aLinkGrowthRate4));
+    //salesChart = initChart($("#salesChart")[0], "收款情况", "总金额：￥", "未收金额", "已收金额", NoTotalRevenue, TotalRevenue);
+    //salesBarChart = initBarChart($("#salesBarChart")[0], "各合同收款情况", "未收金额", "已收金额", ToArray(ContractName), ToArray(NoAmountCollection), ToArray(SubAffirmIncomeAmount));
+    Arr = initBarChart2($("#Arr")[0], "合同收款情况","金额", arr, ToArray(Ar));
+    Arr2 = initBarChart2($("#Arr2")[0], "生产发货情况","数量", arr2, ToArray(Ar2));
+    //producitonChart = initChart($("#producitonChart")[0], "生产情况", "需求量：", "未生产量", "已生产量", SumNoTotalProduct, SumTotalProduct);
+    //producitonBarChart = initBarChart($("#producitonBarChart")[0], "各合同生产情况", "未生产量", "已生产量", ToArray(ContractName), ToArray(NoTotalProduct), ToArray(TotalProduct));
+    //warehouseChart = initChart($("#warehouseChart")[0], "发货情况", "库存量：" + SumReserves, "未发货数量", "已发货数量", SumNoShippedCount, SumShippedCount);
+    //warehouseBarChart = initBarChart($("#warehouseBarChart")[0], "各合同发货情况", "未发货数量", "已发货数量", ToArray(ContractName), ToArray(NoShippedCount), ToArray(ShippedCount));
     window.addEventListener("resize", function () {
         accumulatedValueChart.resize();
         Arr.resize();
         InvoiceAmountChart.resize();
         AffirmIncomeAmountChart.resize();
-        salesChart.resize();
-        salesBarChart.resize();
-        producitonChart.resize();
-        producitonBarChart.resize();
-        warehouseChart.resize();
-        warehouseBarChart.resize();
+        NoAmountCollections.resize();
+        //salesChart.resize();
+        //salesBarChart.resize();
+        //producitonChart.resize();
+        //producitonBarChart.resize();
+        //warehouseChart.resize();
+        //warehouseBarChart.resize();
     });
 });
 
@@ -318,7 +440,7 @@ function initChart(element, titleText, titleSubtext, legendData1, legendData2, d
     return myChart;
 }
 
-function initBarChart(element, titleText, legendData1, legendData2, aContractName, dataValue1, dataValue2) {
+function initBarChart(element, titleText, legendData1, legendData2, aContractName, dataValue1, dataValue2, hasDataZoom) {
     var myBarChart = echarts.init(element);
     var option = {
         title: {
@@ -407,18 +529,7 @@ function initBarChart2(element, titleText, legendData1, aContractName, dataValue
             }
         },
         yAxis: {},
-        dataZoom: [{ // 这个dataZoom组件，默认控制x轴。
-            type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-            start: 0, // 左边在 10% 的位置。
-            end: 10, // 右边在 60% 的位置。
-            //				filterMode: 'empty'
-        },
-			{ // 这个dataZoom组件，也控制x轴。
-			    type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
-			    start: 0, // 左边在 10% 的位置。
-			    end: 10 // 右边在 60% 的位置。
-			}
-        ],
+       
         series: [{
             name: legendData1,
             type: 'bar',

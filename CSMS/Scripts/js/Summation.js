@@ -46,20 +46,20 @@ function fullData( affirmIncomeGist, AffirmIncomeAmount, subInvoiceCount, subInv
    
    
     document.getElementById("lbl_affirmIncomeGist").innerHTML = "确认收入依据：" + affirmIncomeGist;
-    document.getElementById("lbl_AffirmIncomeAmount").innerHTML = "确认收入金额（不含税）：" + AffirmIncomeAmount;
-    document.getElementById("lbl_subInvoiceAmount").innerHTML = "已开票金额（含税）：" + subInvoiceAmount;
+    document.getElementById("lbl_AffirmIncomeAmount").innerHTML = "确认收入金额（不含税）：" + Changemoney(AffirmIncomeAmount);
+    document.getElementById("lbl_subInvoiceAmount").innerHTML = "已开票金额（含税）：" + Changemoney(subInvoiceAmount);
     document.getElementById("lbl_subInvoiceCount").innerHTML = "已开票数量：" + subInvoiceCount;
    
     document.getElementById("lbl_subCost").innerHTML = "已结转成本数量：" + subCost;
-    document.getElementById("lbl_subworker").innerHTML = "直接人工：" + subworker;
-    document.getElementById("lbl_subMaterial").innerHTML = "直接材料：" + subMaterial;
-    document.getElementById("lbl_subtotal").innerHTML = "小计：" + subtotal;
+    document.getElementById("lbl_subworker").innerHTML = "直接人工：" + Changemoney(subworker);
+    document.getElementById("lbl_subMaterial").innerHTML = "直接材料：" + Changemoney(subMaterial);
+    document.getElementById("lbl_subtotal").innerHTML = "小计：" + Changemoney(subtotal);
     document.getElementById("lbl_avgGrossrofitMargin").innerHTML = "2017年1-12月毛利率：" + avgGrossrofitMargin;
 }
 function fullData1( amountReceived, amountNotReceived) {
     
-    document.getElementById("lbl_amountReceived").innerHTML = "已收金额：" + amountReceived;
-    document.getElementById("lbl_amountNotReceived").innerHTML = "未收金额：" + amountNotReceived;
+    document.getElementById("lbl_amountReceived").innerHTML = "已收金额：" + Changemoney(amountReceived);
+    document.getElementById("lbl_amountNotReceived").innerHTML = "未收金额：" + Changemoney(amountNotReceived);
 }
 function fullData2( totalProduc, noTotalProduc) {
    
@@ -85,7 +85,7 @@ function fullData5(contractName, costumerName, contractType, contractAmount, cou
     document.getElementById("lbl_contractName").innerHTML = "合同名称：" + contractName;
     document.getElementById("lbl_costumerName").innerHTML = "合同方客户名称：" + costumerName;
     document.getElementById("lbl_contractType").innerHTML = "合同类别：" + contractType;
-    document.getElementById("lbl_contractAmount").innerHTML = "合同金额（人民币元）：" + contractAmount;
+    document.getElementById("lbl_contractAmount").innerHTML = "合同金额（人民币元）：" + Changemoney(contractAmount);
     document.getElementById("lbl_count").innerHTML = "数量（套/个）：" + count;
     document.getElementById("lbl_contractNumber").innerHTML = "合同编号：" + contractNumber;
     document.getElementById("lbl_signatureDate").innerHTML = "合同签署日期：" + signatureDate;

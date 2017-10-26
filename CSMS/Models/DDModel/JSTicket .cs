@@ -10,6 +10,7 @@ namespace ContractStatementManagementSystem
     {
         public string ticket { get; set; }
         public int expires_in { get; set; }
+        public DateTime dt =  DateTime.Parse("1970-01-01");
     }  
     
 }

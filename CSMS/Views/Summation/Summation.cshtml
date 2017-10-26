@@ -37,6 +37,7 @@
                         <label class="brlabel-lg" id="lbl_count">数量（套/个）：</label>
                         <label class="brlabel-lg" id="lbl_contractNumber">合同编号：</label>
                         <label class="brlabel-lg" id="lbl_signatureDate">合同签署日期：</label>
+
                         <div class="form-group">
                             <label class="control-label brlabel-lg" for="txt_services">服务款项：</label>
                             <select class="form-control" style="max-width: 30em;" id="txt_services" name="txt_services" onchange="serviceChanged(this.value);"></select>
@@ -272,12 +273,14 @@
         </div>
         <script src="http://g.alicdn.com/dingding/open-develop/1.6.9/dingtalk.js" type="text/javascript" charset="utf-8"></script>
         <script src="https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/js/global.js" type="text/javascript" charset="utf-8"></script>
         <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="~/Scripts/js/premissions.js" type="text/javascript" charset="utf-8"></script>
         <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
         <script src="~/Scripts/js/mmenu/jquery.mmenu.all.js" type="text/javascript" charset="utf-8"></script>
         <script src="~/Scripts/js/timeline/modernizr.js" type="text/javascript" charset="utf-8"></script>
         <script src="~/Scripts/js/Summation.js" type="text/javascript" charset="utf-8"></script>
+       
         <script type="text/javascript">
             var ProductionerJson = "@ViewBag.ProductionerJson";
             var WarehouseJson = "@ViewBag.WarehouseJson";

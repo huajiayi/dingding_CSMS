@@ -69,6 +69,7 @@ namespace WebApplication4.Controllers
                 cd.Service = Request["Service"];
                 ct.ID = Guid.NewGuid();
                 cd.ID = Guid.NewGuid();
+                ct.Process = 0;
                 cd.Contract_ID = ct.ID;
                 GetData.first(ct, cd);
                 SqlQuery.insert(cd);
@@ -147,6 +148,7 @@ namespace WebApplication4.Controllers
             
             ViewBag.ss = GetContractName();
             ViewBag.s1 = GetContractID();
+            ViewBag.s2 = GetContractProcess();
             return View();
         }
         public static string GetContractName() {
@@ -157,6 +159,19 @@ namespace WebApplication4.Controllers
             foreach (ContractNameT s in ctt)
             {
                 a[i++] = s.ContractName;
+
+            }
+            return JsonConvert.SerializeObject(a);
+        }
+        public static string GetContractProcess()
+        {
+            ObservableCollection<ContractNameT> ctt = SqlQuery.ContractQuery();
+
+            int[] a = new int[ctt.Count];
+            int i = 0;
+            foreach (ContractNameT s in ctt)
+            {
+                a[i++] = s.Process;
 
             }
             return JsonConvert.SerializeObject(a);
@@ -196,6 +211,13 @@ namespace WebApplication4.Controllers
 
             }
             return JsonConvert.SerializeObject(a);
+        }
+        public ActionResult changeProcess()
+        {
+            ViewBag.Message = Session["cc"];
+
+            SqlQuery.updateProcess(Convert.ToInt16(Request["Process"]),new Guid(ViewBag.Message));
+            return Content("22");
         }
         public ActionResult ContractContent()
         {
@@ -325,6 +347,8 @@ namespace WebApplication4.Controllers
             ld.Add(GetData.SIncreaseRate(Request["type"], 2));
             ld.Add(GetData.GetYOYincrease(Request["type"], 3));
             ld.Add(GetData.SIncreaseRate(Request["type"], 3));
+            ld.Add(GetData.GetYOYincrease(Request["type"], 4));
+            ld.Add(GetData.SIncreaseRate(Request["type"], 4));
             return Content(JsonTools.ObjectToJson(ld));
 
         }
@@ -332,7 +356,7 @@ namespace WebApplication4.Controllers
             ObservableCollection <SalesChart> osc= SqlQuery.DoSalesChart();
             ViewBag.NoTotalRevenue = osc[0].NoTotalRevenue;
             ViewBag.TotalRevenue = osc[0].TotalRevenue;
-            decimal[] Ar = { SqlQuery.InvoiceAmountChartInit(), SqlQuery.AmountChartInit(), osc[0].TotalRevenue };
+            decimal[] Ar = { SqlQuery.InvoiceAmountChartInit(), SqlQuery.AmountChartInit(), osc[0].NoTotalRevenue, osc[0].TotalRevenue};
             ViewBag.Ar = JsonTools.ObjectToJson(Ar);
             ObservableCollection<ProductionerChart> opc= SqlQuery.DoProductionerChart();
             ViewBag.SumNoTotalProduct = opc[0].SumNoTotalProduct;
@@ -340,37 +364,42 @@ namespace WebApplication4.Controllers
             ObservableCollection<WarehouseChart> owc= SqlQuery.DoWarehouseChart();
             ViewBag.SumNoShippedCount = owc[0].SumNoShippedCount;
             ViewBag.SumReserves = owc[0].SumReserves;
-            ViewBag.SumShippedCount=owc[0].SumShippedCount;   
-            ObservableCollection<Stats> oss = SqlQuery.StatsQuery();
-            string[] cn = new string[oss.Count];
-            decimal[] ona=new decimal[oss.Count];
-            decimal[] oa= new decimal[oss.Count];
-            double[] otp= new double[oss.Count];
-            double[] ontp= new double[oss.Count];
-            double[] os= new double[oss.Count];
-            double[] ons=new double[oss.Count];
-            for (int i=0;i<oss.Count;i++) {
-                cn[i] = oss[i].ContractName;
-                ona[i] = oss[i].NoAmountCollection;
-                oa[i] = oss[i].SubAffirmIncomeAmount;
-                otp[i] = oss[i].TotalProduct;
-                ontp[i] = oss[i].NoTotalProduct;
-                os[i] = oss[i].ShippedCount;
-                ons[i] = oss[i].NoShippedCount;
-            }
-            ViewBag.ContractName= JsonTools.ObjectToJson(cn);
-            ViewBag.NoAmountCollection = JsonTools.ObjectToJson(ona);
-            ViewBag.SubAffirmIncomeAmount = JsonTools.ObjectToJson(oa);
-            ViewBag.TotalProduct = JsonTools.ObjectToJson(otp);
-            ViewBag.NoTotalProduct = JsonTools.ObjectToJson(ontp);
-            ViewBag.ShippedCount = JsonTools.ObjectToJson(os);
-            ViewBag.NoShippedCount = JsonTools.ObjectToJson(ons);
+            ViewBag.SumShippedCount=owc[0].SumShippedCount;
+            double[] Ar2 = { opc[0].SumNoTotalProduct, opc[0].SumTotalProduct, owc[0].SumNoShippedCount, owc[0].SumReserves, owc[0].SumShippedCount, SqlQuery.ContractGetCount() };
+            //ObservableCollection<Stats> oss = SqlQuery.StatsQuery();
+            //string[] cn = new string[oss.Count];
+            //decimal[] ona=new decimal[oss.Count];
+            //decimal[] oa= new decimal[oss.Count];
+            //double[] otp= new double[oss.Count];
+            //double[] ontp= new double[oss.Count];
+            //double[] os= new double[oss.Count];
+            //double[] ons=new double[oss.Count];
+            //for (int i=0;i<oss.Count;i++) {
+            //    cn[i] = oss[i].ContractName;
+            //    ona[i] = oss[i].NoAmountCollection;
+            //    oa[i] = oss[i].SubAffirmIncomeAmount;
+            //    otp[i] = oss[i].TotalProduct;
+            //    ontp[i] = oss[i].NoTotalProduct;
+            //    os[i] = oss[i].ShippedCount;
+            //    ons[i] = oss[i].NoShippedCount;
+            //}
+            //ViewBag.ContractName= JsonTools.ObjectToJson(cn);
+            //ViewBag.NoAmountCollection = JsonTools.ObjectToJson(ona);
+            //ViewBag.SubAffirmIncomeAmount = JsonTools.ObjectToJson(oa);
+            //ViewBag.TotalProduct = JsonTools.ObjectToJson(otp);
+            //ViewBag.NoTotalProduct = JsonTools.ObjectToJson(ontp);
+            //ViewBag.ShippedCount = JsonTools.ObjectToJson(os);
+            //ViewBag.NoShippedCount = JsonTools.ObjectToJson(ons);
+            ViewBag.Ar2 = JsonTools.ObjectToJson(Ar2);
             ViewBag.YOYincrease = JsonTools.ObjectToJson(GetData.GetYOYincrease(1));
             ViewBag.SIncreaseRate = JsonTools.ObjectToJson(GetData.SIncreaseRate(1));
             ViewBag.YOYincrease2 = JsonTools.ObjectToJson(GetData.GetYOYincrease(2));
             ViewBag.SIncreaseRate2 = JsonTools.ObjectToJson(GetData.SIncreaseRate(2));
             ViewBag.YOYincrease3 = JsonTools.ObjectToJson(GetData.GetYOYincrease(3));
             ViewBag.SIncreaseRate3 = JsonTools.ObjectToJson(GetData.SIncreaseRate(3));
+            ViewBag.YOYincrease4 = JsonTools.ObjectToJson(GetData.GetYOYincrease(4));
+            ViewBag.SIncreaseRate4 = JsonTools.ObjectToJson(GetData.SIncreaseRate(4));
+
             return View();
         }
         public ActionResult DoStats()
@@ -379,22 +408,40 @@ namespace WebApplication4.Controllers
             string End = Request["End"];
             string Typ = Request["Typ"];
             ObservableCollection<SalesChart> osct = null;
-            decimal[] aa =new decimal[4];
+           
+            decimal[] aa =new decimal[10];
+            
             if (Typ == "")
             {
-                osct = SqlQuery.DoSalesChartByDate(Start, End);
-                aa[0] = osct[0].TotalRevenue;
-                aa[1] = SqlQuery.InvoiceAmountChart(Start, End);
-                aa[2] = SqlQuery.AffirmIncomeAmountChart(Start, End);
-                aa[3] = osct[0].NoTotalRevenue + osct[0].TotalRevenue;
+                aa[2] = SqlQuery.ContractGetNoAmountCollection(Start, End);
+                aa[0] = SqlQuery.InvoiceAmountChart(Start, End);
+                aa[3] = SqlQuery.AffirmIncomeAmountChart(Start, End);
+                aa[1] = SqlQuery.ContractGetAmount(Start, End);
+                aa[5]= Convert.ToDecimal( SqlQuery.DoProductionerChart2(Start, End));
+                aa[4] = Convert.ToDecimal(SqlQuery.DoProductionerChart(Start, End));
+                ObservableCollection<WarehouseChart> ow= SqlQuery.DoWarehouseChart2(Start, End);
+                ObservableCollection<WarehouseChart> oww= SqlQuery.DoWarehouseChart(Start, End);
+                aa[8] = Convert.ToDecimal(ow[0].SumShippedCount);
+                aa[7] = Convert.ToDecimal(oww[0].SumReserves);
+                aa[6] = Convert.ToDecimal(oww[0].SumNoShippedCount);
+                aa[9] = Convert.ToDecimal(SqlQuery.ContractGetCount(Start, End));
             }
             else {
-                osct = SqlQuery.DoSalesChartByDate(Start, End, Typ);
-                aa[0] = osct[0].TotalRevenue;
-                aa[1]= SqlQuery.InvoiceAmountChart(Start, End, Typ);
-                aa[2] = SqlQuery.AffirmIncomeAmountChart(Start, End, Typ);
-                aa[3] = osct[0].NoTotalRevenue+ osct[0].TotalRevenue;
+
+                aa[2] = SqlQuery.ContractGetNoAmountCollectionByType(Start, End, Typ);
+                aa[0]= SqlQuery.InvoiceAmountChart(Start, End, Typ);
+                aa[3] = SqlQuery.AffirmIncomeAmountChart(Start, End, Typ);
+                aa[1] = SqlQuery.ContractGetAmountByType(Start, End, Typ);
+                aa[5] = Convert.ToDecimal(SqlQuery.DoProductionerChart2(Start, End, Typ));
+                aa[4] = Convert.ToDecimal(SqlQuery.DoProductionerChart(Start, End, Typ));
+                ObservableCollection<WarehouseChart> ow = SqlQuery.DoWarehouseChart2(Start, End, Typ);
+                ObservableCollection<WarehouseChart> oww = SqlQuery.DoWarehouseChart(Start, End, Typ);
+                aa[8] = Convert.ToDecimal(ow[0].SumShippedCount);
+                aa[7] = Convert.ToDecimal(oww[0].SumReserves);
+                aa[6] = Convert.ToDecimal(oww[0].SumNoShippedCount);
+                aa[9] = Convert.ToDecimal(SqlQuery.ContractGetCountByType(Start, End, Typ));
             }
+            
             
             return Content(JsonTools.ObjectToJson(aa));
         }

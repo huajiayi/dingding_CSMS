@@ -130,6 +130,8 @@ namespace WebApplication4.Controllers
                 al.Subtotal = (Convert.ToDecimal(al.Material)+Convert.ToDecimal(al.worker)).ToString();
                 ObservableCollection<Contract_Data> cd = SqlQuery.Contract_DataByIDQuery(al.ServiceID);
                 al.Service = cd[0].Service;
+                ViewBag.Message = Session["username"];
+                al.Name = ViewBag.Message;
                 GetData.AccountantGet(al, at);
                 return RedirectToAction("Accountant");
             }

@@ -5,13 +5,19 @@ window.onload = function () {
     var data = JSON.parse(arr.replace(reg, '"'));
     var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
     var data2 = JSON.parse(arrID.replace(reg, '"'));
+    var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
+    var dataP = JSON.parse(arrP.replace(reg, '"'));
     if (data.length < 20) {
         $("#more").remove();
     }
     for (var i = 0; i < data.length; i++) {
         var listItem = document.createElement("a");
-       
-        listItem.className = "list-group-item";
+        if (dataP[i] == 1) {
+            listItem.className = "list-group-item";
+            listItem.style.backgroundColor = "#DFF0D8"
+        } else {
+            listItem.className = "list-group-item";
+        }
         listItem.innerHTML = data[i];
         contractListItems.appendChild(listItem);
 
@@ -37,7 +43,7 @@ function cha() {
     if (ch != "") {
     if (DingTalkPC) {
         DingTalkPC.biz.ding.post({
-            users: [sessionStorage.getItem("Project")],//用户列表，userid
+            users: [sessionStorage.getItem("Project"), sessionStorage.getItem("Production")],
             corpId: corpId, //加密的企业id
             type: 1, //钉类型 1：image  2：link
             alertType: 2,
@@ -79,8 +85,9 @@ function cha() {
                  });
 
             dd.ready(function () {
+                
                 dd.biz.ding.post({
-                    users: [sessionStorage.getItem("Project")],//用户列表，userid
+                    users: [sessionStorage.getItem("Project"), sessionStorage.getItem("Production")],//用户列表，userid
                     corpId: corpId, //加密的企业id
                     type: 0, //附件类型 1：image  2：link
                     alertType: 2,
@@ -253,7 +260,7 @@ function updateContractList(contractArr,N){
 	for(var i = 0; i < contractArr.length; i++){
 		var listItem = document.createElement("a");
 		listItem.href = "/Contract/ContractContent?ID=" + contractArr[i].ID;;
-		listItem.className = "list-group-item";
+		listItem.className = "list-group-item success";
 		listItem.innerHTML = contractArr[i].ContractName;
 		contractListItems.appendChild(listItem);
 	}

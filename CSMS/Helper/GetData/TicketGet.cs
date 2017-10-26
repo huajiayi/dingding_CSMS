@@ -17,9 +17,10 @@ namespace ContractStatementManagementSystem
         public static JSTicket Ticket;
         public static void ticketGet( AccessToken a)
         {
-            if (Ticket == null || a.Begin.AddSeconds(7200)< DateTime.Now)//jsTicket为null表示不存在或过期,或AccessToken过期  
+            
+            if (Ticket == null || a.flag)//jsTicket为null表示不存在或过期,或AccessToken过期  
             {
-
+              
                 string TicketUrl = "https://oapi.dingtalk.com/get_jsapi_ticket";
                 string apiurl = $"{TicketUrl}?access_token={a.Value}";
 
@@ -39,4 +40,7 @@ namespace ContractStatementManagementSystem
             }
         }
     }
+    public class time {
+      public DateTime dt= DateTime.Parse("1970-01-01");
+    } 
 }

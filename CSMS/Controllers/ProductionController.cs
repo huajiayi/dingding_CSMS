@@ -84,6 +84,8 @@ namespace WebApplication4.Controllers
             ptl.ContractID = ID;
             ptl.DepartmentID = pt[0].ID;
             ptl.LogDate= DateTime.Now.ToString();
+            ViewBag.Message = Session["username"];
+            ptl.Name = ViewBag.Message;
             GetData.ProductionerGet(ptl, pt, ow);
             return RedirectToAction("Production");
             }

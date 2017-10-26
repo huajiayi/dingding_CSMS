@@ -12,9 +12,9 @@ namespace ContractStatementManagementSystem
     public class AccessTokenGet
     {
         public static AccessToken AccessToken = new AccessToken();
-
         static string corpid = "corpid";
         static string corpsecret = "corpsecret";
+        
         #region UpdateAccessToken  
         /// <summary>  
         ///更新票据  
@@ -23,16 +23,16 @@ namespace ContractStatementManagementSystem
         public static void UpdateAccessToken(bool forced = false)
         {
             //ConstVars.CACHE_TIME是缓存时间(常量，也可放到配置文件中)，这样在有效期内则直接从缓存中获取票据，不需要再向服务器中获取。  
-            if (!forced && AccessToken.Begin.AddSeconds(7198) >= DateTime.Now)
+            if (!forced && AccessToken.Begin.AddSeconds(7200) >= DateTime.Now)
             {//没有强制更新，并且没有超过缓存时间  
+                AccessToken.flag = false;
                 return;
             }
-
+            AccessToken.flag = true;
             string CorpID = ConfigHelper.FetchCorpID();
             string CorpSecret = ConfigHelper.FetchCorpSecret();
             string TokenUrl = "https://oapi.dingtalk.com/gettoken";
             string apiurl = $"{TokenUrl}?{corpid}={CorpID}&{corpsecret}={CorpSecret}";
-
             WebRequest request = WebRequest.Create(@apiurl);
             request.Method = "GET";
             WebResponse response = request.GetResponse();

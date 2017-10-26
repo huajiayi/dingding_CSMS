@@ -42,9 +42,9 @@ function fullData(contractName, contractAmount, amountReceived, amountNotReceive
         document.getElementById("btn_amountCollection").disabled = "disabled";
     }
 	document.getElementById("lbl_contractName").innerHTML = "合同名称：" + contractName;
-	document.getElementById("lbl_contractAmount").innerHTML = "总金额：" + contractAmount;
-	document.getElementById("lbl_amountReceived").innerHTML = "已收金额：" + amountReceived;
-	document.getElementById("lbl_amountNotReceived").innerHTML = "未收金额：" + amountNotReceived;
+	document.getElementById("lbl_contractAmount").innerHTML = "总金额：" + Changemoney(contractAmount);
+	document.getElementById("lbl_amountReceived").innerHTML = "已收金额：" + Changemoney(amountReceived);
+	document.getElementById("lbl_amountNotReceived").innerHTML = "未收金额：" + Changemoney(amountNotReceived);
 }
 
 //填充日志ddddd
@@ -92,7 +92,7 @@ function addLog(logName, service, log, date, logDate, name,ID) {
     var p_service = document.createElement("p");
     p_service.innerHTML = "服务款项：" + service;
     var p_log = document.createElement("p");
-    p_log.innerHTML = "收款金额：" + log + " 元";
+    p_log.innerHTML = "收款金额：" + Changemoney(log) + " 元";
     var p_date = document.createElement("p");
     p_date.innerHTML = "收款日期：" + date;
     var span = document.createElement("span");

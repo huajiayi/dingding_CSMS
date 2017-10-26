@@ -48,6 +48,8 @@ namespace WebApplication4.Controllers
         {
            
                 string userid = Request["userid"];
+                ObservableCollection<Permissions> p = SqlQuery.PermissionsQueryByID(userid);
+                Session["username"] = p[0].Name;
                 ViewBag.Message = Session["Token"];
                 Session["userid"] = userid;
                 string s = ViewBag.Message;
@@ -60,6 +62,7 @@ namespace WebApplication4.Controllers
                 Encoding encode = Encoding.UTF8;
                 StreamReader reader = new StreamReader(stream, encode);
                 string resultJson = reader.ReadToEnd();
+                
                 ObservableCollection<string> obc = new ObservableCollection<string>();
                 ObservableCollection<Permissions> ops = SqlQuery.PermissionsQueryByID(userid);
 
@@ -67,11 +70,9 @@ namespace WebApplication4.Controllers
                 {
                     obc.Add(resultJson);
                     obc.Add("0");
-
                 }
                 else
                 {
-
                     obc.Add(resultJson);
                     obc.Add("1");
                 }
