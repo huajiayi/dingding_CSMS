@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Caching;
 
 namespace ContractStatementManagementSystem
 {
@@ -55,9 +56,15 @@ namespace ContractStatementManagementSystem
             int unixTimestamp = SignPackageHelper.ConvertToUnixTimeStamp(DateTime.Now);
             string timestamp = Convert.ToString(unixTimestamp);
             string nonceStr = SignPackageHelper.CreateNonceStr();
-            TicketGet.ticketGet(a);
-            JSTicket jsticket = TicketGet.Ticket;
-           
+            Cache cache2 = new Cache();
+            if (cache2["ticket"] == null)
+            {
+                TicketGet.ticketGet(a);
+                cache2.Add("ticket", TicketGet.Ticket, null, DateTime.Now.AddSeconds(7200), TimeSpan.Zero, CacheItemPriority.Normal, null);
+            }
+
+            JSTicket jsticket = (JSTicket)cache2["ticket"];
+
 
 
             var signPackage = FetchSignPackage(url, jsticket);

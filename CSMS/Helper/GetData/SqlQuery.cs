@@ -472,7 +472,7 @@ namespace ContractStatementManagementSystem
                 if (ob is AccountantLog)
                 {
                     AccountantLog a = (AccountantLog)ob;
-                    string sql0 = @"insert into AccountantLog(ID,DepartmentID,AffirmIncomeGist,AffirmIncomeAmount,InvoiceCount,InvoiceAmount,Cost,Material,worker,Manufacturing_Costs,Subtotal,GrossrofitMargin,ContractID,LogDate,LogName,ServiceID,Name,service) values(@ID,@DepartmentID,@AffirmIncomeGist,@AffirmIncomeAmount,@InvoiceCount,@InvoiceAmount,@Cost,@Material,@worker,@Manufacturing_Costs,@Subtotal,@GrossrofitMargin,@ContractID,@LogDate,@LogName,@ServiceID,@Name,@service)";
+                    string sql0 = @"insert into AccountantLog(ID,DepartmentID,AffirmIncomeGist,AffirmIncomeAmount,InvoiceCount,InvoiceAmount,Cost,Material,worker,Manufacturing_Costs,Subtotal,GrossrofitMargin,ContractID,LogDate,LogName,ServiceID,Name,service,Amount) values(@ID,@DepartmentID,@AffirmIncomeGist,@AffirmIncomeAmount,@InvoiceCount,@InvoiceAmount,@Cost,@Material,@worker,@Manufacturing_Costs,@Subtotal,@GrossrofitMargin,@ContractID,@LogDate,@LogName,@ServiceID,@Name,@service,@Amount)";
                     var dic = new Dictionary<string, object>();
                     dic.Add("@ID",a.ID);
                     dic.Add("@DepartmentID", a.DepartmentID);
@@ -492,6 +492,7 @@ namespace ContractStatementManagementSystem
                     dic.Add("@ServiceID", a.ServiceID);
                     dic.Add("@Name", a.Name);
                     dic.Add("@Service", a.Service);
+                    dic.Add("@Amount", a.Amount);
                     string s = string.Concat(sql0);
                     conn.Open();
                     conn.Execute(s, dic);

@@ -122,7 +122,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("Index", new { ex = "操作异常或超时已退回首页请退刷新重试" });
             }
         }
         public ActionResult Index()
@@ -274,69 +274,82 @@ namespace WebApplication4.Controllers
         }
         public ActionResult filtration()
         {
+            try
+            {
+                ObservableCollection<ContractNameT> ct = null;
+                if (Request["txt_keyword"] != "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "") {
+                    string txt_keyword = Request["txt_keyword"];
+                    string txt_startDat = (DateTime.Parse(Request["txt_startDate"]).ToString());
 
-            ObservableCollection<ContractNameT> ct = null;
-            if (Request["txt_keyword"] != "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "") {
-                string txt_keyword = Request["txt_keyword"];
-               string txt_startDat = (DateTime.Parse(Request["txt_startDate"]).ToString());
-                
-                string txt_endDate = Request["txt_endDate"];
-                
-                ct =SqlQuery.ContractVQueryByDateandName(txt_keyword, txt_startDat, txt_endDate,0);
-            }
-            if (Request["txt_keyword"] != "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "") {
-                string txt_keyword = Request["txt_keyword"];
-                ct = SqlQuery.ContractVQueryByName(txt_keyword,0);
-                System.IO.File.WriteAllText(@"D:\testDir\test1.txt", txt_keyword, Encoding.UTF8);
-            }
-            if (Request["txt_keyword"] == "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "")
+                    string txt_endDate = Request["txt_endDate"];
+
+                    ct = SqlQuery.ContractVQueryByDateandName(txt_keyword, txt_startDat, txt_endDate, 0);
+                }
+                if (Request["txt_keyword"] != "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "") {
+                    string txt_keyword = Request["txt_keyword"];
+                    ct = SqlQuery.ContractVQueryByName(txt_keyword, 0);
+                    System.IO.File.WriteAllText(@"D:\testDir\test1.txt", txt_keyword, Encoding.UTF8);
+                }
+                if (Request["txt_keyword"] == "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "")
+                {
+                    string txt_startDat = Request["txt_startDate"];
+                    string txt_endDate = Request["txt_endDate"];
+                    ct = SqlQuery.ContractVQueryByDate(txt_startDat, txt_endDate, 0);
+                }
+                if (Request["txt_keyword"] == "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "")
+                {
+                    return RedirectToAction("Index");
+                }
+                ViewBag.ss = GetContractName(ct);
+                ViewBag.s1 = GetContractID(ct);
+                ViewBag.Project = FetchValue("Project");
+                ViewBag.Production = FetchValue("Production");
+                ViewBag.s2 = GetContractProcess();
+                return View("Index"); }
+            catch
             {
-                string txt_startDat = Request["txt_startDate"];
-                string txt_endDate = Request["txt_endDate"];
-                 ct = SqlQuery.ContractVQueryByDate(txt_startDat, txt_endDate, 0);
+                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
             }
-            if (Request["txt_keyword"] == "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "")
-            {
-                return RedirectToAction("Index");
-            }
-            ViewBag.ss = GetContractName(ct);
-            ViewBag.s1 = GetContractID(ct);
-            return View("Index");
         }
         public ActionResult filtrationAjax()
         {
-            string a2 = Request["txt_keyword"];
-            string b = Request["txt_startDate"];
-            string c = Request["txt_endDate"];
-            string n=Request["ID"];
-            int a = Convert.ToInt16(n);
-            ObservableCollection<ContractNameT> ct = null;
-            if (Request["txt_keyword"] != "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "")
-            {
-                string txt_keyword = Request["txt_keyword"];
-                string txt_startDat = Request["txt_startDate"];
-                string txt_endDate = Request["txt_endDate"];
-                ct = SqlQuery.ContractVQueryByDateandName(txt_keyword, txt_startDat, txt_endDate, a);
-            }
-            if (Request["txt_keyword"] != "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "")
-            {
-                string txt_keyword = Request["txt_keyword"];
-                ct = SqlQuery.ContractVQueryByName(txt_keyword, a);
-            }
-            if (Request["txt_keyword"] == "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "")
-            {
-                string txt_startDat = Request["txt_startDate"];
-                string txt_endDate = Request["txt_endDate"];
-                ct = SqlQuery.ContractVQueryByDate(txt_startDat, txt_endDate, a);
-            }
-            if (Request["txt_keyword"] == "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "")
-            {
+            try {
+                string a2 = Request["txt_keyword"];
+                string b = Request["txt_startDate"];
+                string c = Request["txt_endDate"];
+                string n = Request["ID"];
+                int a = Convert.ToInt16(n);
+                ObservableCollection<ContractNameT> ct = null;
+                if (Request["txt_keyword"] != "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "")
+                {
+                    string txt_keyword = Request["txt_keyword"];
+                    string txt_startDat = Request["txt_startDate"];
+                    string txt_endDate = Request["txt_endDate"];
+                    ct = SqlQuery.ContractVQueryByDateandName(txt_keyword, txt_startDat, txt_endDate, a);
+                }
+                if (Request["txt_keyword"] != "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "")
+                {
+                    string txt_keyword = Request["txt_keyword"];
+                    ct = SqlQuery.ContractVQueryByName(txt_keyword, a);
+                }
+                if (Request["txt_keyword"] == "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "")
+                {
+                    string txt_startDat = Request["txt_startDate"];
+                    string txt_endDate = Request["txt_endDate"];
+                    ct = SqlQuery.ContractVQueryByDate(txt_startDat, txt_endDate, a);
+                }
+                if (Request["txt_keyword"] == "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "")
+                {
 
-                ct = SqlQuery.ContractQuery(a);
+                    ct = SqlQuery.ContractQuery(a);
+                }
+                string result = JsonTools.ObjectToJson(ct);
+                return Content(result);
             }
-            string result = JsonTools.ObjectToJson(ct);
-            return Content(result);
-          
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { ex = "操作异常或超时已退回首页请退刷新重试" });
+            }
         }
         public ActionResult ChangeStats() {
 
@@ -353,97 +366,110 @@ namespace WebApplication4.Controllers
 
         }
         public ActionResult Stats() {
-            ObservableCollection <SalesChart> osc= SqlQuery.DoSalesChart();
-            ViewBag.NoTotalRevenue = osc[0].NoTotalRevenue;
-            ViewBag.TotalRevenue = osc[0].TotalRevenue;
-            decimal[] Ar = { SqlQuery.InvoiceAmountChartInit(), SqlQuery.AmountChartInit(), osc[0].NoTotalRevenue, osc[0].TotalRevenue};
-            ViewBag.Ar = JsonTools.ObjectToJson(Ar);
-            ObservableCollection<ProductionerChart> opc= SqlQuery.DoProductionerChart();
-            ViewBag.SumNoTotalProduct = opc[0].SumNoTotalProduct;
-            ViewBag.SumTotalProduct = opc[0].SumTotalProduct;
-            ObservableCollection<WarehouseChart> owc= SqlQuery.DoWarehouseChart();
-            ViewBag.SumNoShippedCount = owc[0].SumNoShippedCount;
-            ViewBag.SumReserves = owc[0].SumReserves;
-            ViewBag.SumShippedCount=owc[0].SumShippedCount;
-            double[] Ar2 = { opc[0].SumNoTotalProduct, opc[0].SumTotalProduct, owc[0].SumNoShippedCount, owc[0].SumReserves, owc[0].SumShippedCount, SqlQuery.ContractGetCount() };
-            //ObservableCollection<Stats> oss = SqlQuery.StatsQuery();
-            //string[] cn = new string[oss.Count];
-            //decimal[] ona=new decimal[oss.Count];
-            //decimal[] oa= new decimal[oss.Count];
-            //double[] otp= new double[oss.Count];
-            //double[] ontp= new double[oss.Count];
-            //double[] os= new double[oss.Count];
-            //double[] ons=new double[oss.Count];
-            //for (int i=0;i<oss.Count;i++) {
-            //    cn[i] = oss[i].ContractName;
-            //    ona[i] = oss[i].NoAmountCollection;
-            //    oa[i] = oss[i].SubAffirmIncomeAmount;
-            //    otp[i] = oss[i].TotalProduct;
-            //    ontp[i] = oss[i].NoTotalProduct;
-            //    os[i] = oss[i].ShippedCount;
-            //    ons[i] = oss[i].NoShippedCount;
-            //}
-            //ViewBag.ContractName= JsonTools.ObjectToJson(cn);
-            //ViewBag.NoAmountCollection = JsonTools.ObjectToJson(ona);
-            //ViewBag.SubAffirmIncomeAmount = JsonTools.ObjectToJson(oa);
-            //ViewBag.TotalProduct = JsonTools.ObjectToJson(otp);
-            //ViewBag.NoTotalProduct = JsonTools.ObjectToJson(ontp);
-            //ViewBag.ShippedCount = JsonTools.ObjectToJson(os);
-            //ViewBag.NoShippedCount = JsonTools.ObjectToJson(ons);
-            ViewBag.Ar2 = JsonTools.ObjectToJson(Ar2);
-            ViewBag.YOYincrease = JsonTools.ObjectToJson(GetData.GetYOYincrease(1));
-            ViewBag.SIncreaseRate = JsonTools.ObjectToJson(GetData.SIncreaseRate(1));
-            ViewBag.YOYincrease2 = JsonTools.ObjectToJson(GetData.GetYOYincrease(2));
-            ViewBag.SIncreaseRate2 = JsonTools.ObjectToJson(GetData.SIncreaseRate(2));
-            ViewBag.YOYincrease3 = JsonTools.ObjectToJson(GetData.GetYOYincrease(3));
-            ViewBag.SIncreaseRate3 = JsonTools.ObjectToJson(GetData.SIncreaseRate(3));
-            ViewBag.YOYincrease4 = JsonTools.ObjectToJson(GetData.GetYOYincrease(4));
-            ViewBag.SIncreaseRate4 = JsonTools.ObjectToJson(GetData.SIncreaseRate(4));
+            try
+            {
+                ObservableCollection<SalesChart> osc = SqlQuery.DoSalesChart();
+                ViewBag.NoTotalRevenue = osc[0].NoTotalRevenue;
+                ViewBag.TotalRevenue = osc[0].TotalRevenue;
+                decimal[] Ar = { SqlQuery.InvoiceAmountChartInit(), SqlQuery.AmountChartInit(), osc[0].NoTotalRevenue, osc[0].TotalRevenue };
+                ViewBag.Ar = JsonTools.ObjectToJson(Ar);
+                ObservableCollection<ProductionerChart> opc = SqlQuery.DoProductionerChart();
+                ViewBag.SumNoTotalProduct = opc[0].SumNoTotalProduct;
+                ViewBag.SumTotalProduct = opc[0].SumTotalProduct;
+                ObservableCollection<WarehouseChart> owc = SqlQuery.DoWarehouseChart();
+                ViewBag.SumNoShippedCount = owc[0].SumNoShippedCount;
+                ViewBag.SumReserves = owc[0].SumReserves;
+                ViewBag.SumShippedCount = owc[0].SumShippedCount;
+                double[] Ar2 = { opc[0].SumNoTotalProduct, opc[0].SumTotalProduct, owc[0].SumNoShippedCount, owc[0].SumReserves, owc[0].SumShippedCount, SqlQuery.ContractGetCount() };
+                //ObservableCollection<Stats> oss = SqlQuery.StatsQuery();
+                //string[] cn = new string[oss.Count];
+                //decimal[] ona=new decimal[oss.Count];
+                //decimal[] oa= new decimal[oss.Count];
+                //double[] otp= new double[oss.Count];
+                //double[] ontp= new double[oss.Count];
+                //double[] os= new double[oss.Count];
+                //double[] ons=new double[oss.Count];
+                //for (int i=0;i<oss.Count;i++) {
+                //    cn[i] = oss[i].ContractName;
+                //    ona[i] = oss[i].NoAmountCollection;
+                //    oa[i] = oss[i].SubAffirmIncomeAmount;
+                //    otp[i] = oss[i].TotalProduct;
+                //    ontp[i] = oss[i].NoTotalProduct;
+                //    os[i] = oss[i].ShippedCount;
+                //    ons[i] = oss[i].NoShippedCount;
+                //}
+                //ViewBag.ContractName= JsonTools.ObjectToJson(cn);
+                //ViewBag.NoAmountCollection = JsonTools.ObjectToJson(ona);
+                //ViewBag.SubAffirmIncomeAmount = JsonTools.ObjectToJson(oa);
+                //ViewBag.TotalProduct = JsonTools.ObjectToJson(otp);
+                //ViewBag.NoTotalProduct = JsonTools.ObjectToJson(ontp);
+                //ViewBag.ShippedCount = JsonTools.ObjectToJson(os);
+                //ViewBag.NoShippedCount = JsonTools.ObjectToJson(ons);
+                ViewBag.Ar2 = JsonTools.ObjectToJson(Ar2);
+                ViewBag.YOYincrease = JsonTools.ObjectToJson(GetData.GetYOYincrease(1));
+                ViewBag.SIncreaseRate = JsonTools.ObjectToJson(GetData.SIncreaseRate(1));
+                ViewBag.YOYincrease2 = JsonTools.ObjectToJson(GetData.GetYOYincrease(2));
+                ViewBag.SIncreaseRate2 = JsonTools.ObjectToJson(GetData.SIncreaseRate(2));
+                ViewBag.YOYincrease3 = JsonTools.ObjectToJson(GetData.GetYOYincrease(3));
+                ViewBag.SIncreaseRate3 = JsonTools.ObjectToJson(GetData.SIncreaseRate(3));
+                ViewBag.YOYincrease4 = JsonTools.ObjectToJson(GetData.GetYOYincrease(4));
+                ViewBag.SIncreaseRate4 = JsonTools.ObjectToJson(GetData.SIncreaseRate(4));
 
-            return View();
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+            }
         }
         public ActionResult DoStats()
         {
-            string Start = Request["Start"];
-            string End = Request["End"];
-            string Typ = Request["Typ"];
-            ObservableCollection<SalesChart> osct = null;
-           
-            decimal[] aa =new decimal[10];
-            
-            if (Typ == "")
-            {
-                aa[2] = SqlQuery.ContractGetNoAmountCollection(Start, End);
-                aa[0] = SqlQuery.InvoiceAmountChart(Start, End);
-                aa[3] = SqlQuery.AffirmIncomeAmountChart(Start, End);
-                aa[1] = SqlQuery.ContractGetAmount(Start, End);
-                aa[5]= Convert.ToDecimal( SqlQuery.DoProductionerChart2(Start, End));
-                aa[4] = Convert.ToDecimal(SqlQuery.DoProductionerChart(Start, End));
-                ObservableCollection<WarehouseChart> ow= SqlQuery.DoWarehouseChart2(Start, End);
-                ObservableCollection<WarehouseChart> oww= SqlQuery.DoWarehouseChart(Start, End);
-                aa[8] = Convert.ToDecimal(ow[0].SumShippedCount);
-                aa[7] = Convert.ToDecimal(oww[0].SumReserves);
-                aa[6] = Convert.ToDecimal(oww[0].SumNoShippedCount);
-                aa[9] = Convert.ToDecimal(SqlQuery.ContractGetCount(Start, End));
-            }
-            else {
+            try {
+                string Start = Request["Start"];
+                string End = Request["End"];
+                string Typ = Request["Typ"];
+                ObservableCollection<SalesChart> osct = null;
 
-                aa[2] = SqlQuery.ContractGetNoAmountCollectionByType(Start, End, Typ);
-                aa[0]= SqlQuery.InvoiceAmountChart(Start, End, Typ);
-                aa[3] = SqlQuery.AffirmIncomeAmountChart(Start, End, Typ);
-                aa[1] = SqlQuery.ContractGetAmountByType(Start, End, Typ);
-                aa[5] = Convert.ToDecimal(SqlQuery.DoProductionerChart2(Start, End, Typ));
-                aa[4] = Convert.ToDecimal(SqlQuery.DoProductionerChart(Start, End, Typ));
-                ObservableCollection<WarehouseChart> ow = SqlQuery.DoWarehouseChart2(Start, End, Typ);
-                ObservableCollection<WarehouseChart> oww = SqlQuery.DoWarehouseChart(Start, End, Typ);
-                aa[8] = Convert.ToDecimal(ow[0].SumShippedCount);
-                aa[7] = Convert.ToDecimal(oww[0].SumReserves);
-                aa[6] = Convert.ToDecimal(oww[0].SumNoShippedCount);
-                aa[9] = Convert.ToDecimal(SqlQuery.ContractGetCountByType(Start, End, Typ));
+                decimal[] aa = new decimal[10];
+
+                if (Typ == "")
+                {
+                    aa[2] = SqlQuery.ContractGetNoAmountCollection(Start, End);
+                    aa[0] = SqlQuery.InvoiceAmountChart(Start, End);
+                    aa[3] = SqlQuery.AffirmIncomeAmountChart(Start, End);
+                    aa[1] = SqlQuery.ContractGetAmount(Start, End);
+                    aa[5] = Convert.ToDecimal(SqlQuery.DoProductionerChart2(Start, End));
+                    aa[4] = Convert.ToDecimal(SqlQuery.DoProductionerChart(Start, End));
+                    ObservableCollection<WarehouseChart> ow = SqlQuery.DoWarehouseChart2(Start, End);
+                    ObservableCollection<WarehouseChart> oww = SqlQuery.DoWarehouseChart(Start, End);
+                    aa[8] = Convert.ToDecimal(ow[0].SumShippedCount);
+                    aa[7] = Convert.ToDecimal(oww[0].SumReserves);
+                    aa[6] = Convert.ToDecimal(oww[0].SumNoShippedCount);
+                    aa[9] = Convert.ToDecimal(SqlQuery.ContractGetCount(Start, End));
+                }
+                else {
+
+                    aa[2] = SqlQuery.ContractGetNoAmountCollectionByType(Start, End, Typ);
+                    aa[0] = SqlQuery.InvoiceAmountChart(Start, End, Typ);
+                    aa[3] = SqlQuery.AffirmIncomeAmountChart(Start, End, Typ);
+                    aa[1] = SqlQuery.ContractGetAmountByType(Start, End, Typ);
+                    aa[5] = Convert.ToDecimal(SqlQuery.DoProductionerChart2(Start, End, Typ));
+                    aa[4] = Convert.ToDecimal(SqlQuery.DoProductionerChart(Start, End, Typ));
+                    ObservableCollection<WarehouseChart> ow = SqlQuery.DoWarehouseChart2(Start, End, Typ);
+                    ObservableCollection<WarehouseChart> oww = SqlQuery.DoWarehouseChart(Start, End, Typ);
+                    aa[8] = Convert.ToDecimal(ow[0].SumShippedCount);
+                    aa[7] = Convert.ToDecimal(oww[0].SumReserves);
+                    aa[6] = Convert.ToDecimal(oww[0].SumNoShippedCount);
+                    aa[9] = Convert.ToDecimal(SqlQuery.ContractGetCountByType(Start, End, Typ));
+                }
+
+
+                return Content(JsonTools.ObjectToJson(aa));
             }
-            
-            
-            return Content(JsonTools.ObjectToJson(aa));
+            catch
+            {
+                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+            }
         }
         private static String FetchValue(String key)
         {

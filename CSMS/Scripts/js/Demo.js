@@ -91,15 +91,18 @@ if (dd) {
         });
        
         dd.error(function (err) {                                             //验证失败  
-            dd.device.notification.alert({
-                message: "尝试退出或刷新" + err,
-                title: "验证失败",//可传空
-                buttonName: "确定",
-                onSuccess: function () {
+            $.post("/DingDing/DeleteCache", function (data, status) {
+                dd.device.notification.alert({
+                    message: "尝试退出或刷新",
+                    title: "验证失败",//可传空
+                    buttonName: "确定",
+                    onSuccess: function () {
+                        /*回调*/
 
-                },
-                onFail: function (err) { }
-            });
+                    },
+                    onFail: function (err) { }
+                });
+            })//验证失败  
         });
     });
 
@@ -178,15 +181,18 @@ if (DingTalkPC) {
             });
         });
         DingTalkPC.error(function (err) {                                             //验证失败  
-            DingTalkPC.device.notification.alert({
-                message: "尝试退出或刷新" + err,
-                title: "验证失败",//可传空
-                buttonName: "确定",
-                onSuccess: function () {
-                    /*回调*/
-                },
-                onFail: function (err) { }
-            });
+            $.post("/DingDing/DeleteCache", function (data, status) {
+                DingTalkPC.device.notification.alert({
+                    message: "尝试退出或刷新",
+                    title: "验证失败",//可传空
+                    buttonName: "确定",
+                    onSuccess: function () {
+                        /*回调*/
+
+                    },
+                    onFail: function (err) { }
+                });
+            })//验证失败  
         });
     });
 

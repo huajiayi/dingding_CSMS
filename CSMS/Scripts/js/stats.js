@@ -371,7 +371,7 @@ $(function () {
     NoAmountCollections = initLineChart($("#NoAmountCollection")[0], "未收金额", ToArray(aYear_on_yearGrowthRate4), ToArray(aLinkGrowthRate4));
     //salesChart = initChart($("#salesChart")[0], "收款情况", "总金额：￥", "未收金额", "已收金额", NoTotalRevenue, TotalRevenue);
     //salesBarChart = initBarChart($("#salesBarChart")[0], "各合同收款情况", "未收金额", "已收金额", ToArray(ContractName), ToArray(NoAmountCollection), ToArray(SubAffirmIncomeAmount));
-    Arr = initBarChart2($("#Arr")[0], "合同收款情况","金额", arr, ToArray(Ar));
+    Arr = initBarChart1($("#Arr")[0], "合同收款情况","金额", arr, ToArray(Ar));
     Arr2 = initBarChart2($("#Arr2")[0], "生产发货情况","数量", arr2, ToArray(Ar2));
     //producitonChart = initChart($("#producitonChart")[0], "生产情况", "需求量：", "未生产量", "已生产量", SumNoTotalProduct, SumTotalProduct);
     //producitonBarChart = initBarChart($("#producitonBarChart")[0], "各合同生产情况", "未生产量", "已生产量", ToArray(ContractName), ToArray(NoTotalProduct), ToArray(TotalProduct));
@@ -511,7 +511,7 @@ function initBarChart2(element, titleText, legendData1, aContractName, dataValue
         },
         tooltip: {
             trigger: 'item',
-            formatter: "{a} : ￥{c}"
+            formatter: "{a} : {c}（个/套）"
         },
         legend: {
             orient: 'vertical',
@@ -545,7 +545,49 @@ function initBarChart2(element, titleText, legendData1, aContractName, dataValue
     myBarChart.setOption(option, false, true);
     return myBarChart;
 }
+function initBarChart1(element, titleText, legendData1, aContractName, dataValue1) {
+    var myBarChart = echarts.init(element);
+    var option = {
+        title: {
+            text: titleText,
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} : ￥{c}"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: [legendData1],
+        },
+        grid: {
+            bottom: '30%'
+        },
+        xAxis: {
+            data: aContractName,
+            axisLabel: {
+                interval: 0, //横轴信息全部显示  
+                rotate: -30, //-30度角倾斜显示  
+            }
+        },
+        yAxis: {},
 
+        series: [{
+            name: legendData1,
+            type: 'bar',
+            data: dataValue1,
+            itemStyle: {
+                normal: {
+                    color: '#333'
+                }
+            }
+        }
+        ]
+    };
+    myBarChart.setOption(option, false, true);
+    return myBarChart;
+}
 function initLineChart(element, titleText, dataValue1, dataValue2) {
     var myLineChart = echarts.init(element);
     option = {

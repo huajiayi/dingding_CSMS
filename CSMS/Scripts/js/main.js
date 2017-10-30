@@ -257,8 +257,14 @@ function updateContractList(contractArr,N){
 	    contractListItems.removeChild(listItems[i]);
 	}}
 	//添加项
-	for(var i = 0; i < contractArr.length; i++){
-		var listItem = document.createElement("a");
+    for (var i = 0; i < contractArr.length; i++) {
+        var listItem = document.createElement("a");
+        if (contractArr[i].Process == 1) {
+            listItem.className = "list-group-item";
+            listItem.style.backgroundColor = "#DFF0D8"
+        } else {
+            listItem.className = "list-group-item";
+        }
 		listItem.href = "/Contract/ContractContent?ID=" + contractArr[i].ID;;
 		listItem.className = "list-group-item success";
 		listItem.innerHTML = contractArr[i].ContractName;
