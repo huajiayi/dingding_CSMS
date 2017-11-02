@@ -11,7 +11,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Web.Caching;
-
+using System.Threading.Tasks;
 namespace WebApplication4.Controllers
 {
     public class DingDingController : Controller
@@ -23,15 +23,16 @@ namespace WebApplication4.Controllers
         }
         public ActionResult GetSignPackage()
         {
-            Cache cache =new Cache();
-            if (cache["Token"] == null)
+           
+            if (HttpContext.Cache["Token"] == null)
             {
                 AccessTokenGet.UpdateAccessToken();
-                cache.Add("Token", AccessTokenGet.AccessToken, null, DateTime.Now.AddSeconds(7200), TimeSpan.Zero, CacheItemPriority.Normal, null); ;
+                HttpContext.Cache.Insert("Token", AccessTokenGet.AccessToken, null, DateTime.Now.AddSeconds(3600), TimeSpan.Zero, CacheItemPriority.Normal, null); 
             }
-            AccessToken token = (AccessToken)cache["Token"];
+            AccessToken token = (AccessToken)HttpContext.Cache["Token"];
             Session["Token"] = token.Value;
             var signPackage = SignGet.FetchSignPackage(Request["url"], token);
+
             return Content(JsonTools.ObjectToJson(signPackage));
         }
         public ActionResult GetuserId()
@@ -154,17 +155,22 @@ namespace WebApplication4.Controllers
         }
         public ActionResult DeleteCache()
         {
-            Cache cache = new Cache();
-            if (cache["Token"] != null)
+           
+            if (HttpContext.Cache["Token"] != null)
             {
-                cache.Remove("Token");
-                if (cache["ticket"] != null)
+                HttpContext.Cache.Remove("Token");
+                
+            }if (HttpContext.Cache["ticket"] != null)
                 {
-                    cache.Remove("ticket");
-                }
+                HttpContext.Cache.Remove("ticket");
             }
             return Content(JsonTools.ObjectToJson(""));
 
+        }
+        public ActionResult GetExcel()
+        {
+            GetData.GetExcel();
+            return Content(JsonTools.ObjectToJson(""));
         }
     }
 }

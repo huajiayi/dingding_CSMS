@@ -16,7 +16,8 @@ function addLoadEvent(func) {
 
 
 addLoadEvent(function () { fullData(ContractName, Customer, Contract_Type, Contract_Amount, Count, Contract_Number, Contract_Date) });
-addLoadEvent(function(){fullServices(ss)});
+addLoadEvent(function () { fullServices(ss) });
+
 
 //填充数据
 function fullData(contractName, costumerName, contractType, contractAmount, count, contractNumber, signatureDate){
@@ -28,12 +29,12 @@ function fullData(contractName, costumerName, contractType, contractAmount, coun
 	document.getElementById("lbl_contractNumber").innerHTML = "合同编号：" + contractNumber;
 	document.getElementById("lbl_signatureDate").innerHTML = "合同签署日期：" + signatureDate;
 	if (Process == 1) {
-	    $("#Process").attr("checked", "checked");
+	    $("#Pct").attr("checked", "checked");
 	}
 }
 function changeProcess() {
     var Process;
-    var kkk= document.getElementById("Process");
+    var kkk = document.getElementById("Pct");
     if(kkk.checked) {
         Process = 1
     } else {
@@ -60,6 +61,9 @@ function fullServices(ss) {
 		if (premission.Summation_p == 0) {
 		    $("#deleteContract").css("display", "none");
 		    $("#editContract").css("display", "none");
+		    $("#Pct").css("display", "none");
+		    $("#Process2").css("display", "none");
+		    
 		}
 	}
 }

@@ -146,6 +146,8 @@ namespace WebApplication4.Controllers
                 ViewBag.log = Request["log"];
                 ViewBag.date = Request["date"];
                 string s9= Request["ID"];
+                ObservableCollection<ContractNameT> ct = SqlQuery.ContractVQuery(ID);
+                ViewBag.ss1 = ct[0].Contract_Amount;
                 Session["salesid"]= Request["ID"];
                 return View();
             }
@@ -170,9 +172,7 @@ namespace WebApplication4.Controllers
                 Guid ID = new Guid(s);
                 sl.ContractID = ID;
                 sl.ID = ID2;
-                
                 ObservableCollection<Contract_Data> cd = SqlQuery.Contract_DataByIDQuery(sl.ServiceID);
-              
                 sl.Service = cd[0].Service;
                 GetData.SalesChangeGet(sl, SqlQuery.SalesQuery(ID));
                 return RedirectToAction("Sales");

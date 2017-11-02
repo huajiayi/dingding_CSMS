@@ -321,6 +321,18 @@ namespace ContractStatementManagementSystem
             ObservableCollection<Project> ww = new ObservableCollection<Project>(Query<Project>(sql));
             return ww;
         }
+        public static ObservableCollection<AccessToken> AccessTokenQuery(int id)
+        {
+            string sql = String.Format(@"SELECT * FROM [AccessToken] where ID=1", id);
+            ObservableCollection<AccessToken> ww = new ObservableCollection<AccessToken>(Query<AccessToken>(sql));
+            return ww;
+        }
+        public static ObservableCollection<JSTicket> JSTicketQuery(int id)
+        {
+            string sql = String.Format(@"SELECT * FROM [AccessToken] where ID=1", id);
+            ObservableCollection<JSTicket> ww = new ObservableCollection<JSTicket>(Query<JSTicket>(sql));
+            return ww;
+        }
         //public static ObservableCollection<ProjectLog> ProjectLogQuery(Guid id)
         //{
         //    string sql = String.Format(@"select * from(select row_number() over(order by [LogDate] desc) as rownum, * FROM [ProjectLog] where ContractID='{0}' ) as r where r.rownum >0 and rownum <=5", id);
@@ -416,7 +428,14 @@ namespace ContractStatementManagementSystem
             ObservableCollection<Invoicing> ww = new ObservableCollection<Invoicing>(Query<Invoicing>(sql));
             return ww;
         }
-       
+        public static ObservableCollection<Invoicing> InvoicingByID(Guid id)
+        {
+
+            string sql = String.Format(@"SELECT * FROM [Invoicing] where ID = '{0}'", id);
+            ObservableCollection<Invoicing> ww = new ObservableCollection<Invoicing>(Query<Invoicing>(sql));
+            return ww;
+        }
+
         public static ObservableCollection<Invoicing> InvoicingDateByService(Guid id)
         {
 
@@ -715,12 +734,12 @@ namespace ContractStatementManagementSystem
                 if (ob is Contract_Data)
                 {
                     Contract_Data a = (Contract_Data)ob;
-                    string s = String.Format(@"update Contract_Data set ID=@ID,Contract_ID=Contract_ID,Service=Service where ID=ID", a.ID,a.Contract_ID,a.Service);
+                    string s = @"update Contract_Data set Contract_ID=@Contract_ID,Service=@Service where ID=@ID";
 
                     var dic = new Dictionary<string, object>();
-                    dic.Add("@ID", a.ID);
                     dic.Add("@Service", a.Service);
-
+                    dic.Add("@Contract_ID", a.Contract_ID);
+                    
                     conn.Open();
                     conn.Execute(s, dic);
 
@@ -750,6 +769,36 @@ namespace ContractStatementManagementSystem
                     var dic = new Dictionary<string, object>();
                     dic.Add("@Contract_Amount", a.Contract_Amount);
                     dic.Add("@ID", a.ID);
+                    string s = string.Concat(sql0);
+                    conn.Open();
+                    conn.Execute(s, dic);
+
+                }
+                if (ob is JSTicket)
+                {
+                    JSTicket a = (JSTicket)ob;
+                    string sql0 = "";
+                    var dic = new Dictionary<string, object>();
+                   
+                         sql0 = @"update [JSTicket] set ticket=@ticket,expires_in=@expires_in,time=@time where ID=1";
+                       
+                        dic.Add("@ticket", a.ticket);
+                        dic.Add("@expires_in", a.expires_in);
+                        dic.Add("@time", a.time);
+
+                    string s = string.Concat(sql0);
+                    conn.Open();
+                    conn.Execute(s, dic);
+
+                }
+                if (ob is AccessToken)
+                {
+                    AccessToken a = (AccessToken)ob;
+                    string sql0 = "";
+                    var dic = new Dictionary<string, object>();
+                    sql0 = @"update [AccessToken] set Value=@Value,[Begin]=@Begin where ID=1";
+                    dic.Add("@Value", a.Value);
+                    dic.Add("@Begin", a.Begin);
                     string s = string.Concat(sql0);
                     conn.Open();
                     conn.Execute(s, dic);

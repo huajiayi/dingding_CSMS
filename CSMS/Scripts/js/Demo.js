@@ -1,7 +1,6 @@
 ﻿var Result;
 var url = window.location.href;
 var corpId;
-
 if (dd) {
     $.post("/DingDing/GetSignPackage?url=" + url, function (data, status) {
 
@@ -57,19 +56,21 @@ if (dd) {
                                 });
                                 location.href = "/Contract/Index";
                             } if (flag == "0") {
+                                var a = 1;
                                 dd.device.notification.alert({
                                     message: "你好" + User.name + ",您的ID为：" + User.userid,
                                     title: "提示",//可传空
                                     buttonName: "确定",
                                     onSuccess: function () {
-                                        $(".loader").toggle();
-                                        $(".vertical-center").toggle();
+                                        a = 1;
                                     },
                                     onFail: function (err) {
                                     }
                                 });
+                                if(a==1){
                                 $(".loader").toggle();
                                 $(".vertical-center").toggle();
+                                }
                             }
                         });
                     });

@@ -4,6 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Office.Interop.Excel;
+using Microsoft.Win32;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System.Data;
+using System.IO;
 namespace ContractStatementManagementSystem
 {
     public class GetData
@@ -412,6 +419,111 @@ namespace ContractStatementManagementSystem
                    TAmount.Add(Am);
             }
             return TAmount;
+        }
+        public static void GetExcel()
+        {
+
+            IWorkbook workbook = null;
+            FileStream fs = null;
+            IRow row = null;
+            ISheet sheet = null;
+            ICell cell = null;
+            string filePath = @"C:\testDir\test2.xlsx";
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("Sex", typeof(string));
+            DataRow dr = dt.NewRow();
+            dr["ID"] = "1";
+            dr["Name"] = "张三";
+            dr["Sex"] = "男";
+            dt.Rows.Add(dr);
+            dr = dt.NewRow();
+            dr["ID"] = "2";
+            dr["Name"] = "李四";
+            dr["Sex"] = "男";
+            dt.Rows.Add(dr);
+            dr = dt.NewRow();
+            dr["ID"] = "12";
+            dr["Name"] = "旺旺";
+            dr["Sex"] = "男";
+            dt.Rows.Add(dr);
+            dr = dt.NewRow();
+            dr["ID"] = "22";
+            dr["Name"] = "王五";
+            dr["Sex"] = "男";
+            dt.Rows.Add(dr);
+            dr = dt.NewRow();
+            dr["ID"] = "32";
+            dr["Name"] = "赵六";
+            dr["Sex"] = "男";
+            dt.Rows.Add(dr);
+            try
+            {
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    // 2007版本
+                    if (filePath.IndexOf(".xlsx") > 0)
+                        workbook = new XSSFWorkbook();
+                    // 2003版本  
+                    else if (filePath.IndexOf(".xls") > 0)
+                        workbook = new HSSFWorkbook();
+                    sheet = workbook.CreateSheet("Sheet0");//创建一个名称为Sheet0的表  
+                    int rowCount = dt.Rows.Count;//行数  
+                    int columnCount = dt.Columns.Count;//列数  
+
+                    //设置列头  
+                    row = sheet.CreateRow(0);//excel第一行设为列头  
+                    for (int c = 0; c < columnCount; c++)
+                    {
+                        cell = row.CreateCell(c);
+                        cell.SetCellValue(dt.Columns[c].ColumnName);
+                    }
+
+                    //设置每行每列的单元格,  
+                    for (int i = 0; i < rowCount; i++)
+                    {
+                        row = sheet.CreateRow(i + 1);
+                        for (int j = 0; j < columnCount; j++)
+                        {
+                            cell = row.CreateCell(j);//excel第二行开始写入数据  
+                            cell.SetCellValue(dt.Rows[i][j].ToString());
+                        }
+                    }
+                    using (fs = File.OpenWrite(@filePath))
+                    {
+                        workbook.Write(fs);//向打开的这个xls文件中写入数据  
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (fs != null)
+                {
+                    fs.Close();
+                }
+                throw ex;
+            }
+        }
+        public static void InvoicingChange(Guid ID, Invoicing inv,Guid ID2) {
+            ObservableCollection<Accountant> oa = SqlQuery.AccountantQuery(ID);
+            Accountant aa = null;
+            foreach (Accountant a in oa) {
+                if (a.Service==inv.Service) {
+                    aa = a;
+                }
+                ObservableCollection<Invoicing> oin = SqlQuery.InvoicingByID(ID2);
+                aa.SubInvoiceAmount += inv.Amount - oin[0].Amount;
+                aa.SubInvoiceCount += inv.Count - oin[0].Count;
+                inv.ID = ID2;
+                inv.Contract_ID = ID;
+                inv.LogDate=DateTime.Now.ToString();
+                
+                SqlQuery.updata(oa);
+                SqlQuery.updata(inv);
+
+            }
         }
     }
 }

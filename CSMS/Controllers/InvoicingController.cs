@@ -114,6 +114,43 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
             }
         }
+        public ActionResult InvoicingLogModification() {
+            if (Session["cc"] != null)
+            {
+                ViewBag.Message = Session["cc"];
+            }
+            string s = ViewBag.Message;
+            Guid ID = new Guid(s);
+            ObservableCollection<Contract_Data> cd = SqlQuery.ContractDataQuery(ID);
+            ViewBag.Contract_DataJson = JsonTools.ObjectToJson(cd);
+            string InvoicingID = Request["ID"];
+            ViewBag.ID = InvoicingID;
+            Session["InvoicingID"] = InvoicingID;
+            ViewBag.logName = Request["logName"];
+            ViewBag.service = Request["service"];
+            ViewBag.Count = Request["Count"];
+            ViewBag.Amount = Request["Amount"];
+            ViewBag.InDate = Request["InDate"];
+            ViewBag.ServiceID = Request["ServiceID"];
+            return View();
 
+        }
+        public ActionResult SaveInvoicingLogModification(Invoicing inv)
+        {
+            if (Session["cc"] != null)
+            {
+                ViewBag.Message = Session["cc"];
+            }
+            string s = ViewBag.Message;
+            Guid ID = new Guid(s);
+            ViewBag.Message = Session["InvoicingID"];
+            s = ViewBag.Message;
+            Guid ID2 = new Guid(s);
+            Accountant aa = null;
+            GetData.InvoicingChange(ID,inv,ID2);
+
+            return RedirectToAction("Invoicing");
+
+        }
     }
 }

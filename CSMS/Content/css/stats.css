@@ -74,10 +74,6 @@ body{
 }
 
 .content .glyphicon{
-	position: relative;
-	top: 30px;
-	left: 335px;
-	float: left;
 	font-size: 1.618em;
 	color: gray;
 	cursor: pointer;

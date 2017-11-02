@@ -5,8 +5,10 @@ using System.Web;
 
 namespace ContractStatementManagementSystem
 {
+    
     public class ResultPackage
     {
+        
         public ErrCodeEnum ErrCode { get; set; } = ErrCodeEnum.Unknown;
 
         /// <summary>  

@@ -229,5 +229,9 @@ function accountant() {
         }
     
     }
- 
+function GetExcel() {
+    $.post("/DingDing/GetExcel", function (data, status) {
+
+    })
+}
 

@@ -138,7 +138,10 @@ namespace WebApplication4.Controllers
             {
                 ViewBag.UserJson = "";
             }
-            else { ViewBag.UserJson = JsonTools.ObjectToJson(ops[0]); }
+            else {
+                Session["UserJson"]=ViewBag.UserJson = JsonTools.ObjectToJson(ops[0]);
+                
+            }
             ViewBag.p = "";
             ViewBag.ch = "";
             if (Request["ex"] != null) {
@@ -274,8 +277,7 @@ namespace WebApplication4.Controllers
         }
         public ActionResult filtration()
         {
-            try
-            {
+            try {
                 ObservableCollection<ContractNameT> ct = null;
                 if (Request["txt_keyword"] != "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "") {
                     string txt_keyword = Request["txt_keyword"];
@@ -288,7 +290,7 @@ namespace WebApplication4.Controllers
                 if (Request["txt_keyword"] != "" && Request["txt_startDate"] == "" && Request["txt_endDate"] == "") {
                     string txt_keyword = Request["txt_keyword"];
                     ct = SqlQuery.ContractVQueryByName(txt_keyword, 0);
-                    System.IO.File.WriteAllText(@"D:\testDir\test1.txt", txt_keyword, Encoding.UTF8);
+
                 }
                 if (Request["txt_keyword"] == "" && Request["txt_startDate"] != "" && Request["txt_endDate"] != "")
                 {
@@ -300,12 +302,18 @@ namespace WebApplication4.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                ViewBag.ss = GetContractName(ct);
+                string a = GetContractName(ct);
+                ViewBag.ss = a;
                 ViewBag.s1 = GetContractID(ct);
                 ViewBag.Project = FetchValue("Project");
                 ViewBag.Production = FetchValue("Production");
                 ViewBag.s2 = GetContractProcess();
-                return View("Index"); }
+                if (a == "[]") {
+                    ViewBag.p = "没有符合条件的合同";
+                }
+                ViewBag.UserJson = Session["UserJson"];
+                return View("Index");
+            }
             catch
             {
                 return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });

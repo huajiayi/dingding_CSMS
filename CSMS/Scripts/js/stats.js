@@ -1,6 +1,14 @@
+var a = 1;
 $(function () {
     $("#filterIcon").click(function () {
+        $("#div_accumulatedValue").slideUp("fast");
         $("#filter").modal("show");
+        a=1
+    });
+    $("#filterIcon2").click(function () {
+        $("#div_accumulatedValue").slideDown("fast");
+        $("#filter").modal("show");
+        a=2
     });
     $("#select_statsMode").change(function () {
         if ($(this).val() == "按合同类型") {
@@ -9,13 +17,13 @@ $(function () {
             $("#div_statsType").slideUp("fast");
         }
     });
-    $("#select_statsType").change(function () {
-        if ($(this).val() == "累计值") {
-            $("#div_accumulatedValue").slideDown("fast");
-        } else {
-            $("#div_accumulatedValue").slideUp("fast");
-        }
-    });
+    //$("#select_statsType").change(function () {
+    //    if ($(this).val() == "累计值") {
+    //        $("#div_accumulatedValue").slideDown("fast");
+    //    } else {
+    //        $("#div_accumulatedValue").slideUp("fast");
+    //    }
+    //});
     var minDate = "2015-01-01"; //最小合同签署日期
     var minYear = new Date(minDate).getFullYear();
     var thisYear = new Date().getFullYear();
@@ -58,7 +66,7 @@ function filterStats() {
     var end = $("#txt_finishDate").val();
     var typ = $("#select_contractType").val();
 
-    if ($("#select_statsType").val() == "累计值" && $("#div_statsType").is(":hidden")) {
+    if (a == 2 && $("#div_statsType").is(":hidden")) {
         $.post("/Contract/DoStats?Start=" + start + "&End=" + end + "&Typ=", function (result, status) {
 
 
@@ -137,7 +145,7 @@ function filterStats() {
                 }],
             });
         }, "json");
-    } else if ($("#select_statsType").val() == "累计值" && $("#div_statsType").is(":visible")) {
+    } else if (a == 2 && $("#div_statsType").is(":visible")) {
         $.post("/Contract/DoStats?Start=" + start + "&End=" + end + "&Typ=" + typ, function (result, status) {
 
             //salesChart.setOption({
@@ -215,7 +223,7 @@ function filterStats() {
                 }],
             });
         }, "json");
-    } else if ($("#select_statsType").val() == "增长率" && $("#div_statsType").is(":hidden")) {
+    }  if (a==1&& $("#div_statsType").is(":hidden")) {
         accumulatedValueChart.setOption({
             title: {
                 text: "签署金额",
@@ -265,7 +273,7 @@ function filterStats() {
             ]
         });
         console.log(1);
-    } else {
+    } if (a == 1 && $("#div_statsType").is(":visible")) {
         accumulatedValueChart.setOption({
             title: {
                 text:"数据加载请稍后...",
@@ -664,6 +672,20 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 }
 
+function back() {
+    if (sessionStorage.getItem("txt_keyword") == null) {
+        var $txt_keyword = "";
+    } else {
+        var $txt_keyword = sessionStorage.getItem("txt_keyword");
+    } if (sessionStorage.getItem("txt_startDate") == null && sessionStorage.getItem("txt_endDate") == null) {
+        var $txt_startDate = "";
+        var $txt_endDate = "";
+    } else {
+        var $txt_startDate = sessionStorage.getItem("txt_startDate");
+        var $txt_endDate = sessionStorage.getItem("txt_endDate");
+    }
+    location.href = "/Contract/filtration?txt_keyword=" + $txt_keyword + "&txt_startDate=" + $txt_startDate + "&txt_endDate=" + $txt_endDate;
+}
 function getQuarterStartMonth() {
     var nowMonth = new Date().getMonth() + 1;
     var quarterStartMonth = 0;

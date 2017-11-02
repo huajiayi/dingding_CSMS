@@ -59,13 +59,13 @@ function fullLog(haslog) {
             $("#more").remove();
         }
         for (var i = 0; i < Invoicing.length; i++) {
-            addLog(Invoicing[i].LogName, Invoicing[i].LogDate, Invoicing[i].Service, Invoicing[i].Count, Invoicing[i].Name, Invoicing[i].InvoicingDate, Invoicing[i].Amount);
+            addLog(Invoicing[i].LogName, Invoicing[i].LogDate, Invoicing[i].Service, Invoicing[i].Count, Invoicing[i].Name, Invoicing[i].InvoicingDate, Invoicing[i].Amount,Invoicing[i].ID,Invoicing[i].ServiceID);
         }
     }
 }
 
 //添加日志（加了个服务）
-function addLog(logName, date, service, Count, name, InDate, Amount) {
+function addLog(logName, date, service, Count, name, InDate, Amount,ID,ServiceID) {
     var logList = document.getElementById("cd-timeline");
     var div_block = document.createElement("div");
     div_block.className = "cd-timeline-block";
@@ -96,6 +96,11 @@ function addLog(logName, date, service, Count, name, InDate, Amount) {
     div_content.appendChild(vCount)
     div_content.appendChild(vAmount)
     div_content.appendChild(vInDate)
+    var a = document.createElement("a");
+    a.className = "cd-read-more";
+    a.href = "InvoicingLogModification?logName=" + logName + "&service=" + service + "&Count=" + Count + "&Amount=" + Amount + "&ID=" + ID + "&InDate=" + InDate + "&ServiceID" + ServiceID;
+    a.innerHTML = "修改"
+    div_content.appendChild(a);
     div_content.appendChild(span);
     div_block.appendChild(div_content);
     logList.appendChild(div_block);

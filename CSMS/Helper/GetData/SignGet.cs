@@ -56,17 +56,13 @@ namespace ContractStatementManagementSystem
             int unixTimestamp = SignPackageHelper.ConvertToUnixTimeStamp(DateTime.Now);
             string timestamp = Convert.ToString(unixTimestamp);
             string nonceStr = SignPackageHelper.CreateNonceStr();
-            Cache cache2 = new Cache();
-            if (cache2["ticket"] == null)
+            
+            if (HttpContext.Current.Cache["ticket"] == null)
             {
                 TicketGet.ticketGet(a);
-                cache2.Add("ticket", TicketGet.Ticket, null, DateTime.Now.AddSeconds(7200), TimeSpan.Zero, CacheItemPriority.Normal, null);
+                HttpContext.Current.Cache.Insert("ticket", TicketGet.Ticket, null, DateTime.Now.AddSeconds(7000), TimeSpan.Zero, CacheItemPriority.Normal, null);
             }
-
-            JSTicket jsticket = (JSTicket)cache2["ticket"];
-
-
-
+            JSTicket jsticket = (JSTicket)HttpContext.Current.Cache["ticket"];
             var signPackage = FetchSignPackage(url, jsticket);
             return signPackage;
         }
