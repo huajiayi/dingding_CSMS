@@ -51,13 +51,13 @@ function fullLog(ProductionerLogJson) {
 		    $("#more").remove();
 		}
 		for (var i = 0; i < ProductionerLog.length; i++) {
-		    addLog(ProductionerLog[i].LogName, ProductionerLog[i].ProductionCount, ProductionerLog[i].ProductionDate, ProductionerLog[i].LogDate, ProductionerLog[i].Name);
+		    addLog(ProductionerLog[i].LogName, ProductionerLog[i].ProductionCount, ProductionerLog[i].ProductionDate, ProductionerLog[i].LogDate, ProductionerLog[i].Name,ProductionerLog[i].ID);
 		}
 	}
 }
 
 //添加日志
-function addLog(logName, log, date, logDate, name) {
+function addLog(logName, log, date, logDate, name,ID) {
     var logList = document.getElementById("cd-timeline");
     var div_block = document.createElement("div");
     div_block.className = "cd-timeline-block";
@@ -82,6 +82,11 @@ function addLog(logName, log, date, logDate, name) {
     div_content.appendChild(p_log);
     div_content.appendChild(p_date);
     div_content.appendChild(span);
+    var a = document.createElement("a");
+    a.className = "cd-read-more";
+    a.href = " Productionmodification?logName=" + logName + "&log=" + log + "&date=" + date + "&ID=" + ID + "&logDate=" + logDate + "&Name=" + name;
+    a.innerHTML = "修改"
+    div_content.appendChild(a);
     div_block.appendChild(div_content);
     logList.appendChild(div_block);
 }

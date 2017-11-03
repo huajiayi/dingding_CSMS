@@ -137,6 +137,7 @@ namespace WebApplication4.Controllers
         }
         public ActionResult SaveInvoicingLogModification(Invoicing inv)
         {
+
             if (Session["cc"] != null)
             {
                 ViewBag.Message = Session["cc"];
@@ -146,7 +147,9 @@ namespace WebApplication4.Controllers
             ViewBag.Message = Session["InvoicingID"];
             s = ViewBag.Message;
             Guid ID2 = new Guid(s);
-            Accountant aa = null;
+            ObservableCollection<Contract_Data>oc= SqlQuery.Contract_DataByIDQuery(inv.ServiceID);
+            inv.Service = oc[0].Service;
+
             GetData.InvoicingChange(ID,inv,ID2);
 
             return RedirectToAction("Invoicing");

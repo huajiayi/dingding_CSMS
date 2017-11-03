@@ -1,6 +1,7 @@
 ﻿var Result;
 var url = window.location.href;
 var corpId;
+
 if (dd) {
     $.post("/DingDing/GetSignPackage?url=" + url, function (data, status) {
 

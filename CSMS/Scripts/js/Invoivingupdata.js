@@ -20,8 +20,8 @@ function fillService(serviceArr) {
     for (var i = 0; i < serviceArr.length; i++) {
         var service = document.createElement("option");
         service.innerHTML = serviceArr[i].Service;
-        service.value = serviceArr[i].Service;
+        service.value = serviceArr[i].ID;
         services.appendChild(service);
     }
-
+    $("#txt_services").find("option[value=" + ss + "]").attr("selected", true);
 }

@@ -110,5 +110,39 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
             }
         }
+        public ActionResult WarehouseLogModification() {
+            if (Session["cc"] != null)
+            {
+                ViewBag.Message = Session["cc"];
+            }
+            string s = ViewBag.Message;
+            Guid ID = new Guid(s);
+            ObservableCollection < Warehouse > ob= SqlQuery.WarehouseQuery(ID);
+            ViewBag.logName = Request["logName"];
+            ViewBag.date = Request["date"];
+            ViewBag.log = Request["log"];
+           
+            Session["WarehouseLogID"] = Request["ID"];
+            ViewBag.logDate = Request["logDate"];
+            ViewBag.s1 = ob[0].Reserves + Convert.ToDouble(Request["log"]);
+            return View();
+
+        }
+        public ActionResult SaveWarehouseLogModification(WarehouseLog wl)
+        {
+            if (Session["cc"] != null)
+            {
+                ViewBag.Message = Session["cc"];
+            }
+            string s = ViewBag.Message;
+            Guid ID = new Guid(s);
+            ViewBag.Message = Session["WarehouseLogID"];
+            s = ViewBag.Message;
+            Guid ID2 = new Guid(s);
+            ObservableCollection < Warehouse > ow= SqlQuery.WarehouseQuery(ID);
+            ObservableCollection < WarehouseLog > owl= SqlQuery.WarehouseLogQueryByID(ID2);
+            GetData.SaveWarehouseLogModification(ow[0], owl[0], wl);
+            return RedirectToAction("Warehouse");
+        }
     }
 }

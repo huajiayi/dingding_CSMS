@@ -127,7 +127,7 @@ namespace WebApplication4.Controllers
         }
         public ActionResult Index()
         {
-
+            Session.Timeout = 120;
             ViewBag.Project = FetchValue("Project");
             ViewBag.Production = FetchValue("Production");
             ViewBag.Message = Session["userid"];
@@ -224,6 +224,7 @@ namespace WebApplication4.Controllers
         }
         public ActionResult ContractContent()
         {
+           
             try
             {
                 string s;

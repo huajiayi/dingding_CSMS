@@ -98,7 +98,7 @@ function addLog(logName, date, service, Count, name, InDate, Amount,ID,ServiceID
     div_content.appendChild(vInDate)
     var a = document.createElement("a");
     a.className = "cd-read-more";
-    a.href = "InvoicingLogModification?logName=" + logName + "&service=" + service + "&Count=" + Count + "&Amount=" + Amount + "&ID=" + ID + "&InDate=" + InDate + "&ServiceID" + ServiceID;
+    a.href = "InvoicingLogModification?logName=" + logName + "&service=" + service + "&Count=" + Count + "&Amount=" + Amount + "&ID=" + ID + "&InDate=" + InDate + "&ServiceID=" + ServiceID;
     a.innerHTML = "修改"
     div_content.appendChild(a);
     div_content.appendChild(span);

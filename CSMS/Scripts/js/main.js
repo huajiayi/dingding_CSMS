@@ -53,10 +53,26 @@ function cha() {
             }, //附件信息
             text: "合同“"+ch+"”已建立，请跟据实际工作情况及时填写", //消息体
             onSuccess: function () {
-                alert("OK")
+                DingTalkPCdevice.notification.alert({
+                    message: "发送成功",
+                    title: "提示",//可传空
+                    buttonName: "确定",
+                    onSuccess: function () {
+
+                    },
+                    onFail: function (err) { }
+                });
             },
             onFail: function () {
-                alert("发送失败")
+                DingTalkPCdevice.notification.alert({
+                    message: "发送失败",
+                    title: "提示",//可传空
+                    buttonName: "确定",
+                    onSuccess: function () {
+
+                    },
+                    onFail: function (err) { }
+                });
             }
         })
     }

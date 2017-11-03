@@ -590,6 +590,8 @@
     <Content Include="Views\Summation\Summation.cshtml" />
     <Content Include="Views\FirstPage\noPremission.cshtml" />
     <Content Include="Views\Invoicing\InvoicingLogModification.cshtml" />
+    <Content Include="Views\Production\Productionmodification.cshtml" />
+    <Content Include="Views\Warehouse\WarehouseLogModification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

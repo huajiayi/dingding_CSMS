@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="txt_services"><span style="color: red;">*</span>服务款项：</label>
-                    <select class="form-control" id="txt_services" name="Service"></select>
+                    <select class="form-control" id="txt_services" name="ServiceID"></select>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="txt_received" id="lbl_count"><span style="color: red;">*</span>开票数量：</label>
@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <div class="text-center">
                         <button class="btn btn-primary" id="btn_save" type="submit">保存</button>
-                        <button class="btn btn-primary" id="btn_save" type="submit" onclick="location.href = '/Invoicing/Invoicing'">返回</button>
+                        <button class="btn btn-primary" id="btn_save"  type="button" onclick="location.href = '/Invoicing/Invoicing'">返回</button>
                     </div>
                 </div>
             </form>
@@ -76,10 +76,10 @@
 			webshims.cfg.no$Switch = true;
     </script>
     <script  type="text/javascript">
-        var ss = "@ViewBag.service";
+        var ss = "@ViewBag.ServiceID";
         var ss1 = "@ViewBag.ss1"
         var Contract_DataJson = "@ViewBag.Contract_DataJson";
-        $("#txt_services").find("option[value=" + ss + "]").attr("selected", true);
+       
     </script>
     <script type="text/javascript">
       $(function(){

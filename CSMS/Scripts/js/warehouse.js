@@ -53,14 +53,14 @@ function fullLog(WarehouseLogJson) {
 		    $("#more").remove();
 		}
 		for (var i = 0; i < WarehouseLog.length; i++) {
-		    addLog(WarehouseLog[i].LogName, WarehouseLog[i].Shipments, WarehouseLog[i].ShippedDate, WarehouseLog[i].LogDate, WarehouseLog[i].Name);
+		    addLog(WarehouseLog[i].LogName, WarehouseLog[i].Shipments, WarehouseLog[i].ShippedDate, WarehouseLog[i].LogDate, WarehouseLog[i].Name,WarehouseLog[i].ID);
 		
 		}
 	}
 }
 
 //添加日志
-function addLog(logName, log, date, logDate, name) {
+function addLog(logName, log, date, logDate, name,ID) {
     var logList = document.getElementById("cd-timeline");
     var div_block = document.createElement("div");
     div_block.className = "cd-timeline-block";
@@ -84,6 +84,11 @@ function addLog(logName, log, date, logDate, name) {
     div_content.appendChild(h3);
     div_content.appendChild(p_log);
     div_content.appendChild(p_date);
+    var a = document.createElement("a");
+    a.className = "cd-read-more";
+    a.href = " WarehouseLogModification?logName=" + logName + "&date=" + date + "&log=" + log + "&name=" + name + "&ID=" + ID + "&logDate=" + logDate;
+    a.innerHTML = "修改"
+    div_content.appendChild(a);
     div_content.appendChild(span);
     div_block.appendChild(div_content);
     logList.appendChild(div_block);

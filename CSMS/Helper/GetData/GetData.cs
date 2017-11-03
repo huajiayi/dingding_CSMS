@@ -508,22 +508,76 @@ namespace ContractStatementManagementSystem
         }
         public static void InvoicingChange(Guid ID, Invoicing inv,Guid ID2) {
             ObservableCollection<Accountant> oa = SqlQuery.AccountantQuery(ID);
+            ObservableCollection<Invoicing> oin = SqlQuery.InvoicingByID(ID2);
             Accountant aa = null;
-            foreach (Accountant a in oa) {
-                if (a.Service==inv.Service) {
-                    aa = a;
+            Accountant aa2 = null;
+            if (inv.Service == oin[0].Service)
+            {
+                foreach (Accountant a in oa)
+                {
+                    if (a.Service == inv.Service)
+                    {
+                        aa = a;
+                        aa.SubInvoiceAmount += inv.Amount - oin[0].Amount;
+                        aa.SubInvoiceCount += inv.Count - oin[0].Count;
+                    }
+
                 }
-                ObservableCollection<Invoicing> oin = SqlQuery.InvoicingByID(ID2);
-                aa.SubInvoiceAmount += inv.Amount - oin[0].Amount;
-                aa.SubInvoiceCount += inv.Count - oin[0].Count;
+                SqlQuery.updataAcc(aa);
+            }
+            else {
+                foreach (Accountant a in oa)
+                {
+                    if (a.Service == inv.Service)
+                    {
+                        aa = a;
+                        aa.SubInvoiceAmount += inv.Amount ;
+                        aa.SubInvoiceCount += inv.Count ;
+                    }
+                    if (a.Service==oin[0].Service) {
+                        aa2 = a;
+                        aa2.SubInvoiceAmount += -oin[0].Amount;
+                        aa2.SubInvoiceCount += -oin[0].Count;
+                    }
+
+                }
+                SqlQuery.updataAcc(aa2);
+                SqlQuery.updataAcc(aa);
+            }
+               
+              
                 inv.ID = ID2;
                 inv.Contract_ID = ID;
                 inv.LogDate=DateTime.Now.ToString();
-                
-                SqlQuery.updata(oa);
-                SqlQuery.updata(inv);
 
-            }
+
+          
+            SqlQuery.updata(inv);
+
+           
+        }
+        public static void SaveProductionmodification(ProductionerLog pl, Productioner p, Warehouse w, ProductionerLog pl2) {
+            p.TotalProduct += pl2.ProductionCount - pl.ProductionCount;
+            p.NoTotalProduct -= pl2.ProductionCount - pl.ProductionCount;
+            w.Reserves = p.TotalProduct - w.ShippedCount;
+            pl2.ID = pl.ID;
+            pl2.ContractID = pl.ContractID;
+            pl2.LogDate = DateTime.Now.ToString();
+            SqlQuery.updata(pl2);
+            SqlQuery.updata(p);
+            SqlQuery.updata(w);
+        }
+        public static void SaveWarehouseLogModification(Warehouse w, WarehouseLog wl, WarehouseLog wl2)
+        {
+            w.Reserves += wl.Shipments - wl2.Shipments;
+            w.ShippedCount += wl2.Shipments - wl.Shipments;
+            w.NoShippedCount += wl.Shipments - wl2.Shipments;
+            wl2.LogDate = DateTime.Now.ToString();
+            wl2.ID = wl.ID;
+            wl2.ContractID = wl.ContractID;
+            wl2.LogDate = DateTime.Now.ToString();
+            SqlQuery.updata(wl2);
+            SqlQuery.updata(w);
         }
     }
 }

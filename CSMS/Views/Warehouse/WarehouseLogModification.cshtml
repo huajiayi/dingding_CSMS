@@ -19,19 +19,19 @@
 <body style="padding: 1em;">
     <div class="container" style="max-width: 400px;">
         <div class="row">
-            <form role="form" action="saveWarehouseLog" method="post">
+            <form role="form" action="SaveWarehouseLogModification" method="post">
                 <div class="form-group">
                     <label class="control-label" for="txt_logName" ><span style="color: red;">*</span>发货说明：</label>
-                    <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required />
+                    <input type="text" class="form-control" id="txt_logName" name="LogName" placeholder="请输入日志名" required value="@ViewBag.logName"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="txt_shipments" id="lbl_shipments"><span style="color: red;">*</span>发货数量：</label>
-                    <input type="number" min="1" max="100000" class="form-control" id="txt_shipments" name="Shipments" placeholder="请输入发货数量" required />
+                    <input type="number" min="1" max="100000" class="form-control" id="txt_shipments" name="Shipments" placeholder="请输入发货数量" required value="@ViewBag.log" />
                 </div>
                 <div class="form-group">
                     <div class="input-append date form_datetime">
                         <label class="control-label" for="txt_shippedDate"><span style="color: red;">*</span>发货日期：</label>
-                        <input class="form-control datepicker" type="text" id="datetimepicker" name="ShippedDate" required>
+                        <input class="form-control datepicker" type="text" id="datetimepicker" name="ShippedDate" required value="date">
                     </div>
                 </div>
                 <div class="form-group">
@@ -52,7 +52,7 @@
     <script src="~/Scripts/js/datepicker/zh_CN.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/webshim/polyfiller.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
-        var s1= @ViewBag.Reserves;
+        var s1= @ViewBag.s1;
         $('.datepicker').pickadate({
             format: 'yyyy-mm-dd'
         });

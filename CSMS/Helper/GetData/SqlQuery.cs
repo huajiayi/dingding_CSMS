@@ -163,6 +163,12 @@ namespace ContractStatementManagementSystem
              ObservableCollection<Productioner> ww = new ObservableCollection<Productioner>(Query<Productioner>(sql));
              return ww;
             }
+        public static ObservableCollection<Productioner> ProductionerQueryByID(Guid id)
+        {
+            string sql = String.Format(@"SELECT * FROM [Productioner] where ID='{0}'", id);
+            ObservableCollection<Productioner> ww = new ObservableCollection<Productioner>(Query<Productioner>(sql));
+            return ww;
+        }
         public static ObservableCollection<ProductionerLog> ProductionerLogQuery(Guid id)
         {
              string sql = String.Format(@"select * from(select row_number() over(order by [LogDate] desc) as rownum, * FROM [ProductionerLog] where ContractID='{0}' ) as r where r.rownum >0 and rownum <=5", id);
@@ -181,6 +187,12 @@ namespace ContractStatementManagementSystem
             ObservableCollection<ProductionerLog> ww = new ObservableCollection<ProductionerLog>(Query<ProductionerLog>(sql));
             return ww;
         }
+        public static ObservableCollection<ProductionerLog> ProductionerLogQueryByID( Guid id)
+        {
+            string sql = String.Format(@"select * from [ProductionerLog] where [ID]='{0}'",id);
+            ObservableCollection<ProductionerLog> ww = new ObservableCollection<ProductionerLog>(Query<ProductionerLog>(sql));
+            return ww;
+        }
         public static ObservableCollection<Warehouse> WarehouseQuery(Guid id)
         {
             string sql = String.Format(@"SELECT * FROM [Warehouse] where ContractID='{0}'", id);
@@ -196,6 +208,12 @@ namespace ContractStatementManagementSystem
         public static ObservableCollection<WarehouseLog> WarehouseLogQuery (Guid id)
         {
             string sql = String.Format(@"select * from(select row_number() over(order by [LogDate] desc) as rownum, * FROM [WarehouseLog] where ContractID='{0}' ) as r where r.rownum >0 and rownum <=5", id);
+            ObservableCollection<WarehouseLog> ww = new ObservableCollection<WarehouseLog>(Query<WarehouseLog>(sql));
+            return ww;
+        }
+        public static ObservableCollection<WarehouseLog> WarehouseLogQueryByID(Guid id)
+        {
+            string sql = String.Format(@"select *  FROM [WarehouseLog] where ID='{0}'", id);
             ObservableCollection<WarehouseLog> ww = new ObservableCollection<WarehouseLog>(Query<WarehouseLog>(sql));
             return ww;
         }
@@ -799,6 +817,63 @@ namespace ContractStatementManagementSystem
                     sql0 = @"update [AccessToken] set Value=@Value,[Begin]=@Begin where ID=1";
                     dic.Add("@Value", a.Value);
                     dic.Add("@Begin", a.Begin);
+                    string s = string.Concat(sql0);
+                    conn.Open();
+                    conn.Execute(s, dic);
+
+                }
+                if (ob is Invoicing)
+                {
+                    Invoicing a = (Invoicing)ob;
+                    string sql0 = "";
+                    var dic = new Dictionary<string, object>();
+                    sql0 = @"update [Invoicing] set [ServiceID]=@ServiceID,[Service]=@Service,[LogName]=@LogName,[InvoicingDate]=@InvoicingDate,[LogDate]=@LogDate,[Count]=@Count,[Contract_ID]=@Contract_ID,[Amount]=@Amount,[Name]=@Name where [ID]=@ID";
+                    dic.Add("@ServiceID", a.ServiceID);
+                    dic.Add("@Service", a.Service);
+                    dic.Add("@LogName", a.LogName);
+                    dic.Add("@InvoicingDate", a.InvoicingDate);
+                    dic.Add("@LogDate", a.LogDate);
+                    dic.Add("@Count", a.Count);
+                    dic.Add("@Amount", a.Amount);
+                    dic.Add("@Contract_ID", a.Contract_ID);
+                    dic.Add("@Name", a.Name);
+                    dic.Add("@ID", a.ID);
+                    string s = string.Concat(sql0);
+                    conn.Open();
+                    conn.Execute(s, dic);
+
+                }
+                if (ob is ProductionerLog)
+                {
+                    ProductionerLog a = (ProductionerLog)ob;
+                    string sql0 = "";
+                    var dic = new Dictionary<string, object>();
+                    sql0 = @"update [ProductionerLog] set [ProductionCount]=@ProductionCount,[ProductionDate]=@ProductionDate,[LogDate]=@LogDate,[Name]=@Name,[ContractID]=@ContractID,[LogName]=@LogName where [ID]=@ID";
+                    dic.Add("@ProductionCount", a.ProductionCount);
+                    dic.Add("@ProductionDate", a.ProductionDate);
+                    dic.Add("@LogDate", a.LogDate);
+                    dic.Add("@Name", a.Name);
+                    dic.Add("@ContractID", a.ContractID);
+                    dic.Add("@LogName", a.LogName);
+                    dic.Add("@ID", a.ID);
+                    string s = string.Concat(sql0);
+                    conn.Open();
+                    conn.Execute(s, dic);
+
+                }
+                if (ob is WarehouseLog)
+                {
+                    WarehouseLog a = (WarehouseLog)ob;
+                    string sql0 = "";
+                    var dic = new Dictionary<string, object>();
+                    sql0 = @"update [WarehouseLog] set [Shipments]=@Shipments,[ShippedDate]=@ShippedDate,[LogDate]=@LogDate,[Name]=@Name,[ContractID]=@ContractID,[LogName]=@LogName where [ID]=@ID";
+                    dic.Add("@Shipments", a.Shipments);
+                    dic.Add("@ShippedDate", a.ShippedDate);
+                    dic.Add("@LogDate", a.LogDate);
+                    dic.Add("@Name", a.Name);
+                    dic.Add("@ContractID", a.ContractID);
+                    dic.Add("@LogName", a.LogName);
+                    dic.Add("@ID", a.ID);
                     string s = string.Concat(sql0);
                     conn.Open();
                     conn.Execute(s, dic);
