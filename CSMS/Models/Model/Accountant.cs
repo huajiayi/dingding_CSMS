@@ -24,7 +24,7 @@ namespace ContractStatementManagementSystem
        public Guid ServiceID { get; set; } //服务ID；
         public string InvoicingDate { get; set; }
         public string Service { get; set; }//服务名
-
+        public string AffirmIncomeDate { get; set; }
         public object Clone()
         {
             return this.MemberwiseClone();

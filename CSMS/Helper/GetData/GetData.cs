@@ -101,6 +101,7 @@ namespace ContractStatementManagementSystem
             a.Subworker = Convert.ToDecimal(al.worker);
             a.AvgGrossrofitMargin = Convert.ToDouble(al.GrossrofitMargin);
             a.SubCost = Convert.ToDouble(al.Cost);
+            a.AffirmIncomeDate=al.AffirmIncomeDate;
             SqlQuery.updata(a);
             bool flag = false;
             if (ab.SubAffirmIncomeAmount != Convert.ToDecimal(al.AffirmIncomeAmount)) {
@@ -151,6 +152,10 @@ namespace ContractStatementManagementSystem
             {
                 flag = true;
                 al.GrossrofitMargin = " 由 " + ab.AvgGrossrofitMargin + " 更改为 " + Convert.ToDouble(al.GrossrofitMargin);
+            }
+            string sa = ab.AffirmIncomeDate.Replace(" 0:00:00", "").Replace("/", "-");
+            if (sa != al.AffirmIncomeDate) {
+                al.AffirmIncomeDate = " 由 " + ab.AffirmIncomeDate.Replace("0:00:00", "").Replace("/", "-") + " 更改为 " + al.AffirmIncomeDate;
             }
             if(flag  == true){
                 SqlQuery.insert(al);

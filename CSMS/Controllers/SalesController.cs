@@ -168,6 +168,7 @@ namespace WebApplication4.Controllers
                 string s = ViewBag.Message;
                 ViewBag.p= Session["salesid"];
                 string sss = ViewBag.p;
+                sl.Name= Session["username"].ToString();
                 Guid ID2 = new Guid(sss);
                 Guid ID = new Guid(s);
                 sl.ContractID = ID;

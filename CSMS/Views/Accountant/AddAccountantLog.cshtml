@@ -2,6 +2,7 @@
     Layout = null;
 }
 <!DOCTYPE html>
+@Session.Timeout=120;
 <html>
 
 <head>
@@ -47,6 +48,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <div class="input-append date form_datetime">
+                        <label class="control-label" for="txt_affirmIncomeDate"><span style="color: red;">*</span>确认收入日期：</label>
+                        <input class="form-control datepicker" type="text" name="AffirmIncomeDate" id="txt_affirmIncomeDate">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label" for="txt_cost">已结转成本数量：</label>
                     <input type="number" min="0" max="100000" class="form-control" id="txt_cost" name="Cost" placeholder="请输入已结转成本数量" />
                 </div>
@@ -82,6 +89,9 @@
     <script src="~/Scripts/js/addContract.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/bootstrap/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/datepicker/picker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/datepicker/picker.date.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/js/datepicker/zh_CN.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/webshim/polyfiller.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/js/addAccountantLog.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
@@ -90,7 +100,11 @@
         var AccountantJson = "@ViewBag.AccountantJson";
         var Service = "@ViewBag.Service";
         var ss = "@ViewBag.ss1"
-
+        $("#txt").val(serviceIndex);
+        $('.datepicker').pickadate({
+            format: 'yyyy-m-d'
+        });
+        document.getElementById("txt_affirmIncomeDate").value = new Date().Format("yyyy-M-d");
     </script>
     <script type="text/javascript">
 			webshim.activeLang('zh-CN');

@@ -142,6 +142,7 @@ namespace WebApplication4.Controllers
             {
                 ViewBag.Message = Session["cc"];
             }
+            inv.Name= Session["username"].ToString();
             string s = ViewBag.Message;
             Guid ID = new Guid(s);
             ViewBag.Message = Session["InvoicingID"];

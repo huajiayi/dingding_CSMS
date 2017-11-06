@@ -137,6 +137,7 @@ namespace WebApplication4.Controllers
             string s = ViewBag.Message;
             Guid ID = new Guid(s);
             ViewBag.Message = Session["WarehouseLogID"];
+            wl.Name= Session["username"].ToString();
             s = ViewBag.Message;
             Guid ID2 = new Guid(s);
             ObservableCollection < Warehouse > ow= SqlQuery.WarehouseQuery(ID);

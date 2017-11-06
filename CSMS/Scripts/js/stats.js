@@ -673,18 +673,19 @@ Date.prototype.Format = function (fmt) { //author: meizz
 }
 
 function back() {
-    if (sessionStorage.getItem("txt_keyword") == null) {
-        var $txt_keyword = "";
-    } else {
-        var $txt_keyword = sessionStorage.getItem("txt_keyword");
-    } if (sessionStorage.getItem("txt_startDate") == null && sessionStorage.getItem("txt_endDate") == null) {
-        var $txt_startDate = "";
-        var $txt_endDate = "";
-    } else {
-        var $txt_startDate = sessionStorage.getItem("txt_startDate");
-        var $txt_endDate = sessionStorage.getItem("txt_endDate");
-    }
-    location.href = "/Contract/filtration?txt_keyword=" + $txt_keyword + "&txt_startDate=" + $txt_startDate + "&txt_endDate=" + $txt_endDate;
+    window.history.back(-1);
+    //if (sessionStorage.getItem("txt_keyword") == null) {
+    //    var $txt_keyword = "";
+    //} else {
+    //    var $txt_keyword = sessionStorage.getItem("txt_keyword");
+    //} if (sessionStorage.getItem("txt_startDate") == null && sessionStorage.getItem("txt_endDate") == null) {
+    //    var $txt_startDate = "";
+    //    var $txt_endDate = "";
+    //} else {
+    //    var $txt_startDate = sessionStorage.getItem("txt_startDate");
+    //    var $txt_endDate = sessionStorage.getItem("txt_endDate");
+    //}
+    //location.href = "/Contract/filtration?txt_keyword=" + $txt_keyword + "&txt_startDate=" + $txt_startDate + "&txt_endDate=" + $txt_endDate;
 }
 function getQuarterStartMonth() {
     var nowMonth = new Date().getMonth() + 1;

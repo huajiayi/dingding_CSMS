@@ -95,17 +95,17 @@ namespace ContractStatementManagementSystem
         }
         public static decimal InvoiceAmountChart(string start, string end)
         {
-            string sql = String.Format(@"SELECT SUM(Amount)as Contract_Amount   FROM [AccountantLog] where LogDate between '{0}' and '{1}'", start, end);
+            string sql = String.Format(@"SELECT SUM(SubAffirmIncomeAmount)as Contract_Amount   FROM [Accountant] where AffirmIncomeDate between '{0}' and '{1}'", start, end);
             return SqlGet(sql);
         }
         public static decimal InvoiceAmountChart(string start, string end, string type)
         {
-            string sql = String.Format(@"SELECT SUM(Amount)as Contract_Amount   FROM [AccountantLog]  as a join [ContractNameT] as c on a.ContractID=c.ID where a.LogDate between '{0}' and '{1}' and c.Contract_Type=N'{2}'", start, end, type);
+            string sql = String.Format(@"SELECT SUM(SubAffirmIncomeAmount)as Contract_Amount   FROM [Accountant]  as a join [ContractNameT] as c on a.ContractID=c.ID where a.AffirmIncomeDate between '{0}' and '{1}' and c.Contract_Type=N'{2}'", start, end, type);
             return SqlGet(sql);
         }
         public static decimal AffirmIncomeAmountChart(string start, string end)
         {
-            string sql = String.Format(@"SELECT SUM(AffirmIncomeAmount)as Contract_Amount   FROM [SalesLog] where LogDate between '{0}' and '{1}'", start, end);
+            string sql = String.Format(@"SELECT SUM(AffirmIncomeAmount)as Contract_Amount   FROM [SalesLog] where [AffirmIncomeDate] between '{0}' and '{1}'", start, end);
             return SqlGet(sql);
         }
         public static decimal AffirmIncomeAmountChart()
@@ -115,7 +115,7 @@ namespace ContractStatementManagementSystem
         }
         public static decimal AffirmIncomeAmountChart(string start, string end, string type)
         {
-            string sql = String.Format(@"SELECT SUM(AffirmIncomeAmount)as Contract_Amount   FROM [SalesLog] as a join [ContractNameT] as c on a.ContractID=c.ID where a.LogDate between '{0}' and '{1}' and c.Contract_Type=N'{2}'", start, end, type);
+            string sql = String.Format(@"SELECT SUM(AffirmIncomeAmount)as Contract_Amount   FROM [SalesLog] as a join [ContractNameT] as c on a.ContractID=c.ID where a.AffirmIncomeDate between '{0}' and '{1}' and c.Contract_Type=N'{2}'", start, end, type);
             return SqlGet(sql);
         }
         public static decimal InvoiceAmountChartInit()
@@ -509,7 +509,7 @@ namespace ContractStatementManagementSystem
                 if (ob is AccountantLog)
                 {
                     AccountantLog a = (AccountantLog)ob;
-                    string sql0 = @"insert into AccountantLog(ID,DepartmentID,AffirmIncomeGist,AffirmIncomeAmount,InvoiceCount,InvoiceAmount,Cost,Material,worker,Manufacturing_Costs,Subtotal,GrossrofitMargin,ContractID,LogDate,LogName,ServiceID,Name,service,Amount) values(@ID,@DepartmentID,@AffirmIncomeGist,@AffirmIncomeAmount,@InvoiceCount,@InvoiceAmount,@Cost,@Material,@worker,@Manufacturing_Costs,@Subtotal,@GrossrofitMargin,@ContractID,@LogDate,@LogName,@ServiceID,@Name,@service,@Amount)";
+                    string sql0 = @"insert into AccountantLog(ID,DepartmentID,AffirmIncomeGist,AffirmIncomeAmount,InvoiceCount,InvoiceAmount,Cost,Material,worker,Manufacturing_Costs,Subtotal,GrossrofitMargin,ContractID,LogDate,LogName,ServiceID,Name,service,Amount,AffirmIncomeDate) values(@ID,@DepartmentID,@AffirmIncomeGist,@AffirmIncomeAmount,@InvoiceCount,@InvoiceAmount,@Cost,@Material,@worker,@Manufacturing_Costs,@Subtotal,@GrossrofitMargin,@ContractID,@LogDate,@LogName,@ServiceID,@Name,@service,@Amount,@AffirmIncomeDate)";
                     var dic = new Dictionary<string, object>();
                     dic.Add("@ID",a.ID);
                     dic.Add("@DepartmentID", a.DepartmentID);
@@ -530,6 +530,7 @@ namespace ContractStatementManagementSystem
                     dic.Add("@Name", a.Name);
                     dic.Add("@Service", a.Service);
                     dic.Add("@Amount", a.Amount);
+                    dic.Add("@AffirmIncomeDate", a.AffirmIncomeDate);
                     string s = string.Concat(sql0);
                     conn.Open();
                     conn.Execute(s, dic);
@@ -673,7 +674,7 @@ namespace ContractStatementManagementSystem
                 if (ob is Accountant)
                 {
                     Accountant a = (Accountant)ob;
-                    string sql0 = @"update Accountant set ID=@ID,ContractID=@ContractID,AffirmIncomeGist=@AffirmIncomeGist, SubAffirmIncomeAmount=@SubAffirmIncomeAmount,SubCost=@SubCost,SubMaterial=@SubMaterial,Subworker=@Subworker,SubManufacturing_Costs=@SubManufacturing_Costs,Subtotal=@Subtotal,AvgGrossrofitMargin=@AvgGrossrofitMargin,NoAffirmIncomeAmount=@NoAffirmIncomeAmount where ID=@ID";
+                    string sql0 = @"update Accountant set ID=@ID,ContractID=@ContractID,AffirmIncomeGist=@AffirmIncomeGist, SubAffirmIncomeAmount=@SubAffirmIncomeAmount,SubCost=@SubCost,SubMaterial=@SubMaterial,Subworker=@Subworker,SubManufacturing_Costs=@SubManufacturing_Costs,Subtotal=@Subtotal,AvgGrossrofitMargin=@AvgGrossrofitMargin,NoAffirmIncomeAmount=@NoAffirmIncomeAmount,AffirmIncomeDate=@AffirmIncomeDate where ID=@ID";
                     var dic = new Dictionary<string, object>();
                     dic.Add("@ID", a.ID);
                     dic.Add("@AffirmIncomeGist", a.AffirmIncomeGist);
@@ -687,6 +688,7 @@ namespace ContractStatementManagementSystem
                     dic.Add("@ContractID", a.ContractID);
                     dic.Add("@NoAffirmIncomeAmount", a.NoAffirmIncomeAmount);
                     dic.Add("@Subtotal", a.Subtotal);
+                    dic.Add("@AffirmIncomeDate", a.AffirmIncomeDate);
                     string s = string.Concat(sql0);
                     conn.Open();
                     conn.Execute(s, dic);

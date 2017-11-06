@@ -129,8 +129,8 @@ function serviceChanged(service) {
 //填充每个服务的数据
 function fullServiceData(Ac) {
     
-    document.getElementById("lbl_count").innerHTML = "已开票数量：" + Ac.SubInvoiceCount;
-    document.getElementById("lbl_amount").innerHTML = "合同名称：" + Ac.SubInvoiceAmount;
+    document.getElementById("lbl_count").innerHTML = "已开票数量：" + Changemoney(Ac.SubInvoiceCount);
+    document.getElementById("lbl_amount").innerHTML = "合同名称：" + Changemoney(Ac.SubInvoiceAmount);
 
 }
 

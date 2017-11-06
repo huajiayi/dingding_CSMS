@@ -149,7 +149,8 @@ namespace WebApplication4.Controllers
                 string s = ViewBag.Message;
                 Guid ID = new Guid(s);
                 ViewBag.Message = Session["ProductionID"];
-                s = ViewBag.Message;
+            pl.Name= Session["username"].ToString();
+            s = ViewBag.Message;
                 Guid ID2 = new Guid(s);
 
                 ObservableCollection<ProductionerLog>opl= SqlQuery.ProductionerLogQueryByID(ID2);

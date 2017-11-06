@@ -16,14 +16,9 @@ namespace WebApplication4.Controllers
         // GET: Accountant
         public ActionResult Accountant()
         {
+         
             try {
-                ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<Accountant> oat = SqlQuery.AccountantQuery(ID);
                 Session["c"] = oat;
                 ObservableCollection<AccountantLog> oal = SqlQuery.AccountantLogQuery(ID);
@@ -54,13 +49,8 @@ namespace WebApplication4.Controllers
         {
             try
             {
-                ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                
+                Guid ID = new Guid(Session["cc"].ToString());
                 string ss = Request["ID"];
                 Guid ID2 = new Guid(ss);
                 ObservableCollection<Sales> sl = SqlQuery.SalesQuery(ID);
@@ -81,12 +71,11 @@ namespace WebApplication4.Controllers
         public ActionResult AddAccountantLog()
         {
             try {
-                ViewBag.p = "";
+               
                 if (Session["cc"] != null)
                 {
                     ViewBag.Message = Session["cc"];
                 }
-                string AccountantJson = Request["AccountantJson"];
                 string Service = Request["Service"];
                 string s = ViewBag.Message;
                 Guid ID = new Guid(s);
@@ -106,8 +95,7 @@ namespace WebApplication4.Controllers
         }
         public ActionResult saveAccountantLog(AccountantLog al)
         {
-            try
-            {
+           
                 ViewBag.p = "";
                 if (Session["cc"] != null)
                 {
@@ -134,11 +122,7 @@ namespace WebApplication4.Controllers
                 al.Name = ViewBag.Message;
                 GetData.AccountantGet(al, at);
                 return RedirectToAction("Accountant");
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
-            }
+            
         }
         public ActionResult AccountantLogAjaxTT()
         {

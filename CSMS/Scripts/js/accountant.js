@@ -29,18 +29,19 @@ addLoadEvent(function () { fillServiceZZ(AccountantJson, AccountantLogJson) });
 function fillServiceZZ(AccountantJson) {
     var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象   LogDatesJson 
     Accountant = JSON.parse(AccountantJson.replace(reg, '"'));
-    fullData(ContractName, Contract_Amount, SubAffirmIncomeAmount, NoAmountCollection, Accountant[0].AffirmIncomeGist, Accountant[0].SubAffirmIncomeAmount, Accountant[0].SubInvoiceAmount, Accountant[0].SubCost, Accountant[0].Subworker, Accountant[0].SubMaterial, Accountant[0].Subtotal, Accountant[0].AvgGrossrofitMargin);
+    fullData(ContractName, Contract_Amount, SubAffirmIncomeAmount, NoAmountCollection, Accountant[0].AffirmIncomeGist, Accountant[0].SubAffirmIncomeAmount, Accountant[0].SubInvoiceAmount, Accountant[0].SubCost, Accountant[0].Subworker, Accountant[0].SubMaterial, Accountant[0].Subtotal, Accountant[0].AvgGrossrofitMargin, Accountant[0].AffirmIncomeDate);
     fillService(Accountant);
     fullLog(AccountantLogJson)
 }
 //填充数据
-function fullData(contractName, amount, subAffirmIncomeAmount, noAmountCollection, affirmIncomeGist, AffirmIncomeAmount, subInvoiceAmount, subCost, subworker, subMaterial, subtotal, avgGrossrofitMargin){
+function fullData(contractName, amount, subAffirmIncomeAmount, noAmountCollection, affirmIncomeGist, AffirmIncomeAmount, subInvoiceAmount, subCost, subworker, subMaterial, subtotal, avgGrossrofitMargin,AffirmIncomeDate){
 	document.getElementById("lbl_contractName").innerHTML = "合同名称：" + contractName;
 	document.getElementById("lbl_amount").innerHTML = "总金额：" + Changemoney(amount);
 	document.getElementById("lbl_subAffirmIncomeAmount").innerHTML = "已收金额：" + Changemoney(subAffirmIncomeAmount);
 	document.getElementById("lbl_noAmountCollection").innerHTML = "未收金额：" + Changemoney(noAmountCollection);
 	document.getElementById("lbl_affirmIncomeGist").innerHTML = "确认收入依据：" + affirmIncomeGist;
-	document.getElementById("lbl_AffirmIncomeAmount").innerHTML = "确认收入金额（不含税）：" + Changemoney(AffirmIncomeAmount) ;
+	document.getElementById("lbl_AffirmIncomeAmount").innerHTML = "确认收入金额（不含税）：" + Changemoney(AffirmIncomeAmount);
+	document.getElementById("lbl_AffirmIncomeDate").innerHTML = "确认收入日期：" + AffirmIncomeDate.replace('0:00:00','');
 	document.getElementById("lbl_subCost").innerHTML = "已结转成本数量：" + subCost;
 	document.getElementById("lbl_subworker").innerHTML = "直接人工：" + Changemoney(subworker);
 	document.getElementById("lbl_subMaterial").innerHTML = "直接材料：" + Changemoney(subMaterial);

@@ -2,6 +2,7 @@
 var url = window.location.href;
 var corpId;
 
+
 if (dd) {
     $.post("/DingDing/GetSignPackage?url=" + url, function (data, status) {
 
@@ -42,7 +43,6 @@ if (dd) {
                             var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
                             var Mjson = JSON.parse(data.replace(reg, '"'));
                             var User = JSON.parse(Mjson[0].replace(reg, '"'));
-
                             var flag = JSON.parse(Mjson[1].replace(reg, '"'));
                             if (flag == "1") {
                                 dd.device.notification.alert({
@@ -149,7 +149,6 @@ if (DingTalkPC) {
 
                             var Mjson = JSON.parse(data.replace(reg, '"'));
                             var User = JSON.parse(Mjson[0].replace(reg, '"'));
-
                             var flag = JSON.parse(Mjson[1].replace(reg, '"'));
                             if (flag == "1") {
                                 DingTalkPC.device.notification.alert({

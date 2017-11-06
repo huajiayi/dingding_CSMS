@@ -10,10 +10,10 @@ function addLoadEvent(func) {
 	}
 }
 
-addLoadEvent(function () { fullData(LogName, ContractName, Service, AffirmIncomeGist, AffirmIncomeAmount,  InvoiceAmount, Cost, worker,Material, Subtotal, GrossrofitMargin) });
+addLoadEvent(function () { fullData(LogName, ContractName, Service, AffirmIncomeGist, AffirmIncomeAmount,  InvoiceAmount, Cost, worker,Material, Subtotal, GrossrofitMargin,AffirmIncomeDate) });
 
 //填充数据
-function fullData(logName, contractName, service,affirmIncomeGist,AffirmIncomeAmount ,subInvoiceAmount, subCost, subworker, subMaterial, subtotal, avgGrossrofitMargin){
+function fullData(logName, contractName, service, affirmIncomeGist, AffirmIncomeAmount, subInvoiceAmount, subCost, subworker, subMaterial, subtotal, avgGrossrofitMargin, AffirmIncomeDate) {
 	
     document.getElementById("lbl_logName").innerHTML = logName;
 	document.getElementById("lbl_contractName").innerHTML = "合同名称：" + contractName;
@@ -48,6 +48,10 @@ function fullData(logName, contractName, service,affirmIncomeGist,AffirmIncomeAm
 	document.getElementById("lbl_avgGrossrofitMargin").innerHTML = "2017年1-12月毛利率：" + avgGrossrofitMargin;
 	if (avgGrossrofitMargin.indexOf("更改为") != -1) {
 	    $("#lbl_avgGrossrofitMargin").css("color", "green");
+	}
+	document.getElementById("lbl_AffirmIncomeDate").innerHTML = "确认收入日期：" + AffirmIncomeDate;
+	if (AffirmIncomeDate.indexOf("更改为") != -1) {
+	    $("#lbl_AffirmIncomeDate").css("color", "green");
 	}
 }
 
