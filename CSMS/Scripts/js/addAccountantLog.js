@@ -38,14 +38,31 @@ function fillService(serviceArr) {
     }
 }
 function DoLog(Accountant) {
-    txt_affirmIncomeAmount
+    var as
+    if (Accountant.AffirmIncomeDate == null || Accountants.AffirmIncomeDate=="") {
+      
+        $('.datepicker').pickadate({
+            format: 'yyyy-mm-dd'
+        });
+        as= new Date().Format("yyyy-MM-dd");
+     
+       
+    } else {
+        if (Accountant.AffirmIncomeDate.indexOf(" 0:00:00") != -1) {
+            as = Accountant.AffirmIncomeDate.replace(' 0:00:00', '').replace('/', '-').replace('/', '-');
+        }
+        if (Accountant.AffirmIncomeDate.indexOf(' 12:00:00 AM') != -1) {
+            as = Accountant.AffirmIncomeDate.replace(' 12:00:00 AM', '').replace('/', '-').replace('/', '-');
+        }
+    }
 
-    $("#txt_services").find("option[value=" + Accountant.Service + "]").attr("selected", true);
+    $("#txt_services").find("option[value=" + Accountant.ServiceID + "]").attr("selected", true);
     $("#txt_contract_Type").find("option[value=" + Accountant.AffirmIncomeGist + "]").attr("selected", true);
     $("#txt_affirmIncomeAmount").val(Accountant.SubAffirmIncomeAmount);
     $("#txt_cost").val(Accountant.SubCost);
     $("#txt_worker").val(Accountant.Subworker);
     $("#txt_material").val(Accountant.SubMaterial);
+    $("#txt_affirmIncomeDate").val(as);
     //var grossrofitMargin = (parseFloat(Accountant.SubAffirmIncomeAmount) - (parseFloat(Accountant.Subworker) + parseFloat(Accountant.SubMaterial))) / parseFloat(Accountant.SubAffirmIncomeAmount)
     //grossrofitMargin = grossrofitMargin.toFixed(2)
     $("#txt_grossrofitMargin").val(Accountant.AvgGrossrofitMargin);

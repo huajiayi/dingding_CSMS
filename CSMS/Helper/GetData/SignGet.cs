@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -56,13 +57,18 @@ namespace ContractStatementManagementSystem
             int unixTimestamp = SignPackageHelper.ConvertToUnixTimeStamp(DateTime.Now);
             string timestamp = Convert.ToString(unixTimestamp);
             string nonceStr = SignPackageHelper.CreateNonceStr();
-            
-            if (HttpContext.Current.Cache["ticket"] == null)
+            ObservableCollection<JSTicket> obt = SqlQuery.JSTicketQuery();
+            JSTicket jsticket = null;
+            if (obt[0].ticket == "0" || obt[0].time.AddSeconds(7000) < DateTime.Now)
             {
                 TicketGet.ticketGet(a);
-                HttpContext.Current.Cache.Insert("ticket", TicketGet.Ticket, null, DateTime.Now.AddSeconds(7000), TimeSpan.Zero, CacheItemPriority.Normal, null);
+                SqlQuery.updata(TicketGet.Ticket);
+                jsticket = TicketGet.Ticket;
             }
-            JSTicket jsticket = (JSTicket)HttpContext.Current.Cache["ticket"];
+            else {
+                jsticket = obt[0];
+            }
+
             var signPackage = FetchSignPackage(url, jsticket);
             return signPackage;
         }

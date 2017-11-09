@@ -18,12 +18,8 @@ namespace WebApplication4.Controllers
         {
             try
             {
-                if (Session["cc"] != null)
-            {
-                ViewBag.Message = Session["cc"];
-            }
-            string s = ViewBag.Message;
-            Guid ID = new Guid(s);
+             
+            Guid ID = new Guid(Session["cc"].ToString());
             ObservableCollection<Productioner> opr = SqlQuery.ProductionerQuery(ID);
             ObservableCollection<Warehouse> ow = SqlQuery.WarehouseQuery(ID);
             ObservableCollection<Project_data> opj = SqlQuery.Project_dataQuery(ID);
@@ -54,7 +50,7 @@ namespace WebApplication4.Controllers
         }
              catch
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
 
         }

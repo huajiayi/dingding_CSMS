@@ -34,14 +34,25 @@ function fillServiceZZ(AccountantJson) {
     fullLog(AccountantLogJson)
 }
 //填充数据
-function fullData(contractName, amount, subAffirmIncomeAmount, noAmountCollection, affirmIncomeGist, AffirmIncomeAmount, subInvoiceAmount, subCost, subworker, subMaterial, subtotal, avgGrossrofitMargin,AffirmIncomeDate){
+function fullData(contractName, amount, subAffirmIncomeAmount, noAmountCollection, affirmIncomeGist, AffirmIncomeAmount, subInvoiceAmount, subCost, subworker, subMaterial, subtotal, avgGrossrofitMargin, AffirmIncomeDate) {
+   var as
+   if(AffirmIncomeDate==null){
+       as=""
+   } else {
+       if (AffirmIncomeDate.indexOf(" 0:00:00")!=-1) {
+           as = AffirmIncomeDate.replace(' 0:00:00', '').replace('/', '-').replace('/', '-');
+       }
+       if (AffirmIncomeDate.indexOf(' 12:00:00 AM') != -1) {
+           as = AffirmIncomeDate.replace(' 12:00:00 AM', '').replace("/", '-').replace('/', '-');
+       }
+   }
 	document.getElementById("lbl_contractName").innerHTML = "合同名称：" + contractName;
 	document.getElementById("lbl_amount").innerHTML = "总金额：" + Changemoney(amount);
 	document.getElementById("lbl_subAffirmIncomeAmount").innerHTML = "已收金额：" + Changemoney(subAffirmIncomeAmount);
 	document.getElementById("lbl_noAmountCollection").innerHTML = "未收金额：" + Changemoney(noAmountCollection);
 	document.getElementById("lbl_affirmIncomeGist").innerHTML = "确认收入依据：" + affirmIncomeGist;
 	document.getElementById("lbl_AffirmIncomeAmount").innerHTML = "确认收入金额（不含税）：" + Changemoney(AffirmIncomeAmount);
-	document.getElementById("lbl_AffirmIncomeDate").innerHTML = "确认收入日期：" + AffirmIncomeDate.replace('0:00:00','');
+	document.getElementById("lbl_AffirmIncomeDate").innerHTML = "确认收入日期：" + as
 	document.getElementById("lbl_subCost").innerHTML = "已结转成本数量：" + subCost;
 	document.getElementById("lbl_subworker").innerHTML = "直接人工：" + Changemoney(subworker);
 	document.getElementById("lbl_subMaterial").innerHTML = "直接材料：" + Changemoney(subMaterial);
@@ -127,10 +138,20 @@ function serviceChanged(service) {
 
 //填充每个服务的数据
 function fullServiceData(Accountants) {
+    var as
+    if (Accountants.AffirmIncomeDate == null) {
+        as = ""
+    } else {
+        if (Accountants.AffirmIncomeDate.indexOf(" 0:00:00") != -1) {
+            as = Accountants.AffirmIncomeDate.replace(' 0:00:00', '').replace('/', '-').replace('/', '-');
+        }
+        if (Accountants.AffirmIncomeDate.indexOf(" 12:00:00 AM") != -1) {
+            as = Accountants.AffirmIncomeDate.replace(' 12:00:00 AM', '').replace('/', '-').replace('/', '-');
+        }
+    }
     document.getElementById("lbl_affirmIncomeGist").innerHTML = "确认收入依据：" + Accountants.AffirmIncomeGist;
-    document.getElementById("lbl_AffirmIncomeAmount").innerHTML = "确认收入金额（不含税）：" + Changemoney(Accountants.SubAffirmIncomeAmount);
-	
-	
+    document.getElementById("lbl_AffirmIncomeAmount").innerHTML = "确认收入金额（不含税）：" + Changemoney(Accountants.SubAffirmIncomeAmount); 
+    document.getElementById("lbl_AffirmIncomeDate").innerHTML = "确认收入日期：" + as
 	document.getElementById("lbl_subCost").innerHTML = "已结转成本数量：" + Accountants.SubCost;
 	document.getElementById("lbl_subworker").innerHTML = "直接人工：" + Changemoney(Accountants.Subworker);
 	document.getElementById("lbl_subMaterial").innerHTML = "直接材料：" + Changemoney(Accountants.SubMaterial);

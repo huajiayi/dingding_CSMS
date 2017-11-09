@@ -150,14 +150,15 @@ function lazyLoad() {
             }
             if (data == "[]") {
                 N -= 5;
-                show("暂无最新数据！");
+                //show("暂无最新数据！");
+                alert("暂无最新数据！");
                 return false;
             }
             for (var i = 0; i < Invoicing.length; i++) {
                 if (!document.getElementById("cd-timeline")) {
                     return false;
                 }
-                addLog(Invoicing[i].LogName, Invoicing[i].LogDate, Invoicing[i].Service, Invoicing[i].Count, Invoicing[i].Name, Invoicing[i].InvoicingDate,Invoicing[i].Amount);
+                addLog(Invoicing[i].LogName, Invoicing[i].LogDate, Invoicing[i].Service, Invoicing[i].Count, Invoicing[i].Name, Invoicing[i].InvoicingDate,Invoicing[i].Amount,Invoicing[i].ID,Invoicing[i].ServiceID);
             }
         },
         error: function () {

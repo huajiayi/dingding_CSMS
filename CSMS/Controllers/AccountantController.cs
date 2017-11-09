@@ -16,7 +16,8 @@ namespace WebApplication4.Controllers
         // GET: Accountant
         public ActionResult Accountant()
         {
-         
+
+            ViewBag.p = "";
             try {
                 Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<Accountant> oat = SqlQuery.AccountantQuery(ID);
@@ -39,10 +40,11 @@ namespace WebApplication4.Controllers
                 ViewBag.LogDatesJson = JsonTools.ObjectToJson(LogDates);
                 ViewBag.AccountantLogJson = JsonTools.ObjectToJson(oal);
                 ViewBag.AccountantJson = JsonTools.ObjectToJson(oat);
-                return View(); }
-           catch(Exception)
+                return View();
+            }
+           catch(Exception )
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult AccountantLog()
@@ -64,7 +66,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
 
         }
@@ -89,13 +91,14 @@ namespace WebApplication4.Controllers
                 ViewBag.Service = Service;
                 return View();
             }
-               catch(Exception) {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult saveAccountantLog(AccountantLog al)
         {
-           
+            try { 
                 ViewBag.p = "";
                 if (Session["cc"] != null)
                 {
@@ -122,13 +125,17 @@ namespace WebApplication4.Controllers
                 al.Name = ViewBag.Message;
                 GetData.AccountantGet(al, at);
                 return RedirectToAction("Accountant");
-            
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
+            }
         }
         public ActionResult AccountantLogAjaxTT()
         {
 
             try {
-                ViewBag.p = "";
+              
                 if (Session["cc"] != null)
             {
                 ViewBag.Message = Session["cc"];
@@ -143,7 +150,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
     }

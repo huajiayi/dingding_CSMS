@@ -57,7 +57,8 @@ function fullLog(ProductionerLogJson) {
 }
 
 //添加日志
-function addLog(logName, log, date, logDate, name,ID) {
+function addLog(logName, log, date, logDate, name, ID) {
+ 
     var logList = document.getElementById("cd-timeline");
     var div_block = document.createElement("div");
     div_block.className = "cd-timeline-block";
@@ -114,7 +115,7 @@ function lazyLoad() {
                 if (!document.getElementById("cd-timeline")) {
                     return false;
                 }
-                addLog(ProductionerLog[i].LogName, ProductionerLog[i].ProductionCount, ProductionerLog[i].ProductionDate, ProductionerLog[i].LogDate, ProductionerLog[i].Name);
+                addLog(ProductionerLog[i].LogName, ProductionerLog[i].ProductionCount, ProductionerLog[i].ProductionDate, ProductionerLog[i].LogDate, ProductionerLog[i].Name,ProductionerLog[i].ID);
             }
         },
         error: function () {

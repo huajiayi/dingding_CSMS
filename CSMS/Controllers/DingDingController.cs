@@ -23,13 +23,18 @@ namespace WebApplication4.Controllers
         }
         public ActionResult GetSignPackage()
         {
-           
-            if (HttpContext.Cache["Token"] == null)
+
+            AccessToken token = null;
+            ObservableCollection<AccessToken> oat = SqlQuery.AccessTokenQuery();
+            if (oat[0].Value == "0" || oat[0].Begin.AddSeconds(7000) < DateTime.Now)
             {
                 AccessTokenGet.UpdateAccessToken();
-                HttpContext.Cache.Insert("Token", AccessTokenGet.AccessToken, null, DateTime.Now.AddSeconds(3600), TimeSpan.Zero, CacheItemPriority.Normal, null); 
+                SqlQuery.updata(AccessTokenGet.AccessToken);
+                token = AccessTokenGet.AccessToken;
             }
-            AccessToken token = (AccessToken)HttpContext.Cache["Token"];
+            else {
+                token = oat[0];
+            }
             Session["Token"] = token.Value;
             var signPackage = SignGet.FetchSignPackage(Request["url"], token);
 
@@ -40,8 +45,7 @@ namespace WebApplication4.Controllers
             try
             {
                 string CODE = Request["code"];
-                ViewBag.Message = Session["Token"];
-                string s = ViewBag.Message;
+                string s = Session["Token"].ToString();
                 string TokenUrl = "https://oapi.dingtalk.com/user/getuserinfo";
                 string apiurl = $"{TokenUrl}?access_token={s}&code={CODE}";
                 WebRequest request = WebRequest.Create(@apiurl);
@@ -119,10 +123,7 @@ namespace WebApplication4.Controllers
         }
         public ActionResult GetSign()
         {
-
-
-            ViewBag.Message = Session["Token"];
-            string s = ViewBag.Message;
+            string s = Session["Token"].ToString();
             string TokenUrl = "https://oapi.dingtalk.com/department/list";
             string apiurl = $"{TokenUrl}?access_token={s}";
             WebRequest request = WebRequest.Create(@apiurl);
@@ -138,8 +139,8 @@ namespace WebApplication4.Controllers
         {
 
 
-            ViewBag.Message = Session["Token"];
-            string s = ViewBag.Message;
+           
+            string s = Session["Token"].ToString();
             string TokenUrl = "https://oapi.dingtalk.com/message/send_to_conversation";
             string apiurl = $"{TokenUrl}?access_token={s}";
             WebRequest request = WebRequest.Create(@apiurl);
@@ -156,14 +157,14 @@ namespace WebApplication4.Controllers
         public ActionResult DeleteCache()
         {
            
-            if (HttpContext.Cache["Token"] != null)
-            {
-                HttpContext.Cache.Remove("Token");
+            //if (HttpContext.Cache["Token"] != null)
+            //{
+            //    HttpContext.Cache.Remove("Token");
                 
-            }if (HttpContext.Cache["ticket"] != null)
-                {
-                HttpContext.Cache.Remove("ticket");
-            }
+            //}if (HttpContext.Cache["ticket"] != null)
+            //    {
+            //    HttpContext.Cache.Remove("ticket");
+            //}
             return Content(JsonTools.ObjectToJson(""));
 
         }

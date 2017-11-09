@@ -1,8 +1,11 @@
 ﻿var Result;
 var url = window.location.href;
 var corpId;
-
-
+$(function () {
+    if (p != "") {
+        show(p);
+    }
+})
 if (dd) {
     $.post("/DingDing/GetSignPackage?url=" + url, function (data, status) {
 
@@ -143,8 +146,9 @@ if (DingTalkPC) {
                         var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象    
                         var Userid = JSON.parse(data.replace(reg, '"'));
                         var userid = Userid.userid;
-
+                        alert(data);
                         $.post("/DingDing/Getuser?userid=" + userid, function (data, status) {
+                           
                             var reg = new RegExp("&quot;", "g"); //创建正则RegExp对象
 
                             var Mjson = JSON.parse(data.replace(reg, '"'));
@@ -197,4 +201,33 @@ if (DingTalkPC) {
         });
     });
 
+}
+function show(p) {
+    if (DingTalkPC) {
+
+        DingTalkPC.device.notification.alert({
+            message: p,
+            title: "提示",//可传空
+            buttonName: "确定",
+            onSuccess: function () {
+                /*回调*/
+
+            },
+            onFail: function (err) { }
+        });
+
+    }
+    if (dd) {
+        dd.ready(function () {
+            dd.device.notification.alert({
+                message: p,
+                title: "提示",//可传空
+                buttonName: "确定",
+                onSuccess: function () {
+
+                },
+                onFail: function (err) { }
+            });
+        });
+    }
 }

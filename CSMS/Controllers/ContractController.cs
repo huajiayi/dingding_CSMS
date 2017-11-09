@@ -24,6 +24,7 @@ namespace WebApplication4.Controllers
         }
         public ActionResult deleteContract()
         {
+            try { 
             string s;
             Guid ID;
            
@@ -36,6 +37,11 @@ namespace WebApplication4.Controllers
             SqlQuery.DeleteContract(ID);
             
             return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
+            }
         }
         public ActionResult editContract()
         {
@@ -119,14 +125,16 @@ namespace WebApplication4.Controllers
                     SqlQuery.insert(att);
                 }
                 return RedirectToAction("Index",new { ch = ct.ContractName });
-            }
-            catch (Exception)
+           
+           }
+           catch(Exception )
             {
-                return RedirectToAction("Index", new { ex = "操作异常或超时已退回首页请退刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult Index()
         {
+            try { 
             Session.Timeout = 120;
             ViewBag.Project = FetchValue("Project");
             ViewBag.Production = FetchValue("Production");
@@ -153,6 +161,11 @@ namespace WebApplication4.Controllers
             ViewBag.s1 = GetContractID();
             ViewBag.s2 = GetContractProcess();
             return View();
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
+            }
         }
         public static string GetContractName() {
             ObservableCollection<ContractNameT> ctt = SqlQuery.ContractQuery();
@@ -217,10 +230,16 @@ namespace WebApplication4.Controllers
         }
         public ActionResult changeProcess()
         {
+            try { 
             ViewBag.Message = Session["cc"];
 
             SqlQuery.updateProcess(Convert.ToInt16(Request["Process"]),new Guid(ViewBag.Message));
             return Content("22");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
+            }
         }
         public ActionResult ContractContent()
         {
@@ -271,9 +290,9 @@ namespace WebApplication4.Controllers
                 //ViewBag.h = ID.ToString();
                 return View(cc);
             }
-            catch
+            catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult filtration()
@@ -315,9 +334,9 @@ namespace WebApplication4.Controllers
                 ViewBag.UserJson = Session["UserJson"];
                 return View("Index");
             }
-            catch
+            catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult filtrationAjax()
@@ -357,11 +376,12 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", new { ex = "操作异常或超时已退回首页请退刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult ChangeStats() {
 
+            try { 
             List<double[]> ld = new List<double[]>();
             ld.Add(GetData.GetYOYincrease(Request["type"],1));
             ld.Add(GetData.SIncreaseRate(Request["type"],1));
@@ -372,7 +392,11 @@ namespace WebApplication4.Controllers
             ld.Add(GetData.GetYOYincrease(Request["type"], 4));
             ld.Add(GetData.SIncreaseRate(Request["type"], 4));
             return Content(JsonTools.ObjectToJson(ld));
-
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
+            }
         }
         public ActionResult Stats() {
             try
@@ -426,9 +450,9 @@ namespace WebApplication4.Controllers
 
                 return View();
             }
-            catch
+            catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult DoStats()
@@ -475,13 +499,14 @@ namespace WebApplication4.Controllers
 
                 return Content(JsonTools.ObjectToJson(aa));
             }
-            catch
+            catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         private static String FetchValue(String key)
         {
+
             String value = ConfigurationManager.AppSettings[key];
             if (value == null)
             {

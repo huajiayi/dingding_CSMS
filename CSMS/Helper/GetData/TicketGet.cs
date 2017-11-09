@@ -31,7 +31,7 @@ namespace ContractStatementManagementSystem
                 StreamReader reader = new StreamReader(stream, encode);
                 string resultJson = reader.ReadToEnd();
                 Ticket = JsonConvert.DeserializeObject<JSTicket>(resultJson);
-
+            Ticket.time = DateTime.Now;
                 if (Ticket.ErrCode == ErrCodeEnum.OK)
                 {
                     ticket = Ticket.ticket;

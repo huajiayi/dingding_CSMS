@@ -339,15 +339,15 @@ namespace ContractStatementManagementSystem
             ObservableCollection<Project> ww = new ObservableCollection<Project>(Query<Project>(sql));
             return ww;
         }
-        public static ObservableCollection<AccessToken> AccessTokenQuery(int id)
+        public static ObservableCollection<AccessToken> AccessTokenQuery()
         {
-            string sql = String.Format(@"SELECT * FROM [AccessToken] where ID=1", id);
+            string sql = String.Format(@"SELECT * FROM [AccessToken] where ID=1");
             ObservableCollection<AccessToken> ww = new ObservableCollection<AccessToken>(Query<AccessToken>(sql));
             return ww;
         }
-        public static ObservableCollection<JSTicket> JSTicketQuery(int id)
+        public static ObservableCollection<JSTicket> JSTicketQuery()
         {
-            string sql = String.Format(@"SELECT * FROM [AccessToken] where ID=1", id);
+            string sql = String.Format(@"SELECT * FROM [AccessToken] where ID=1");
             ObservableCollection<JSTicket> ww = new ObservableCollection<JSTicket>(Query<JSTicket>(sql));
             return ww;
         }
@@ -633,7 +633,7 @@ namespace ContractStatementManagementSystem
                 if (ob is Invoicing)
                 {
                     Invoicing a = (Invoicing)ob;
-                    string sql0 = @"insert into Invoicing(ID,ServiceID,LogName,InvoicingDate,LogDate,Contract_ID,Count,Service,Amount) values(@ID,@ServiceID,@LogName,@InvoicingDate,@LogDate,@Contract_ID,@Count,@Service,@Amount)";
+                    string sql0 = @"insert into Invoicing(ID,ServiceID,LogName,InvoicingDate,LogDate,Contract_ID,Count,Service,Amount,Name) values(@ID,@ServiceID,@LogName,@InvoicingDate,@LogDate,@Contract_ID,@Count,@Service,@Amount,@Name)";
                     var dic = new Dictionary<string, object>();
                     dic.Add("@ID", a.ID);
                     dic.Add("@ServiceID", a.ServiceID);
@@ -644,6 +644,7 @@ namespace ContractStatementManagementSystem
                     dic.Add("Amount", a.Amount);
                     dic.Add("@Count", a.Count);
                     dic.Add("@Service", a.Service);
+                    dic.Add("@Name", a.Name);
                     string s = string.Concat(sql0);
                     conn.Open();
                     conn.Execute(s, dic);
@@ -976,7 +977,7 @@ namespace ContractStatementManagementSystem
         }
             public static double DoProductionerChart2(string start, string end)
         {
-            string sql = String.Format(@"select SUM(ProductionCount) from ProductionerLog where LogDate between '{0}' and '{1}'", start, end); ;
+            string sql = String.Format(@"select SUM(ProductionCount) from ProductionerLog where ProductionDate between '{0}' and '{1}'", start, end); ;
             return SqlGet2(sql);
         }
     
@@ -1010,7 +1011,7 @@ namespace ContractStatementManagementSystem
         }
         public static ObservableCollection<WarehouseChart> DoWarehouseChart2(string start, string end)
         {
-            string sql = String.Format(@"select  SUM(s.Shipments) as'SumShippedCount' from WarehouseLog as s join ContractNameT as ct on ct.ID=s.ContractID where s.LogDate between '{0}' and '{1}'", start, end);
+            string sql = String.Format(@"select  SUM(s.Shipments) as'SumShippedCount' from WarehouseLog as s join ContractNameT as ct on ct.ID=s.ContractID where s.ShippedDate between '{0}' and '{1}'", start, end);
             ObservableCollection<WarehouseChart> ww = new ObservableCollection<WarehouseChart>(Query<WarehouseChart>(sql));
             return ww;
         }

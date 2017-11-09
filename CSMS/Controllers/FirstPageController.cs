@@ -11,6 +11,13 @@ namespace WebApplication4.Controllers
         // GET: FristPage
         public ActionResult noPremission()
         {
+            ViewBag.p = "";
+            if (Request["ex"] != null)
+            {
+                ViewBag.p = Request["ex"];
+            }
+            Session.Timeout = 120;
+            
             return View();
         }
     }

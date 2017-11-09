@@ -19,13 +19,7 @@ namespace WebApplication4.Controllers
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.p = "";
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 string ss = Request["ID"];
                 int a = Convert.ToInt16(ss);
 
@@ -44,12 +38,7 @@ namespace WebApplication4.Controllers
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<Sales> os = SqlQuery.SalesQuery(ID);
                 Sales sa = os[0];
                 ObservableCollection<SalesLog> osl = SqlQuery.SalesLogQuery(ID);
@@ -70,7 +59,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
 
         }
@@ -79,13 +68,7 @@ namespace WebApplication4.Controllers
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                }
-                ViewBag.Message = Session["cc"];
-                string s = ViewBag.Message;
-
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 sl.ContractID = ID;
                 sl.ID = Guid.NewGuid();
                 sl.LogDate = DateTime.Now.ToString();
@@ -97,10 +80,9 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Sales");
 
             }
-            catch
+            catch (Exception)
             {
-
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
 
         }
@@ -109,12 +91,8 @@ namespace WebApplication4.Controllers
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                
+                Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<Contract_Data> cd = SqlQuery.ContractDataQuery(ID);
                 cd = Orderby.paiXu(cd);
                 ObservableCollection<Sales> os = SqlQuery.SalesQuery(ID);
@@ -123,22 +101,17 @@ namespace WebApplication4.Controllers
                 return View();
 
             }
-           catch {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
-
         }
         public ActionResult SalesModification()
         {
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<Contract_Data> cd = SqlQuery.ContractDataQuery(ID);
                 ViewBag.Contract_DataJson = JsonTools.ObjectToJson(cd);
                 ViewBag.logName = Request["logName"];
@@ -151,10 +124,10 @@ namespace WebApplication4.Controllers
                 Session["salesid"]= Request["ID"];
                 return View();
             }
-            catch {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+            catch (Exception)
+            {
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
-
         }
         public ActionResult SaveSalesChangeLog(SalesLog sl)
         {
@@ -178,9 +151,9 @@ namespace WebApplication4.Controllers
                 GetData.SalesChangeGet(sl, SqlQuery.SalesQuery(ID));
                 return RedirectToAction("Sales");
             }
-            catch
+            catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
 
 

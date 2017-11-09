@@ -137,7 +137,7 @@ function lazyLoad() {
                 if (!document.getElementById("cd-timeline")) {
                     return false;
                 }
-                addLog(SalesLog[i].LogName, SalesLog[i].Service, SalesLog[i].AffirmIncomeAmount, SalesLog[i].AffirmIncomeDate, SalesLog[i].LogDate, SalesLog[i].Name);
+                addLog(SalesLog[i].LogName, SalesLog[i].Service, SalesLog[i].AffirmIncomeAmount, SalesLog[i].AffirmIncomeDate, SalesLog[i].LogDate, SalesLog[i].Name,SalesLog[i].ID);
             }
         },
         error: function () {

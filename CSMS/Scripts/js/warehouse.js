@@ -117,7 +117,7 @@ function lazyLoad() {
                 if (!document.getElementById("cd-timeline")) {
                     return false;
                 }
-                addLog(WarehouseLog[i].LogName, WarehouseLog[i].Shipments, WarehouseLog[i].ShippedDate, WarehouseLog[i].LogDate, WarehouseLog[i].Name);
+                addLog(WarehouseLog[i].LogName, WarehouseLog[i].Shipments, WarehouseLog[i].ShippedDate, WarehouseLog[i].LogDate, WarehouseLog[i].Name,WarehouseLog[i].ID);
             }
         },
         error: function () {

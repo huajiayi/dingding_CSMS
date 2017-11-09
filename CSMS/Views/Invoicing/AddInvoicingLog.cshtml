@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-@Session.Timeout=120;
+
 <!DOCTYPE html>
 <html>
 
@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="txt_received" id="lbl_count"><span style="color: red;">*</span>开票数量：</label>
-                        <input type="number" min="0" max="10000000000" step="0.01" class="form-control" id="lbl_count" name="Count" placeholder="请输入开票数量" required />
+                        <input type="number" min="-10000000000" max="10000000000" step="0.01" class="form-control" id="lbl_count" name="Count" placeholder="请输入开票数量" required />
                    
                 </div>
                 <div class="form-group">

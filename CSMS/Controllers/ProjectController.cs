@@ -17,12 +17,9 @@ namespace WebApplication4.Controllers
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
+               
                 string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<ContractNameT> ct = SqlQuery.ContractVQuery(ID);
                 ObservableCollection<Project_data> pd = SqlQuery.Project_dataQuery(ID);
                 pd = Orderby.Project_dataPaixu(pd);
@@ -41,7 +38,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult projectLog()
@@ -49,12 +46,8 @@ namespace WebApplication4.Controllers
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
                 string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 string ss = Request["ID"];
                 Guid ID2 = new Guid(ss);
                 ObservableCollection<ContractNameT> ct = SqlQuery.ContractVQuery(ID);
@@ -65,7 +58,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
         public ActionResult AddProjectLog()
@@ -73,12 +66,8 @@ namespace WebApplication4.Controllers
             try
             {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+               
+                Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<Contract_Data> cd = SqlQuery.ContractDataQuery(ID);
                 cd = Orderby.paiXu(cd);
                 ViewBag.Contract_DataJson = JsonTools.ObjectToJson(cd);
@@ -86,7 +75,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
 
         }
@@ -98,13 +87,7 @@ namespace WebApplication4.Controllers
                 string jc = "";
                 string s2 = Request["txt_Type"];
                 Project_data pd = null;
-
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
-                string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 ObservableCollection<Project_data> opd = SqlQuery.Project_dataQueryByService(pl.ServiceID);
                 pd = opd[0];
                 ObservableCollection<Contract_Data> cd = SqlQuery.Contract_DataByIDQuery(pl.ServiceID);
@@ -149,7 +132,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
 
         }
@@ -157,12 +140,8 @@ namespace WebApplication4.Controllers
         {
             try {
                 ViewBag.p = "";
-                if (Session["cc"] != null)
-                {
-                    ViewBag.Message = Session["cc"];
-                }
                 string s = ViewBag.Message;
-                Guid ID = new Guid(s);
+                Guid ID = new Guid(Session["cc"].ToString());
                 string ss = Request["ID"];
                 int a = Convert.ToInt16(ss);
                 ObservableCollection<ProjectLog> osl = SqlQuery.ProjectLogQuery(a, ID);
@@ -171,7 +150,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Index", "Contract", new { ex = "操作异常已退回首页请刷新重试" });
+                return RedirectToAction("noPremission", "FirstPage", new { ex = "操作异常或超时已退回首页请刷新重试" });
             }
         }
     }

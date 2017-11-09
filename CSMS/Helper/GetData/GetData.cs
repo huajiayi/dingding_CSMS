@@ -60,7 +60,7 @@ namespace ContractStatementManagementSystem
         public static ObservableCollection<Sales> SalesChangeGet(SalesLog sl, ObservableCollection<Sales> os)
         {
             ObservableCollection<SalesLog> sl2 = SqlQuery.SalesLogQueryByID(sl.ID);
-            sl.LogDate = sl2[0].LogDate;
+            sl.LogDate = DateTime.Now.ToString();
             SqlQuery.updata(sl);
             // os[0].AmountCollection = sl.AmountCollection-sl.AmountCollection;
             os[0].NoAmountCollection = os[0].NoAmountCollection+ sl2[0].AffirmIncomeAmount-sl.AffirmIncomeAmount;
@@ -88,22 +88,25 @@ namespace ContractStatementManagementSystem
             //}
             SqlQuery.insert(pd);
         }
-        public static void AccountantGet(AccountantLog al, Accountant a ) {
+        public static void AccountantGet(AccountantLog al, Accountant a) {
             Accountant ab = (Accountant)a.Clone();
-            al.Amount = Convert.ToDecimal(al.AffirmIncomeAmount)-a.SubAffirmIncomeAmount;
+            al.Amount = Convert.ToDecimal(al.AffirmIncomeAmount) - a.SubAffirmIncomeAmount;
             a.SubAffirmIncomeAmount = Convert.ToDecimal(al.AffirmIncomeAmount);
             a.AffirmIncomeGist = al.AffirmIncomeGist;
             a.SubInvoiceAmount = Convert.ToDecimal(al.InvoiceAmount);
-            a.SubInvoiceCount = Convert.ToDouble(al.InvoiceCount);  
+            a.SubInvoiceCount = Convert.ToDouble(al.InvoiceCount);
             a.SubManufacturing_Costs = Convert.ToDecimal(al.Manufacturing_Costs);
             a.SubMaterial = Convert.ToDecimal(al.Material);
             a.Subtotal = Convert.ToDecimal(al.Subtotal);
             a.Subworker = Convert.ToDecimal(al.worker);
             a.AvgGrossrofitMargin = Convert.ToDouble(al.GrossrofitMargin);
             a.SubCost = Convert.ToDouble(al.Cost);
-            a.AffirmIncomeDate=al.AffirmIncomeDate;
+            a.AffirmIncomeDate = al.AffirmIncomeDate;
             SqlQuery.updata(a);
             bool flag = false;
+            if (al.LogName != null) {
+                flag = true;
+            }
             if (ab.SubAffirmIncomeAmount != Convert.ToDecimal(al.AffirmIncomeAmount)) {
                 flag = true;
                 al.AffirmIncomeAmount = " 由 " + ab.SubAffirmIncomeAmount + " 更改为 " + Convert.ToDecimal(al.AffirmIncomeAmount);
@@ -113,7 +116,7 @@ namespace ContractStatementManagementSystem
                 flag = true;
                 al.AffirmIncomeGist = " 由 " + ab.AffirmIncomeGist + " 更改为 " + al.AffirmIncomeGist;
             }
-             if (ab.SubInvoiceAmount != Convert.ToDecimal(al.InvoiceAmount))
+            if (ab.SubInvoiceAmount != Convert.ToDecimal(al.InvoiceAmount))
             {
                 flag = true;
                 al.InvoiceAmount = " 由 " + ab.SubInvoiceAmount + "更改为" + Convert.ToDecimal(al.InvoiceAmount);
@@ -153,9 +156,18 @@ namespace ContractStatementManagementSystem
                 flag = true;
                 al.GrossrofitMargin = " 由 " + ab.AvgGrossrofitMargin + " 更改为 " + Convert.ToDouble(al.GrossrofitMargin);
             }
-            string sa = ab.AffirmIncomeDate.Replace(" 0:00:00", "").Replace("/", "-");
+            string sa = "";
+            if (ab.AffirmIncomeDate != null) { 
+                if(ab.AffirmIncomeDate.Contains(" 0:00:00"))
+              sa = ab.AffirmIncomeDate.Replace(" 0:00:00", "").Replace("/", "-");
+            
+            if (ab.AffirmIncomeDate.Contains(" 12:00:00 AM")) {
+                sa= ab.AffirmIncomeDate.Replace(" 12:00:00 AM", "").Replace("/", "-");
+            }
+            }
             if (sa != al.AffirmIncomeDate) {
-                al.AffirmIncomeDate = " 由 " + ab.AffirmIncomeDate.Replace("0:00:00", "").Replace("/", "-") + " 更改为 " + al.AffirmIncomeDate;
+                al.AffirmIncomeDate = " 由 " + sa + " 更改为 " + al.AffirmIncomeDate;
+                flag = true;
             }
             if(flag  == true){
                 SqlQuery.insert(al);
